@@ -22,28 +22,44 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Muse","version":"8.0.0-rc.4","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false};
   </script>
 
-  <meta property="og:type" content="website">
+  <meta name="description" content="正则化（Regularization）机器学习中几乎都可以看到损失函数后面会添加一个额外项，常用的额外项一般有两种，一般英文称作ℓ1-norm 和ℓ2-norm，中文称作 L1正则化 和 L2正则化，或者 L1范数 和 L2范数。        L1正则化和L2正则化可以看做是损失函数的惩罚项。所谓『惩罚』是指对损失函数中的某些参数做一些限制。对于线性回归模型，使用L1正则化的模型建叫做Lasso">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:url" content="http://yoursite.com/2020/07/29/%E5%B2%AD%E5%9B%9E%E5%BD%92%20LASSO%E5%9B%9E%E5%BD%92/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="正则化（Regularization）机器学习中几乎都可以看到损失函数后面会添加一个额外项，常用的额外项一般有两种，一般英文称作ℓ1-norm 和ℓ2-norm，中文称作 L1正则化 和 L2正则化，或者 L1范数 和 L2范数。        L1正则化和L2正则化可以看做是损失函数的惩罚项。所谓『惩罚』是指对损失函数中的某些参数做一些限制。对于线性回归模型，使用L1正则化的模型建叫做Lasso">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/.com//ML/images/8.png">
+<meta property="og:image" content="http://yoursite.com/.com//14png.png">
+<meta property="og:image" content="http://yoursite.com/.com//ML/images/17.png">
+<meta property="og:image" content="http://yoursite.com/.com//ML/images/18.png">
+<meta property="og:image" content="http://yoursite.com/.com//15.png">
+<meta property="og:image" content="http://yoursite.com/.com//21.png">
+<meta property="og:image" content="http://yoursite.com/.com//ML/images/23.png">
+<meta property="og:image" content="http://yoursite.com/.com//2.png">
+<meta property="og:image" content="http://yoursite.com/.com//ML/images/4.png">
+<meta property="og:image" content="http://yoursite.com/.com//5.png">
+<meta property="og:image" content="http://yoursite.com/.com//ML/images/6.png">
+<meta property="article:published_time" content="2020-07-29T11:02:50.570Z">
+<meta property="article:modified_time" content="2020-07-29T11:01:56.791Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/.com//ML/images/8.png">
 
-<link rel="canonical" href="http://yoursite.com/">
+<link rel="canonical" href="http://yoursite.com/2020/07/29/%E5%B2%AD%E5%9B%9E%E5%BD%92%20LASSO%E5%9B%9E%E5%BD%92/">
 
 
 <script class="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
-    isPost : false,
+    isHome : false,
+    isPost : true,
     lang   : 'en'
   };
 </script>
 
-  <title>Hexo</title>
+  <title> | Hexo</title>
   
 
 
@@ -132,7 +148,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           Table of Contents
@@ -144,6 +160,7 @@
 
       <!--noindex-->
       <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%AD%A3%E5%88%99%E5%8C%96%EF%BC%88Regularization%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">正则化（Regularization）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#L1%E6%AD%A3%E5%88%99%E5%8C%96"><span class="nav-number">1.1.</span> <span class="nav-text">L1正则化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A8%80%E7%96%8F%E6%A8%A1%E5%9E%8B%E4%B8%8E%E7%89%B9%E5%BE%81%E9%80%89%E6%8B%A9%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">1.1.1.</span> <span class="nav-text">稀疏模型与特征选择的关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#L1%E6%AD%A3%E5%88%99%E5%8C%96%E5%92%8C%E7%89%B9%E5%BE%81%E9%80%89%E6%8B%A9%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">1.1.2.</span> <span class="nav-text">L1正则化和特征选择的关系</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#L1%E6%AD%A3%E5%88%99%E5%8C%96%E6%AD%A3%E5%88%99%E5%8C%96%E5%8F%AF%E4%BB%A5%E4%BA%A7%E7%94%9F%E7%A8%80%E7%96%8F%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">L1正则化正则化可以产生稀疏模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#L2%E6%AD%A3%E5%88%99%E5%8C%96%E4%B8%8D%E5%8F%AF%E4%BB%A5%E4%BA%A7%E7%94%9F%E7%A8%80%E7%96%8F%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">L2正则化不可以产生稀疏模型</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#L1%E6%AD%A3%E5%88%99%E5%8C%96%E5%8F%82%E6%95%B0"><span class="nav-number">1.1.3.</span> <span class="nav-text">L1正则化参数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#L2%E6%AD%A3%E5%88%99%E5%8C%96"><span class="nav-number">1.2.</span> <span class="nav-text">L2正则化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#L2%E6%AD%A3%E5%88%99%E5%8C%96%E5%92%8C%E8%BF%87%E6%8B%9F%E5%90%88%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">1.2.1.</span> <span class="nav-text">L2正则化和过拟合的关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#L2%E6%AD%A3%E5%88%99%E5%8C%96%E5%8F%82%E6%95%B0"><span class="nav-number">1.2.2.</span> <span class="nav-text">L2正则化参数</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B2%AD%E5%9B%9E%E5%BD%92"><span class="nav-number">2.</span> <span class="nav-text">岭回归</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%8F%82%E6%95%B0%E6%8E%A8%E5%AF%BC"><span class="nav-number">2.0.1.</span> <span class="nav-text">1.参数推导</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%CE%BB%E7%9A%84%E9%80%89%E6%8B%A9"><span class="nav-number">2.0.2.</span> <span class="nav-text">2.λ的选择</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#LASSO%E5%9B%9E%E5%BD%92"><span class="nav-number">3.</span> <span class="nav-text">LASSO回归</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%8F%82%E6%95%B0%E6%8E%A8%E5%AF%BC-1"><span class="nav-number">3.0.1.</span> <span class="nav-text">1.参数推导</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%CE%BB%E7%9A%84%E9%80%89%E6%8B%A9-1"><span class="nav-number">3.0.2.</span> <span class="nav-text">2.λ的选择</span></a></li></ol></li></ol></li></ol></div>
       </section>
       <!--/noindex-->
 
@@ -187,9 +204,10 @@
       <div class="main-inner">
         
 
-        <div class="content index posts-expand">
+        <div class="content post posts-expand">
           
-      
+
+    
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
@@ -205,10 +223,9 @@
       <meta itemprop="name" content="Hexo">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
+        <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/07/29/%E5%B2%AD%E5%9B%9E%E5%BD%92%20LASSO%E5%9B%9E%E5%BD%92/" class="post-title-link" itemprop="url">Untitled</a>
-        </h2>
+        </h1>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -232,7 +249,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="正则化（Regularization）"><a href="#正则化（Regularization）" class="headerlink" title="正则化（Regularization）"></a>正则化（Regularization）</h1><p>机器学习中几乎都可以看到损失函数后面会添加一个额外项，常用的额外项一般有两种，一般英文称作ℓ1-norm 和ℓ2-norm，中文称作 L1正则化 和 L2正则化，或者 <strong>L1范数</strong> 和 <strong>L2范数</strong>。<br>        L1正则化和L2正则化可以看做是损失函数的惩罚项。所谓『惩罚』是指对损失函数中的某些参数做一些限制。对于线性回归模型，使用L1正则化的模型建叫做Lasso回归，使用L2正则化的模型叫做Ridge回归（岭回归）。下图是Python中Lasso回归的损失函数，式中加号后面一项<img src="/.com//ML\images\8.png" alt="8"> 即为L1正则化项。</p>
+        <h1 id="正则化（Regularization）"><a href="#正则化（Regularization）" class="headerlink" title="正则化（Regularization）"></a>正则化（Regularization）</h1><p>机器学习中几乎都可以看到损失函数后面会添加一个额外项，常用的额外项一般有两种，一般英文称作ℓ1-norm 和ℓ2-norm，中文称作 L1正则化 和 L2正则化，或者 <strong>L1范数</strong> 和 <strong>L2范数</strong>。<br>        L1正则化和L2正则化可以看做是损失函数的惩罚项。所谓『惩罚』是指对损失函数中的某些参数做一些限制。对于线性回归模型，使用L1正则化的模型建叫做Lasso回归，使用L2正则化的模型叫做Ridge回归（岭回归）。下图是Python中Lasso回归的损失函数，式中加号后面一项<img src="/.com//ML\images\8.png" alt="8"> 即为L1正则化项。</p>
 <p>![9](岭回归 LASSO回归\9.png)</p>
 <p>下图是Python中Ridge回归的损失函数，式中加号后面一项![10](岭回归 LASSO回归\10.png)</p>
 <p>![11](岭回归 LASSO回归\11.png)</p>
@@ -317,202 +334,30 @@
 
 
 
-      
     </div>
 
     
     
     
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/29/%E5%B9%BF%E4%B9%89%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B/">
+        
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-    </span>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/29/%E5%B9%BF%E4%B9%89%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B/" class="post-title-link" itemprop="url">Untitled</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-07-29 18:45:12 / Modified: 18:56:37" itemprop="dateCreated datePublished" datetime="2020-07-29T18:45:12+08:00">2020-07-29</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="广义线性模型"><a href="#广义线性模型" class="headerlink" title="广义线性模型"></a>广义线性模型</h1><h2 id="普通最小二乘法"><a href="#普通最小二乘法" class="headerlink" title="普通最小二乘法"></a>普通最小二乘法</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> linear_model</span><br><span class="line"></span><br><span class="line">reg = linear_model.LinearRegression()</span><br><span class="line">reg.fit([[<span class="number">0</span>, <span class="number">0</span>], [<span class="number">1</span>, <span class="number">1</span>]], [<span class="number">0</span>, <span class="number">1</span>], [<span class="number">1</span>, <span class="number">1</span>])</span><br><span class="line"><span class="comment"># y=x+1</span></span><br><span class="line">print(reg.coef_)  <span class="comment"># 参数值</span></span><br><span class="line">print(reg.intercept_)  <span class="comment"># 截距</span></span><br><span class="line">print(reg.predict([[<span class="number">1</span>, <span class="number">2</span>], [<span class="number">2</span>, <span class="number">3</span>]]))  <span class="comment"># 想要预测的数据，放到一个列表中</span></span><br><span class="line"></span><br><span class="line">输出：</span><br><span class="line">[<span class="number">0.5</span> <span class="number">0.5</span>]</span><br><span class="line"><span class="number">5.551115123125783e-17</span></span><br><span class="line">[<span class="number">1.5</span> <span class="number">2.5</span>]</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LinearRegression(copy_X=<span class="literal">True</span>, fit_intercept=<span class="literal">True</span>, n_jobs=<span class="number">1</span>, normalize=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>fit_intercept：bool, default=True</p>
-<p>是否计算截距</p>
-</li>
-<li><p><strong>normalize</strong>：bool, default=False</p>
-<p>是否将数据标准化</p>
-</li>
-<li><p><strong>copy_X</strong>：bool, default=True</p>
-<p>如果为True，将复制X；否则为X。否则，它可能会被覆盖。</p>
-</li>
-<li><p><strong>n_jobs</strong>：int, default=None</p>
-<p>使用进程的数量，与电脑的CPU有关，-1表示使用所有处理器</p>
-</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fit(self, X, y, sample_weight=<span class="literal">None</span>)</span><br></pre></td></tr></table></figure>
-
-<p>X是自变量，y是每个自变量所对应的因变量，sample_weight是每个自变量的权重</p>
-<h2 id="岭回归"><a href="#岭回归" class="headerlink" title="岭回归"></a>岭回归</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> linear_model</span><br><span class="line"></span><br><span class="line">reg = linear_model.Ridge(alpha=<span class="number">.5</span>)  <span class="comment"># alpha参数大于0</span></span><br><span class="line">reg.fit([[<span class="number">0</span>, <span class="number">0</span>], [<span class="number">0</span>, <span class="number">0</span>], [<span class="number">1</span>, <span class="number">1</span>]], [<span class="number">0</span>, <span class="number">.1</span>, <span class="number">1</span>])</span><br><span class="line">print(reg.coef_, reg.intercept_, reg.predict([[<span class="number">3</span>, <span class="number">3</span>]]))</span><br></pre></td></tr></table></figure>
-
-<p>除了创建时不同，与其他线性模型一样， <a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Ridge.html#sklearn.linear_model.Ridge"><code>Ridge</code></a> 用 <code>fit</code> 方法完成拟合，并将模型系数 ω 存储在其 <code>coef_</code> 成员中。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Ridge(alpha=<span class="number">1.0</span>, fit_intercept=<span class="literal">True</span>, normalize=<span class="literal">False</span>, copy_X=<span class="literal">True</span>, max_iter=<span class="literal">None</span>, tol=<span class="number">0.001</span>, solver=<span class="string">&#x27;auto&#x27;</span>, random_state=<span class="literal">None</span>)</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p><strong>alpha</strong>：float, ndarray of shape (n_targets), default=1.0</p>
-<p>正则化参数，传入的是正浮点数，如果有多个惩罚项则传入数组</p>
-</li>
-<li><p><strong>fit_intercept</strong>：boolean, optional, default True</p>
-<p>是否计算截距。如果为False，对数据进行去中心化处理。</p>
-</li>
-<li><p><strong>normalize</strong>：boolean, optional, default False</p>
-<p>对数据X进行标准化</p>
-</li>
-<li><p><strong>max_iter</strong>：int, default=None</p>
-<p>共轭梯度求解器的最大迭代次数。</p>
-</li>
-<li><p><strong>tol：</strong>float, optional</p>
-</li>
-</ul>
-<p>　　优化容忍度：如果更新大于tol，继续优化，直到小于tol。</p>
-<ul>
-<li><p><strong>solver</strong>：{‘auto’, ‘svd’, ‘cholesky’, ‘lsqr’, ‘sparse_cg’, ‘sag’, ‘saga’}, default=’auto’</p>
-<p>参数计算方式</p>
-<p>auto：根据数据类型自动选择求解器。</p>
-<p>svd：使用X的奇异值分解来计算Ridge系数，对于奇异矩阵，比cholesky更稳定。</p>
-<p>cholesky：使用标准的scipy.linalg.solve函数来获取封闭形式的解决方案。</p>
-<p>sparse_cg：使用scipy.sparse.linalg.cg中的共轭梯度求解器。作为一种迭代算法，对于大规模数据（可以设置tol和max_iter），此求解器比cholesky更合适。</p>
-<p> lsqr：使用专用的正则化最小二乘例程scipy.sparse.linalg.lsqr。它是最快的，并且使用迭代过程。</p>
-<p> sag和saga：sag使用随机平均梯度下降，saga使用经过改进的无偏版本SAGA。两种方法都使用迭代过程，并且当n_samples和n_features都较大时，通常比其他求解器更快。请注意，只有在比例大致相同的要素上才能确保“ sag”和“ saga”快速收敛。您可以使用sklearn.preprocessing中的缩放器对数据进行预处理。</p>
-</li>
-<li><p><strong>random_state：</strong>int, RandomState instance or None, optional, default None</p>
-<p>伪随机数发生器种子，随机选择特征来更新模型。如果为int，random_state即为随机数发生器使用的种子；如果为RandomState实例，random_state即为随机数发生器；如果为None，随机数发生器为np.random使用的随机数发生器实例。该参数仅当selection=‘random’时使用。</p>
-</li>
-</ul>
-<h5 id="岭回归所解决的问题："><a href="#岭回归所解决的问题：" class="headerlink" title="岭回归所解决的问题："></a><strong>岭回归所解决的问题：</strong></h5><p>普通最小二乘法会在实际应用中遇到以下问题：</p>
-<p>（1）数据样本数比特征数少的情况，矩阵的逆不能直接计算，当求n元一次方程组时，需要有n个方程才可以求出唯一解，也就是说最少需要n个样本。</p>
-<p>（2）即使样本数多于特征数，若特征高度相关，X^T^X的逆依然无法计算。</p>
-<p>   (3)  过拟合</p>
-<h5 id="设置正则化参数：广义交叉验证"><a href="#设置正则化参数：广义交叉验证" class="headerlink" title="设置正则化参数：广义交叉验证"></a>设置正则化参数：广义交叉验证</h5><p><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.RidgeCV.html#sklearn.linear_model.RidgeCV"><code>RidgeCV</code></a> 通过内置的关于的 alpha 参数的交叉验证来实现岭回归。 </p>
-<p>默认为 Generalized Cross-Validation(广义交叉验证 GCV)，这是一种有效的留一验证方法</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> linear_model</span><br><span class="line">reg = linear_model.RidgeCV(alphas=[<span class="number">0.1</span>, <span class="number">1.0</span>, <span class="number">10.0</span>])</span><br><span class="line">reg.fit([[<span class="number">0</span>, <span class="number">0</span>], [<span class="number">0</span>, <span class="number">0</span>], [<span class="number">1</span>, <span class="number">1</span>]], [<span class="number">0</span>, <span class="number">0.1</span>, <span class="number">1</span>])</span><br><span class="line">print(reg.alpha_)  <span class="comment"># 得出的正则化参数</span></span><br></pre></td></tr></table></figure>
-
-<p>指定cv属性的值将触发(通过GridSearchCV的)交叉验证。例如，cv=10将触发10折的交叉验证，而不是广义交叉验证(GCV)。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RidgeCV(alphas=(<span class="number">0.1</span>, <span class="number">1.0</span>, <span class="number">10.0</span>), fit_intercept=<span class="literal">True</span>, normalize=<span class="literal">False</span>, scoring=<span class="literal">None</span>, cv=<span class="literal">None</span>, gcv_mode=<span class="literal">None</span>, store_cv_values=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p><strong>gcv_mode</strong>：{‘auto’, ‘svd’, eigen’}, default=’auto’</p>
-<p>指示执行通用交叉验证时使用哪种策略的标志</p>
-</li>
-</ul>
-<h2 id="Lasso回归"><a href="#Lasso回归" class="headerlink" title="Lasso回归"></a>Lasso回归</h2><p><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Lasso.html#sklearn.linear_model.Lasso"><code>Lasso</code></a> 类的实现使用了 coordinate descent （坐标下降算法）来拟合系数。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> linear_model</span><br><span class="line"></span><br><span class="line">reg = linear_model.Lasso(alpha=<span class="number">0.1</span>)</span><br><span class="line">reg.fit([[<span class="number">0</span>, <span class="number">0</span>], [<span class="number">1</span>, <span class="number">1</span>]], [<span class="number">0</span>, <span class="number">1</span>])</span><br><span class="line">print(reg.predict([[<span class="number">1</span>, <span class="number">1</span>]]), reg.coef_, reg.intercept_)</span><br></pre></td></tr></table></figure>
-
-<p>对于较简单的任务，同样有用的是函数 <a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.lasso_path.html#sklearn.linear_model.lasso_path"><code>lasso_path</code></a> 。它能够通过搜索所有可能的路径上的值来计算系数。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Lasso(alpha=<span class="number">1.0</span>, *, fit_intercept=<span class="literal">True</span>, normalize=<span class="literal">False</span>, precompute=<span class="literal">False</span>, copy_X=<span class="literal">True</span>, max_iter=<span class="number">1000</span>, tol=<span class="number">0.0001</span>, warm_start=<span class="literal">False</span>, positive=<span class="literal">False</span>, random_state=<span class="literal">None</span>, selection=<span class="string">&#x27;cyclic&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><strong>alpha：</strong>float, optional</li>
-</ul>
-<p>　　正则项参数。常数。默认值1.0。alpha=0时转化为最小二乘估计，由线性回归模型求解。使用Lasso模型时，通常令alpha≠0。</p>
-<ul>
-<li><strong>fit_intercept：</strong>boolean, optional, default True</li>
-</ul>
-<p>　　是否计算截距。如果为False，对数据进行去中心化处理。</p>
-<ul>
-<li><strong>normalize：</strong>boolean, optional, default False</li>
-</ul>
-<p>　　对数据X进行标准化</p>
-<ul>
-<li><strong>precompute：</strong>True | False | array-like, default=False</li>
-</ul>
-<p>　　是否使用事先计算好的Gram矩阵来加速模型计算。如果precompute=’auto’，让程序自动决定。Gram矩阵可以作为参数被传递。对于稀疏数据，通常令precompute=True，保留稀疏性。</p>
-<ul>
-<li><strong>copy_X：</strong>boolean, optional, default True</li>
-</ul>
-<p>　　如果copy_X=True，复制X；如果copy_X=False，覆盖上次运行的X。</p>
-<ul>
-<li><strong>max_iter：</strong>int, optional</li>
-</ul>
-<p>　　最大迭代次数。</p>
-<ul>
-<li><strong>tol：</strong>float, optional</li>
-</ul>
-<p>　　优化容忍度：如果更新大于tol，继续优化，直到小于tol。</p>
-<ul>
-<li><strong>warm_start：</strong>bool, optional</li>
-</ul>
-<p>　　如果warm_start=True，使用上次的解作为初始化；如果warm_start=False，清除之前的解。</p>
-<ul>
-<li><strong>positive：</strong>bool, optional</li>
-</ul>
-<p>　　如果positive=True，强制将系数设为正数。</p>
-<ul>
-<li><p><strong>random_state：</strong>int, RandomState instance or None, optional, default None</p>
-<p>伪随机数发生器种子，随机选择特征来更新模型。</p>
-</li>
-<li><p><strong>selection：</strong>str, default ‘cyclic’</p>
-<p>如果为‘random’，每次迭代都会更新随机系数，而不是按顺序遍历每个特征。该参数值可以使得算法更快收敛，尤其当tol&gt;1e-4时。</p>
-</li>
-</ul>
-
-      
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/07/29/%E5%B9%BF%E4%B9%89%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B/" rel="prev" title="">
+      <i class="fa fa-chevron-left"></i> 
+    </a></div>
+      <div class="post-nav-item"></div>
     </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
       </footer>
+    
   </article>
   
   
-  
-
-
   
 
 
