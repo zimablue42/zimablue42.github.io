@@ -7,12 +7,12 @@
   
   <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="正则化（Regularization）机器学习中几乎都可以看到损失函数后面会添加一个额外项，常用的额外项一般有两种，一般英文称作ℓ1-norm 和ℓ2-norm，中文称作 L1正则化 和 L2正则化，或者 L1范数 和 L2范数。        L1正则化和L2正则化可以看做是损失函数的惩罚项。所谓『惩罚』是指对损失函数中的某些参数做一些限制。对于线性回归模型，使用L1正则化的模型建叫做Lasso">
+  <meta name="description" content="岭回归 LASSO回归正则化（Regularization）机器学习中几乎都可以看到损失函数后面会添加一个额外项，常用的额外项一般有两种，一般英文称作ℓ1-norm 和ℓ2-norm，中文称作 L1正则化 和 L2正则化，或者 L1范数 和 L2范数。        L1正则化和L2正则化可以看做是损失函数的惩罚项。所谓『惩罚』是指对损失函数中的某些参数做一些限制。对于线性回归模型，使用L1正则化">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
 <meta property="og:url" content="http://yoursite.com/2020/07/29/%E5%B2%AD%E5%9B%9E%E5%BD%92%20LASSO%E5%9B%9E%E5%BD%92/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="正则化（Regularization）机器学习中几乎都可以看到损失函数后面会添加一个额外项，常用的额外项一般有两种，一般英文称作ℓ1-norm 和ℓ2-norm，中文称作 L1正则化 和 L2正则化，或者 L1范数 和 L2范数。        L1正则化和L2正则化可以看做是损失函数的惩罚项。所谓『惩罚』是指对损失函数中的某些参数做一些限制。对于线性回归模型，使用L1正则化的模型建叫做Lasso">
+<meta property="og:description" content="岭回归 LASSO回归正则化（Regularization）机器学习中几乎都可以看到损失函数后面会添加一个额外项，常用的额外项一般有两种，一般英文称作ℓ1-norm 和ℓ2-norm，中文称作 L1正则化 和 L2正则化，或者 L1范数 和 L2范数。        L1正则化和L2正则化可以看做是损失函数的惩罚项。所谓『惩罚』是指对损失函数中的某些参数做一些限制。对于线性回归模型，使用L1正则化">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://yoursite.com/2020/07/29/%E5%B2%AD%E5%9B%9E%E5%BD%92%20LASSO%E5%9B%9E%E5%BD%92/8.png">
 <meta property="og:image" content="http://yoursite.com/2020/07/29/%E5%B2%AD%E5%9B%9E%E5%BD%92%20LASSO%E5%9B%9E%E5%BD%92/9.png">
@@ -37,7 +37,7 @@
 <meta property="og:image" content="http://yoursite.com/2020/07/29/%E5%B2%AD%E5%9B%9E%E5%BD%92%20LASSO%E5%9B%9E%E5%BD%92/5.png">
 <meta property="og:image" content="http://yoursite.com/2020/07/29/%E5%B2%AD%E5%9B%9E%E5%BD%92%20LASSO%E5%9B%9E%E5%BD%92/6.png">
 <meta property="article:published_time" content="2020-07-29T11:02:50.570Z">
-<meta property="article:modified_time" content="2020-07-29T11:49:48.207Z">
+<meta property="article:modified_time" content="2020-07-29T11:53:54.069Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/2020/07/29/%E5%B2%AD%E5%9B%9E%E5%BD%92%20LASSO%E5%9B%9E%E5%BD%92/8.png">
@@ -101,7 +101,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="正则化（Regularization）"><a href="#正则化（Regularization）" class="headerlink" title="正则化（Regularization）"></a>正则化（Regularization）</h1><p>机器学习中几乎都可以看到损失函数后面会添加一个额外项，常用的额外项一般有两种，一般英文称作ℓ1-norm 和ℓ2-norm，中文称作 L1正则化 和 L2正则化，或者 <strong>L1范数</strong> 和 <strong>L2范数</strong>。<br>        L1正则化和L2正则化可以看做是损失函数的惩罚项。所谓『惩罚』是指对损失函数中的某些参数做一些限制。对于线性回归模型，使用L1正则化的模型建叫做Lasso回归，使用L2正则化的模型叫做Ridge回归（岭回归）。下图是Python中Lasso回归的损失函数，式中加号后面一项<img src="/2020/07/29/%E5%B2%AD%E5%9B%9E%E5%BD%92%20LASSO%E5%9B%9E%E5%BD%92/8.png" alt="8"> 即为L1正则化项。</p>
+        <h1 id="岭回归-LASSO回归"><a href="#岭回归-LASSO回归" class="headerlink" title="岭回归 LASSO回归"></a>岭回归 LASSO回归</h1><h2 id="正则化（Regularization）"><a href="#正则化（Regularization）" class="headerlink" title="正则化（Regularization）"></a>正则化（Regularization）</h2><p>机器学习中几乎都可以看到损失函数后面会添加一个额外项，常用的额外项一般有两种，一般英文称作ℓ1-norm 和ℓ2-norm，中文称作 L1正则化 和 L2正则化，或者 <strong>L1范数</strong> 和 <strong>L2范数</strong>。<br>        L1正则化和L2正则化可以看做是损失函数的惩罚项。所谓『惩罚』是指对损失函数中的某些参数做一些限制。对于线性回归模型，使用L1正则化的模型建叫做Lasso回归，使用L2正则化的模型叫做Ridge回归（岭回归）。下图是Python中Lasso回归的损失函数，式中加号后面一项<img src="/2020/07/29/%E5%B2%AD%E5%9B%9E%E5%BD%92%20LASSO%E5%9B%9E%E5%BD%92/8.png" alt="8"> 即为L1正则化项。</p>
 <p><img src="/2020/07/29/%E5%B2%AD%E5%9B%9E%E5%BD%92%20LASSO%E5%9B%9E%E5%BD%92/9.png" alt="9"></p>
 <p>下图是Python中Ridge回归的损失函数，式中加号后面一项<img src="/2020/07/29/%E5%B2%AD%E5%9B%9E%E5%BD%92%20LASSO%E5%9B%9E%E5%BD%92/10.png" alt="10"></p>
 <p><img src="/2020/07/29/%E5%B2%AD%E5%9B%9E%E5%BD%92%20LASSO%E5%9B%9E%E5%BD%92/11.png" alt="11"></p>
@@ -115,9 +115,9 @@
 <li>L1正则化可以产生稀疏权值矩阵，即产生一个稀疏模型，可以用于特征选择</li>
 <li>L2正则化可以防止模型过拟合（overfitting），一定程度上，L1也可以防止过拟合</li>
 </ul>
-<h2 id="L1正则化"><a href="#L1正则化" class="headerlink" title="L1正则化"></a>L1正则化</h2><p>这部分内容将解释<strong>为什么L1正则化可以产生稀疏模型（L1是怎么让系数等于零的）</strong></p>
-<h3 id="稀疏模型与特征选择的关系"><a href="#稀疏模型与特征选择的关系" class="headerlink" title="稀疏模型与特征选择的关系"></a>稀疏模型与特征选择的关系</h3><p>上面提到L1正则化有助于生成一个稀疏权值矩阵，进而可以用于特征选择。为什么要生成一个稀疏矩阵？<br>稀疏矩阵指的是很多元素为0，只有少数元素是非零值的矩阵，即得到的线性回归模型的大部分系数都是0. 通常机器学习中特征数量很多，例如文本处理时，如果将一个词组（term）作为一个特征，那么特征数量会达到上万个（bigram）。在预测或分类时，那么多特征显然难以选择，但是如果代入这些特征得到的模型是一个稀疏模型，表示只有少数特征对这个模型有贡献，绝大部分特征是没有贡献的，或者贡献微小（因为它们前面的系数是0或者是很小的值，即使去掉对模型也没有什么影响），此时我们就可以只关注系数是非零值的特征。这就是稀疏模型与特征选择的关系。</p>
-<h3 id="L1正则化和特征选择的关系"><a href="#L1正则化和特征选择的关系" class="headerlink" title="L1正则化和特征选择的关系"></a>L1正则化和特征选择的关系</h3><p>特征选择( Feature Selection )也称特征子集选择( Feature Subset Selection , FSS )，或属性选择( Attribute Selection )。是指<strong>从已有的M个特征(Feature)中选择N个特征</strong>使得系统的特定指标最优化，是从原始特征中选择出一些最有效特征以<strong>降低数据集维度</strong>的过程,是提高学习算法性能的一个重要手段</p>
+<h3 id="L1正则化"><a href="#L1正则化" class="headerlink" title="L1正则化"></a>L1正则化</h3><p>这部分内容将解释<strong>为什么L1正则化可以产生稀疏模型（L1是怎么让系数等于零的）</strong></p>
+<h4 id="稀疏模型与特征选择的关系"><a href="#稀疏模型与特征选择的关系" class="headerlink" title="稀疏模型与特征选择的关系"></a>稀疏模型与特征选择的关系</h4><p>上面提到L1正则化有助于生成一个稀疏权值矩阵，进而可以用于特征选择。为什么要生成一个稀疏矩阵？<br>稀疏矩阵指的是很多元素为0，只有少数元素是非零值的矩阵，即得到的线性回归模型的大部分系数都是0. 通常机器学习中特征数量很多，例如文本处理时，如果将一个词组（term）作为一个特征，那么特征数量会达到上万个（bigram）。在预测或分类时，那么多特征显然难以选择，但是如果代入这些特征得到的模型是一个稀疏模型，表示只有少数特征对这个模型有贡献，绝大部分特征是没有贡献的，或者贡献微小（因为它们前面的系数是0或者是很小的值，即使去掉对模型也没有什么影响），此时我们就可以只关注系数是非零值的特征。这就是稀疏模型与特征选择的关系。</p>
+<h4 id="L1正则化和特征选择的关系"><a href="#L1正则化和特征选择的关系" class="headerlink" title="L1正则化和特征选择的关系"></a>L1正则化和特征选择的关系</h4><p>特征选择( Feature Selection )也称特征子集选择( Feature Subset Selection , FSS )，或属性选择( Attribute Selection )。是指<strong>从已有的M个特征(Feature)中选择N个特征</strong>使得系统的特定指标最优化，是从原始特征中选择出一些最有效特征以<strong>降低数据集维度</strong>的过程,是提高学习算法性能的一个重要手段</p>
 <h4 id="L1正则化正则化可以产生稀疏模型"><a href="#L1正则化正则化可以产生稀疏模型" class="headerlink" title="L1正则化正则化可以产生稀疏模型"></a>L1正则化正则化可以产生稀疏模型</h4><p>假设有如下带L1正则化的损失函数：</p>
 <img src="/2020/07/29/%E5%B2%AD%E5%9B%9E%E5%BD%92%20LASSO%E5%9B%9E%E5%BD%92/14png.png" alt="14png" style="zoom:80%;">
 
@@ -136,18 +136,18 @@
 <p>同样可以画出他们在二维平面上的图形，如下：</p>
 <p><img src="/2020/07/29/%E5%B2%AD%E5%9B%9E%E5%BD%92%20LASSO%E5%9B%9E%E5%BD%92/22.png" alt="22"></p>
 <p>二维平面下L2正则化的函数图形是个圆（绝对值的平方和，是个圆），与方形相比，被磨去了棱角。因此J0与L相交时使得ω^1^或ω^2^等于零的机率小了许多（这个也是一个很直观的想象），这就是为什么L2正则化不具有稀疏性的原因，因为不太可能出现多数ω都为0的情况。</p>
-<h3 id="L1正则化参数"><a href="#L1正则化参数" class="headerlink" title="L1正则化参数"></a>L1正则化参数</h3><p>通常越大的λ可以让代价函数在参数为0时取到最小值。因为正则化系数越大，正则化的函数图形（上文图中的方形或圆形）会向坐标轴原点收缩得越厉害，这个现象称为shrinkage，过程可以称为shrink to zero. 下面是一个简单的例子。</p>
+<h4 id="L1正则化参数"><a href="#L1正则化参数" class="headerlink" title="L1正则化参数"></a>L1正则化参数</h4><p>通常越大的λ可以让代价函数在参数为0时取到最小值。因为正则化系数越大，正则化的函数图形（上文图中的方形或圆形）会向坐标轴原点收缩得越厉害，这个现象称为shrinkage，过程可以称为shrink to zero. 下面是一个简单的例子。</p>
 <p>假设有如下带L1正则化项的代价函数：</p>
 <p><img src="/2020/07/29/%E5%B2%AD%E5%9B%9E%E5%BD%92%20LASSO%E5%9B%9E%E5%BD%92/19.png" alt="19"></p>
 <p>其中x是要估计的参数，相当于上文中提到的ω以及θ. 这个例子中的正则化函数L就是L=λ∣x∣。注意到L1正则化在某些位置是不可导的，当λ足够大时可以使得F(x)在x=0时取到最小值。如下图：</p>
 <p>预测值y=x，真实值y=1， x为参数，不是自变量，只预测了一个值</p>
 <p><img src="/2020/07/29/%E5%B2%AD%E5%9B%9E%E5%BD%92%20LASSO%E5%9B%9E%E5%BD%92/20.png" alt="20"></p>
 <p>作为一个直观的例子，这个图的示例中，取了f(x)=(x−1)^2^作为损失函数，其实可以取更复杂的，但不好画图，不过原理是一样的，因为损失函数都是凸函数，很多性质是一样的。正则化分别取λ=0.5和λ=2，可以看到越大的λ越容易使F(x)在x=0时取到最小值。此外也可以自己计算一下，当损失函数f(x)和正则化函数L=∣x∣在定义域内第一次相交的地方，就是整个代价函数F(x)的最优解。</p>
-<h2 id="L2正则化"><a href="#L2正则化" class="headerlink" title="L2正则化"></a>L2正则化</h2><h3 id="L2正则化和过拟合的关系"><a href="#L2正则化和过拟合的关系" class="headerlink" title="L2正则化和过拟合的关系"></a>L2正则化和过拟合的关系</h3><p>拟合过程中通常都倾向于让权值尽可能小，最后构造一个所有参数都比较小的模型。因为一般认为参数值小的模型比较简单，能适应不同的数据集，也在一定程度上避免了过拟合现象。可以设想一下对于一个线性回归方程，若参数很大，那么只要数据偏移一点点，就会对结果造成很大的影响；但如果参数足够小，数据偏移得多一点也不会对结果造成什么影响，专业一点的说法是『抗扰动能力强』。</p>
+<h3 id="L2正则化"><a href="#L2正则化" class="headerlink" title="L2正则化"></a>L2正则化</h3><h4 id="L2正则化和过拟合的关系"><a href="#L2正则化和过拟合的关系" class="headerlink" title="L2正则化和过拟合的关系"></a>L2正则化和过拟合的关系</h4><p>拟合过程中通常都倾向于让权值尽可能小，最后构造一个所有参数都比较小的模型。因为一般认为参数值小的模型比较简单，能适应不同的数据集，也在一定程度上避免了过拟合现象。可以设想一下对于一个线性回归方程，若参数很大，那么只要数据偏移一点点，就会对结果造成很大的影响；但如果参数足够小，数据偏移得多一点也不会对结果造成什么影响，专业一点的说法是『抗扰动能力强』。</p>
 <p>那为什么L2正则化可以获得值很小的参数？<br>        以线性回归中的梯度下降法为例，使用Andrew Ng机器学习的参数表示方法。假设要求解的参数为θ，h<del>θ</del>(x)是我们的假设函数。线性回归一般使用平方差损失函数。单个样本的平方差是(h<del>θ</del>(x)−y)^2^，如果考虑所有样本，损失函数是对每个样本的平方差求和，假设有m个样本，线性回归的代价函数如下，为了后续处理方便，乘以一个常数<img src="/2020/07/29/%E5%B2%AD%E5%9B%9E%E5%BD%92%20LASSO%E5%9B%9E%E5%BD%92/23.png" alt="23">：</p>
 <p><img src="/2020/07/29/%E5%B2%AD%E5%9B%9E%E5%BD%92%20LASSO%E5%9B%9E%E5%BD%92/24.png" alt="24"></p>
-<h3 id="L2正则化参数"><a href="#L2正则化参数" class="headerlink" title="L2正则化参数"></a>L2正则化参数</h3><p>从公式5可以看到，λ越大，θ<del>j</del>衰减得越快。另一个理解可以参考图2，λ越大，L2圆的半径越小，最后求得代价函数最值时各参数也会变得很小，同样是一个shrink to zero的过程，原理与L1正则化类似。</p>
-<h1 id="岭回归"><a href="#岭回归" class="headerlink" title="岭回归"></a>岭回归</h1><p>在线性回归模型中，其参数估计公式为β=(X^T^X) ^−1^ X^T^y, 当X^T^X越趋近于0，会使得回归系数趋向于无穷大，此时得到的回归系数是无意义的。解决这类问题可以使用岭回归和LASSO回归，主要针对自变量之间存在多重共线性或者自变量个数多于样本量的情况。</p>
+<h4 id="L2正则化参数"><a href="#L2正则化参数" class="headerlink" title="L2正则化参数"></a>L2正则化参数</h4><p>从公式5可以看到，λ越大，θ<del>j</del>衰减得越快。另一个理解可以参考图2，λ越大，L2圆的半径越小，最后求得代价函数最值时各参数也会变得很小，同样是一个shrink to zero的过程，原理与L1正则化类似。</p>
+<h2 id="岭回归"><a href="#岭回归" class="headerlink" title="岭回归"></a>岭回归</h2><p>在线性回归模型中，其参数估计公式为β=(X^T^X) ^−1^ X^T^y, 当X^T^X越趋近于0，会使得回归系数趋向于无穷大，此时得到的回归系数是无意义的。解决这类问题可以使用岭回归和LASSO回归，主要针对自变量之间存在多重共线性或者自变量个数多于样本量的情况。</p>
 <p><strong>岭回归所解决的问题：</strong></p>
 <p>（1）数据样本数比特征数少的情况，矩阵的逆不能直接计算，当求n元一次方程组时，需要有n个方程才可以求出唯一解，也            就是说最少需要n个样本。</p>
 <p>（2）即使样本数多于特征数，若特征高度相关，X^T^X的逆依然无法计算。</p>
@@ -176,7 +176,7 @@
 
 
 
-<h1 id="LASSO回归"><a href="#LASSO回归" class="headerlink" title="LASSO回归"></a>LASSO回归</h1><p><strong>用处</strong>：LASSO回归可以实现<strong>特征选择</strong>，从已有的M个特征中选择N个特征使得系统的特定指标最优化，去掉对结果没有影响的变量，是从原始特征中选择出一些最有效特征以降低数据集维度的过程,是提高学习算法性能的一个重要手段。一定程度上可以<strong>防止过拟合</strong>。</p>
+<h2 id="LASSO回归"><a href="#LASSO回归" class="headerlink" title="LASSO回归"></a>LASSO回归</h2><p><strong>用处</strong>：LASSO回归可以实现<strong>特征选择</strong>，从已有的M个特征中选择N个特征使得系统的特定指标最优化，去掉对结果没有影响的变量，是从原始特征中选择出一些最有效特征以降低数据集维度的过程,是提高学习算法性能的一个重要手段。一定程度上可以<strong>防止过拟合</strong>。</p>
 <h3 id="1-参数推导-1"><a href="#1-参数推导-1" class="headerlink" title="1.参数推导"></a>1.参数推导</h3><img src="/2020/07/29/%E5%B2%AD%E5%9B%9E%E5%BD%92%20LASSO%E5%9B%9E%E5%BD%92/5.png" alt="5" style="zoom:150%;">
 
 <p><img src="/2020/07/29/%E5%B2%AD%E5%9B%9E%E5%BD%92%20LASSO%E5%9B%9E%E5%BD%92/6.png" alt="6"></p>
@@ -189,7 +189,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/29/%E5%B2%AD%E5%9B%9E%E5%BD%92%20LASSO%E5%9B%9E%E5%BD%92/" data-id="ckd7b4hyu0000qcdz24786xgf" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/07/29/%E5%B2%AD%E5%9B%9E%E5%BD%92%20LASSO%E5%9B%9E%E5%BD%92/" data-id="ckd7be5os0002psdz7pju94jx" class="article-share-link">Share</a>
       
       
     </footer>
@@ -197,6 +197,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2020/07/29/%E5%BD%92%E4%B8%80%E5%8C%96%EF%BC%8C%E5%8E%BB%E4%B8%AD%E5%BF%83%E5%8C%96%EF%BC%8C%E6%A0%87%E5%87%86%E5%8C%96/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
   
   
     <a href="/2020/07/29/%E5%B9%BF%E4%B9%89%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B/" id="article-nav-older" class="article-nav-link-wrap">
@@ -236,6 +245,18 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2020/07/29/%E5%9D%87%E6%96%B9%E6%A0%B9%E8%AF%AF%E5%B7%AE%EF%BC%88RMSE%EF%BC%89%EF%BC%8C%E5%B9%B3%E5%9D%87%E7%BB%9D%E5%AF%B9%E8%AF%AF%E5%B7%AE(MAE)%EF%BC%8C%E6%A0%87%E5%87%86%E5%B7%AE(Standard%20Deviation)%E7%9A%84%E5%AF%B9%E6%AF%94/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/29/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E4%B8%8E%E5%9D%90%E6%A0%87%E4%B8%8B%E9%99%8D%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/29/%E5%BD%92%E4%B8%80%E5%8C%96%EF%BC%8C%E5%8E%BB%E4%B8%AD%E5%BF%83%E5%8C%96%EF%BC%8C%E6%A0%87%E5%87%86%E5%8C%96/">(no title)</a>
+          </li>
         
           <li>
             <a href="/2020/07/29/%E5%B2%AD%E5%9B%9E%E5%BD%92%20LASSO%E5%9B%9E%E5%BD%92/">(no title)</a>
