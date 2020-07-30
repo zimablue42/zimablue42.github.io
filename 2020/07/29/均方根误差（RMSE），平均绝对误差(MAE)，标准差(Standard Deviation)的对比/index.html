@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>均方根误差，平均绝对误差，标准差 | Zima Blue&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="均方根误差，平均绝对误差，标准差RMSE  Root Mean Square Error,均方根误差  是观测值与真值偏差的平方和与观测次数m比值的平方根。  是用来衡量观测值同真值之间的偏差   MAE  Mean Absolute Error ，平均绝对误差 是绝对误差的平均值 能更好地反映预测值误差的实际情况.  标准差  Standard Deviation ，标准差  是方差的算数平方根">
+<meta property="og:type" content="article">
+<meta property="og:title" content="均方根误差，平均绝对误差，标准差">
+<meta property="og:url" content="http://yoursite.com/2020/07/29/%E5%9D%87%E6%96%B9%E6%A0%B9%E8%AF%AF%E5%B7%AE%EF%BC%88RMSE%EF%BC%89%EF%BC%8C%E5%B9%B3%E5%9D%87%E7%BB%9D%E5%AF%B9%E8%AF%AF%E5%B7%AE(MAE)%EF%BC%8C%E6%A0%87%E5%87%86%E5%B7%AE(Standard%20Deviation)%E7%9A%84%E5%AF%B9%E6%AF%94/index.html">
+<meta property="og:site_name" content="Zima Blue&#39;s blog">
+<meta property="og:description" content="均方根误差，平均绝对误差，标准差RMSE  Root Mean Square Error,均方根误差  是观测值与真值偏差的平方和与观测次数m比值的平方根。  是用来衡量观测值同真值之间的偏差   MAE  Mean Absolute Error ，平均绝对误差 是绝对误差的平均值 能更好地反映预测值误差的实际情况.  标准差  Standard Deviation ，标准差  是方差的算数平方根">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2020/07/29/%E5%9D%87%E6%96%B9%E6%A0%B9%E8%AF%AF%E5%B7%AE%EF%BC%88RMSE%EF%BC%89%EF%BC%8C%E5%B9%B3%E5%9D%87%E7%BB%9D%E5%AF%B9%E8%AF%AF%E5%B7%AE(MAE)%EF%BC%8C%E6%A0%87%E5%87%86%E5%B7%AE(Standard%20Deviation)%E7%9A%84%E5%AF%B9%E6%AF%94/25.jpg">
+<meta property="article:published_time" content="2020-07-29T11:55:56.407Z">
+<meta property="article:modified_time" content="2020-07-29T12:16:36.378Z">
+<meta property="article:author" content="lyp">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2020/07/29/%E5%9D%87%E6%96%B9%E6%A0%B9%E8%AF%AF%E5%B7%AE%EF%BC%88RMSE%EF%BC%89%EF%BC%8C%E5%B9%B3%E5%9D%87%E7%BB%9D%E5%AF%B9%E8%AF%AF%E5%B7%AE(MAE)%EF%BC%8C%E6%A0%87%E5%87%86%E5%B7%AE(Standard%20Deviation)%E7%9A%84%E5%AF%B9%E6%AF%94/25.jpg">
+  
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.0.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Zima Blue&#39;s blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">永远年轻，永远热泪盈眶</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-均方根误差（RMSE），平均绝对误差(MAE)，标准差(Standard Deviation)的对比" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/07/29/%E5%9D%87%E6%96%B9%E6%A0%B9%E8%AF%AF%E5%B7%AE%EF%BC%88RMSE%EF%BC%89%EF%BC%8C%E5%B9%B3%E5%9D%87%E7%BB%9D%E5%AF%B9%E8%AF%AF%E5%B7%AE(MAE)%EF%BC%8C%E6%A0%87%E5%87%86%E5%B7%AE(Standard%20Deviation)%E7%9A%84%E5%AF%B9%E6%AF%94/" class="article-date">
+  <time datetime="2020-07-29T11:55:56.407Z" itemprop="datePublished">2020-07-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      均方根误差，平均绝对误差，标准差
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="均方根误差，平均绝对误差，标准差"><a href="#均方根误差，平均绝对误差，标准差" class="headerlink" title="均方根误差，平均绝对误差，标准差"></a>均方根误差，平均绝对误差，标准差</h1><p><strong>RMSE</strong></p>
+<ul>
+<li><p>Root Mean Square Error,均方根误差</p>
+</li>
+<li><p>是观测值与真值偏差的平方和与观测次数m比值的平方根。</p>
+</li>
+<li><p>是用来衡量观测值同真值之间的偏差</p>
+</li>
+</ul>
+<p><strong>MAE</strong></p>
+<ul>
+<li>Mean Absolute Error ，平均绝对误差</li>
+<li>是绝对误差的平均值</li>
+<li>能更好地反映预测值误差的实际情况.</li>
+</ul>
+<p><strong>标准差</strong></p>
+<ul>
+<li><p>Standard Deviation ，标准差</p>
+</li>
+<li><p>是方差的算数平方根</p>
+</li>
+<li><p>是用来衡量一组数自身的离散程度</p>
+</li>
+</ul>
+<img src="/2020/07/29/%E5%9D%87%E6%96%B9%E6%A0%B9%E8%AF%AF%E5%B7%AE%EF%BC%88RMSE%EF%BC%89%EF%BC%8C%E5%B9%B3%E5%9D%87%E7%BB%9D%E5%AF%B9%E8%AF%AF%E5%B7%AE(MAE)%EF%BC%8C%E6%A0%87%E5%87%86%E5%B7%AE(Standard%20Deviation)%E7%9A%84%E5%AF%B9%E6%AF%94/25.jpg" alt="25" style="zoom:120%;">
+
+
+
+<p><strong>RMSE与标准差对比</strong>：标准差是用来衡量一组数自身的离散程度，而均方根误差是用来衡量观测值同真值之间的偏差，它们的研究对象和研究目的不同，但是计算过程类似。</p>
+<p><strong>RMSE与MAE对比</strong>：RMSE相当于L2范数，MAE相当于L1范数。次数越高，计算结果就越与较大的值有关，而忽略较小的值，所以这就是为什么RMSE针对异常值更敏感的原因（即有一个预测值与真实值相差很大，那么RMSE就会很大）。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/07/29/%E5%9D%87%E6%96%B9%E6%A0%B9%E8%AF%AF%E5%B7%AE%EF%BC%88RMSE%EF%BC%89%EF%BC%8C%E5%B9%B3%E5%9D%87%E7%BB%9D%E5%AF%B9%E8%AF%AF%E5%B7%AE(MAE)%EF%BC%8C%E6%A0%87%E5%87%86%E5%B7%AE(Standard%20Deviation)%E7%9A%84%E5%AF%B9%E6%AF%94/" data-id="ckd87mejr0003dgdzbro65soh" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2020/07/29/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E4%B8%8E%E5%9D%90%E6%A0%87%E4%B8%8B%E9%99%8D%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">梯度下降与坐标下降优化方法</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 lyp<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
