@@ -1,3 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  
+  <link rel="stylesheet" href="/lib/animate-css/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Muse","version":"8.0.0-rc.4","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false};
+  </script>
+
+  <meta name="description" content="岭回归 LASSO回归正则化（Regularization）机器学习中几乎都可以看到损失函数后面会添加一个额外项，常用的额外项一般有两种，一般英文称作ℓ1-norm 和ℓ2-norm，中文称作 L1正则化 和 L2正则化，或者 L1范数 和 L2范数。        L1正则化和L2正则化可以看做是损失函数的惩罚项。所谓『惩罚』是指对损失函数中的某些参数做一些限制。对于线性回归模型，使用L1正则化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="岭回归 LASSO回归">
+<meta property="og:url" content="http://yoursite.com/2020/07/29/Ridge%20regression,%20Lasso%20regression/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="岭回归 LASSO回归正则化（Regularization）机器学习中几乎都可以看到损失函数后面会添加一个额外项，常用的额外项一般有两种，一般英文称作ℓ1-norm 和ℓ2-norm，中文称作 L1正则化 和 L2正则化，或者 L1范数 和 L2范数。        L1正则化和L2正则化可以看做是损失函数的惩罚项。所谓『惩罚』是指对损失函数中的某些参数做一些限制。对于线性回归模型，使用L1正则化">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2020/07/29/Ridge%20regression,%20Lasso%20regression/8.png">
+<meta property="og:image" content="http://yoursite.com/2020/07/29/Ridge%20regression,%20Lasso%20regression/9.png">
+<meta property="og:image" content="http://yoursite.com/2020/07/29/Ridge%20regression,%20Lasso%20regression/10.png">
+<meta property="og:image" content="http://yoursite.com/2020/07/29/Ridge%20regression,%20Lasso%20regression/11.png">
+<meta property="og:image" content="http://yoursite.com/2020/07/29/Ridge%20regression,%20Lasso%20regression/12.png">
+<meta property="og:image" content="http://yoursite.com/2020/07/29/Ridge%20regression,%20Lasso%20regression/13.png">
+<meta property="og:image" content="http://yoursite.com/2020/07/29/Ridge%20regression,%20Lasso%20regression/14png.png">
+<meta property="og:image" content="http://yoursite.com/2020/07/29/Ridge%20regression,%20Lasso%20regression/17.png">
+<meta property="og:image" content="http://yoursite.com/2020/07/29/Ridge%20regression,%20Lasso%20regression/18.png">
+<meta property="og:image" content="http://yoursite.com/2020/07/29/Ridge%20regression,%20Lasso%20regression/15.png">
+<meta property="og:image" content="http://yoursite.com/2020/07/29/Ridge%20regression,%20Lasso%20regression/21.png">
+<meta property="og:image" content="http://yoursite.com/2020/07/29/Ridge%20regression,%20Lasso%20regression/22.png">
+<meta property="og:image" content="http://yoursite.com/2020/07/29/Ridge%20regression,%20Lasso%20regression/19.png">
+<meta property="og:image" content="http://yoursite.com/2020/07/29/Ridge%20regression,%20Lasso%20regression/20.png">
+<meta property="og:image" content="http://yoursite.com/2020/07/29/Ridge%20regression,%20Lasso%20regression/23.png">
+<meta property="og:image" content="http://yoursite.com/2020/07/29/Ridge%20regression,%20Lasso%20regression/24.png">
+<meta property="og:image" content="http://yoursite.com/2020/07/29/Ridge%20regression,%20Lasso%20regression/1.png">
+<meta property="og:image" content="http://yoursite.com/2020/07/29/Ridge%20regression,%20Lasso%20regression/2.png">
+<meta property="og:image" content="http://yoursite.com/2020/07/29/Ridge%20regression,%20Lasso%20regression/3.png">
+<meta property="og:image" content="http://yoursite.com/2020/07/29/Ridge%20regression,%20Lasso%20regression/ML/images/4.png">
+<meta property="og:image" content="http://yoursite.com/2020/07/29/Ridge%20regression,%20Lasso%20regression/5.png">
+<meta property="og:image" content="http://yoursite.com/2020/07/29/Ridge%20regression,%20Lasso%20regression/6.png">
+<meta property="article:published_time" content="2020-07-29T11:02:50.570Z">
+<meta property="article:modified_time" content="2020-07-29T12:15:14.003Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2020/07/29/Ridge%20regression,%20Lasso%20regression/8.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/07/29/Ridge%20regression,%20Lasso%20regression/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>岭回归 LASSO回归 | Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <main class="main">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Hexo</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B2%AD%E5%9B%9E%E5%BD%92-LASSO%E5%9B%9E%E5%BD%92"><span class="nav-number">1.</span> <span class="nav-text">岭回归 LASSO回归</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A3%E5%88%99%E5%8C%96%EF%BC%88Regularization%EF%BC%89"><span class="nav-number">1.1.</span> <span class="nav-text">正则化（Regularization）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#L1%E6%AD%A3%E5%88%99%E5%8C%96"><span class="nav-number">1.1.1.</span> <span class="nav-text">L1正则化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A8%80%E7%96%8F%E6%A8%A1%E5%9E%8B%E4%B8%8E%E7%89%B9%E5%BE%81%E9%80%89%E6%8B%A9%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">稀疏模型与特征选择的关系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#L1%E6%AD%A3%E5%88%99%E5%8C%96%E5%92%8C%E7%89%B9%E5%BE%81%E9%80%89%E6%8B%A9%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">L1正则化和特征选择的关系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#L1%E6%AD%A3%E5%88%99%E5%8C%96%E6%AD%A3%E5%88%99%E5%8C%96%E5%8F%AF%E4%BB%A5%E4%BA%A7%E7%94%9F%E7%A8%80%E7%96%8F%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.1.1.3.</span> <span class="nav-text">L1正则化正则化可以产生稀疏模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#L2%E6%AD%A3%E5%88%99%E5%8C%96%E4%B8%8D%E5%8F%AF%E4%BB%A5%E4%BA%A7%E7%94%9F%E7%A8%80%E7%96%8F%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.1.1.4.</span> <span class="nav-text">L2正则化不可以产生稀疏模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#L1%E6%AD%A3%E5%88%99%E5%8C%96%E5%8F%82%E6%95%B0"><span class="nav-number">1.1.1.5.</span> <span class="nav-text">L1正则化参数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#L2%E6%AD%A3%E5%88%99%E5%8C%96"><span class="nav-number">1.1.2.</span> <span class="nav-text">L2正则化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#L2%E6%AD%A3%E5%88%99%E5%8C%96%E5%92%8C%E8%BF%87%E6%8B%9F%E5%90%88%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">L2正则化和过拟合的关系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#L2%E6%AD%A3%E5%88%99%E5%8C%96%E5%8F%82%E6%95%B0"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">L2正则化参数</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B2%AD%E5%9B%9E%E5%BD%92"><span class="nav-number">1.2.</span> <span class="nav-text">岭回归</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%8F%82%E6%95%B0%E6%8E%A8%E5%AF%BC"><span class="nav-number">1.2.1.</span> <span class="nav-text">1.参数推导</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%CE%BB%E7%9A%84%E9%80%89%E6%8B%A9"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.λ的选择</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LASSO%E5%9B%9E%E5%BD%92"><span class="nav-number">1.3.</span> <span class="nav-text">LASSO回归</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%8F%82%E6%95%B0%E6%8E%A8%E5%AF%BC-1"><span class="nav-number">1.3.1.</span> <span class="nav-text">1.参数推导</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%CE%BB%E7%9A%84%E9%80%89%E6%8B%A9-1"><span class="nav-number">1.3.2.</span> <span class="nav-text">2.λ的选择</span></a></li></ol></li></ol></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </section>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </header>
+
+      
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div id="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+      <div class="main-inner">
+        
+
+        <div class="content post posts-expand">
+          
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/29/Ridge%20regression,%20Lasso%20regression/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          岭回归 LASSO回归
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-07-29 19:02:50 / Modified: 20:15:14" itemprop="dateCreated datePublished" datetime="2020-07-29T19:02:50+08:00">2020-07-29</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="岭回归-LASSO回归"><a href="#岭回归-LASSO回归" class="headerlink" title="岭回归 LASSO回归"></a>岭回归 LASSO回归</h1><h2 id="正则化（Regularization）"><a href="#正则化（Regularization）" class="headerlink" title="正则化（Regularization）"></a>正则化（Regularization）</h2><p>机器学习中几乎都可以看到损失函数后面会添加一个额外项，常用的额外项一般有两种，一般英文称作ℓ1-norm 和ℓ2-norm，中文称作 L1正则化 和 L2正则化，或者 <strong>L1范数</strong> 和 <strong>L2范数</strong>。<br>        L1正则化和L2正则化可以看做是损失函数的惩罚项。所谓『惩罚』是指对损失函数中的某些参数做一些限制。对于线性回归模型，使用L1正则化的模型建叫做Lasso回归，使用L2正则化的模型叫做Ridge回归（岭回归）。下图是Python中Lasso回归的损失函数，式中加号后面一项<img src="/2020/07/29/Ridge%20regression,%20Lasso%20regression/8.png" alt="8"> 即为L1正则化项。</p>
+<p><img src="/2020/07/29/Ridge%20regression,%20Lasso%20regression/9.png" alt="9"></p>
+<p>下图是Python中Ridge回归的损失函数，式中加号后面一项<img src="/2020/07/29/Ridge%20regression,%20Lasso%20regression/10.png" alt="10"></p>
+<p><img src="/2020/07/29/Ridge%20regression,%20Lasso%20regression/11.png" alt="11"></p>
+<p>一般回归分析中ω表示特征的系数，从上式可以看到正则化项是对系数做了处理（限制）。<strong>L1正则化和L2正则化的说明如下：</strong></p>
+<ul>
+<li>L1正则化是指权值向量ω中各个元素的绝对值之和，通常表示为 <img src="/2020/07/29/Ridge%20regression,%20Lasso%20regression/12.png" alt="12"></li>
+<li>L2正则化是指权值向量ω中各个元素的平方和然后再求平方根（可以看到Ridge回归的L2正则化项有平方符号），通常表示为<img src="/2020/07/29/Ridge%20regression,%20Lasso%20regression/13.png" alt="13"></li>
+</ul>
+<p>一般都会在正则化项之前添加一个系数，Python的机器学习包sklearn中用α表示，一些文章也用λ表示。这个系数需要用户指定。那添加L1和L2正则化有什么用？下面是L1正则化和L2正则化的作用，这些表述可以在很多文章中找到。</p>
+<ul>
+<li>L1正则化可以产生稀疏权值矩阵，即产生一个稀疏模型，可以用于特征选择</li>
+<li>L2正则化可以防止模型过拟合（overfitting），一定程度上，L1也可以防止过拟合</li>
+</ul>
+<h3 id="L1正则化"><a href="#L1正则化" class="headerlink" title="L1正则化"></a>L1正则化</h3><p>这部分内容将解释<strong>为什么L1正则化可以产生稀疏模型（L1是怎么让系数等于零的）</strong></p>
+<h4 id="稀疏模型与特征选择的关系"><a href="#稀疏模型与特征选择的关系" class="headerlink" title="稀疏模型与特征选择的关系"></a>稀疏模型与特征选择的关系</h4><p>上面提到L1正则化有助于生成一个稀疏权值矩阵，进而可以用于特征选择。为什么要生成一个稀疏矩阵？<br>稀疏矩阵指的是很多元素为0，只有少数元素是非零值的矩阵，即得到的线性回归模型的大部分系数都是0. 通常机器学习中特征数量很多，例如文本处理时，如果将一个词组（term）作为一个特征，那么特征数量会达到上万个（bigram）。在预测或分类时，那么多特征显然难以选择，但是如果代入这些特征得到的模型是一个稀疏模型，表示只有少数特征对这个模型有贡献，绝大部分特征是没有贡献的，或者贡献微小（因为它们前面的系数是0或者是很小的值，即使去掉对模型也没有什么影响），此时我们就可以只关注系数是非零值的特征。这就是稀疏模型与特征选择的关系。</p>
+<h4 id="L1正则化和特征选择的关系"><a href="#L1正则化和特征选择的关系" class="headerlink" title="L1正则化和特征选择的关系"></a>L1正则化和特征选择的关系</h4><p>特征选择( Feature Selection )也称特征子集选择( Feature Subset Selection , FSS )，或属性选择( Attribute Selection )。是指<strong>从已有的M个特征(Feature)中选择N个特征</strong>使得系统的特定指标最优化，是从原始特征中选择出一些最有效特征以<strong>降低数据集维度</strong>的过程,是提高学习算法性能的一个重要手段</p>
+<h4 id="L1正则化正则化可以产生稀疏模型"><a href="#L1正则化正则化可以产生稀疏模型" class="headerlink" title="L1正则化正则化可以产生稀疏模型"></a>L1正则化正则化可以产生稀疏模型</h4><p>假设有如下带L1正则化的损失函数：</p>
+<img src="/2020/07/29/Ridge%20regression,%20Lasso%20regression/14png.png" alt="14png" style="zoom:80%;">
+
+<p>其中J0是原始的损失函数，加号后面的一项是L1正则化项，α是正则化系数。注意到L1正则化是权值的绝对值之和，J是带有绝对值符号的函数，因此J是不完全可微的。机器学习的任务就是要通过一些方法（比如梯度下降）求出损失函数的最小值。当我们在原始损失函数 J<del>0</del>后添加L1正则化项时，相当于对 J<del>0</del>做了一个约束。令<img src="/2020/07/29/Ridge%20regression,%20Lasso%20regression/17.png" alt="17">，则<img src="/2020/07/29/Ridge%20regression,%20Lasso%20regression/18.png" alt="18">，此时我们的任务变成在L约束下求出 J<del>0</del>取最小值的解。考虑二维的情况，即只有两个权值ω^1^和ω^2^，此时L=∣ω^1^∣+∣ω^2^∣。对于梯度下降法，求解 J<del>0</del>的过程可以画出等值线，同时L1正则化的函数L也可以在ω^1^ω^2^的二维平面上画出来。如下图：</p>
+<p>此图只是三维空间的一个截面</p>
+<img src="/2020/07/29/Ridge%20regression,%20Lasso%20regression/15.png" alt="15" style="zoom: 80%;">
+
+
+
+<p>图中等值线是 J<del>0</del>的等值线，黑色方形是L函数的图形。L=|ω^1^|+|ω^2^|，这个函数画出来就是一个方框。<br>        在图中，当  J<del>0</del>等值线与L图形首次相交的地方就是最优解。上图中  J<del>0</del>与L在L 的一个顶点处相交，这个顶点就是最优解。注意到这个顶点的值是(ω^1^,ω^2^)=(0,ω)。可以直观想象，因为L 函数有很多『突出的角』（二维情况下四个，多维情况下更多），<strong>J<del>0</del>与这些角接触的机率会远大于与L其它部位接触的机率</strong>（这是很直觉的想象，突出的角比直线的边离等值线更近写），<strong>而在这些角上，会有很多权值等于0</strong>（因为角就在坐标轴上），这就是为什么L1正则化可以产生稀疏模型，进而可以用于特征选择。<br>        而正则化前面的系数α，可以控制L图形的大小。<strong>α越大</strong>，L的图形就越小，可以小到黑色方框只超出原点范围一点点，这是最优点的值(ω1,ω2)=(0,ω)中的<strong>ω可以取到很小的值</strong>；<strong>α越小</strong>，L的图形越大（上图中的黑色方框）<strong>ω可以取到很大的值</strong></p>
+<h4 id="L2正则化不可以产生稀疏模型"><a href="#L2正则化不可以产生稀疏模型" class="headerlink" title="L2正则化不可以产生稀疏模型"></a>L2正则化不可以产生稀疏模型</h4><p>假设有如下带L2正则化的损失函数：</p>
+<img src="/2020/07/29/Ridge%20regression,%20Lasso%20regression/21.png" alt="21" style="zoom:80%;">
+
+
+
+<p>同样可以画出他们在二维平面上的图形，如下：</p>
+<p><img src="/2020/07/29/Ridge%20regression,%20Lasso%20regression/22.png" alt="22"></p>
+<p>二维平面下L2正则化的函数图形是个圆（绝对值的平方和，是个圆），与方形相比，被磨去了棱角。因此J0与L相交时使得ω^1^或ω^2^等于零的机率小了许多（这个也是一个很直观的想象），这就是为什么L2正则化不具有稀疏性的原因，因为不太可能出现多数ω都为0的情况。</p>
+<h4 id="L1正则化参数"><a href="#L1正则化参数" class="headerlink" title="L1正则化参数"></a>L1正则化参数</h4><p>通常越大的λ可以让代价函数在参数为0时取到最小值。因为正则化系数越大，正则化的函数图形（上文图中的方形或圆形）会向坐标轴原点收缩得越厉害，这个现象称为shrinkage，过程可以称为shrink to zero. 下面是一个简单的例子。</p>
+<p>假设有如下带L1正则化项的代价函数：</p>
+<p><img src="/2020/07/29/Ridge%20regression,%20Lasso%20regression/19.png" alt="19"></p>
+<p>其中x是要估计的参数，相当于上文中提到的ω以及θ. 这个例子中的正则化函数L就是L=λ∣x∣。注意到L1正则化在某些位置是不可导的，当λ足够大时可以使得F(x)在x=0时取到最小值。如下图：</p>
+<p>预测值y=x，真实值y=1， x为参数，不是自变量，只预测了一个值</p>
+<p><img src="/2020/07/29/Ridge%20regression,%20Lasso%20regression/20.png" alt="20"></p>
+<p>作为一个直观的例子，这个图的示例中，取了f(x)=(x−1)^2^作为损失函数，其实可以取更复杂的，但不好画图，不过原理是一样的，因为损失函数都是凸函数，很多性质是一样的。正则化分别取λ=0.5和λ=2，可以看到越大的λ越容易使F(x)在x=0时取到最小值。此外也可以自己计算一下，当损失函数f(x)和正则化函数L=∣x∣在定义域内第一次相交的地方，就是整个代价函数F(x)的最优解。</p>
+<h3 id="L2正则化"><a href="#L2正则化" class="headerlink" title="L2正则化"></a>L2正则化</h3><h4 id="L2正则化和过拟合的关系"><a href="#L2正则化和过拟合的关系" class="headerlink" title="L2正则化和过拟合的关系"></a>L2正则化和过拟合的关系</h4><p>拟合过程中通常都倾向于让权值尽可能小，最后构造一个所有参数都比较小的模型。因为一般认为参数值小的模型比较简单，能适应不同的数据集，也在一定程度上避免了过拟合现象。可以设想一下对于一个线性回归方程，若参数很大，那么只要数据偏移一点点，就会对结果造成很大的影响；但如果参数足够小，数据偏移得多一点也不会对结果造成什么影响，专业一点的说法是『抗扰动能力强』。</p>
+<p>那为什么L2正则化可以获得值很小的参数？<br>        以线性回归中的梯度下降法为例，使用Andrew Ng机器学习的参数表示方法。假设要求解的参数为θ，h<del>θ</del>(x)是我们的假设函数。线性回归一般使用平方差损失函数。单个样本的平方差是(h<del>θ</del>(x)−y)^2^，如果考虑所有样本，损失函数是对每个样本的平方差求和，假设有m个样本，线性回归的代价函数如下，为了后续处理方便，乘以一个常数<img src="/2020/07/29/Ridge%20regression,%20Lasso%20regression/23.png" alt="23">：</p>
+<p><img src="/2020/07/29/Ridge%20regression,%20Lasso%20regression/24.png" alt="24"></p>
+<h4 id="L2正则化参数"><a href="#L2正则化参数" class="headerlink" title="L2正则化参数"></a>L2正则化参数</h4><p>从公式5可以看到，λ越大，θ<del>j</del>衰减得越快。另一个理解可以参考图2，λ越大，L2圆的半径越小，最后求得代价函数最值时各参数也会变得很小，同样是一个shrink to zero的过程，原理与L1正则化类似。</p>
+<h2 id="岭回归"><a href="#岭回归" class="headerlink" title="岭回归"></a>岭回归</h2><p>在线性回归模型中，其参数估计公式为β=(X^T^X) ^−1^ X^T^y, 当X^T^X越趋近于0，会使得回归系数趋向于无穷大，此时得到的回归系数是无意义的。解决这类问题可以使用岭回归和LASSO回归，主要针对自变量之间存在多重共线性或者自变量个数多于样本量的情况。</p>
+<p><strong>岭回归所解决的问题：</strong></p>
+<p>（1）数据样本数比特征数少的情况，矩阵的逆不能直接计算，当求n元一次方程组时，需要有n个方程才可以求出唯一解，也            就是说最少需要n个样本。</p>
+<p>（2）即使样本数多于特征数，若特征高度相关，X^T^X的逆依然无法计算。</p>
+<p>   (3)  过拟合</p>
+<h3 id="1-参数推导"><a href="#1-参数推导" class="headerlink" title="1.参数推导"></a><strong>1</strong>.参数推导</h3><p>线性回归模型的损失函数</p>
+<p>​                        J(β) = ∑(y-Xβ)^2^</p>
+<p>为了保证回归系数β可求，岭回归模型在损失函数上加了一个<strong>L2范数</strong>的惩罚项</p>
+<p>​                        J*(*β) = ∑(y-Xβ)^2^+λ∑β^2^</p>
+<p><strong>推导过程：</strong>            </p>
+<p><img src="/2020/07/29/Ridge%20regression,%20Lasso%20regression/1.png" alt="1"></p>
+<p>L2范数惩罚项的加入使得 (X^T^X+λI) 满秩，保证了可逆，但是也由于惩罚项的加入，使得回归系数β的估计不再是无偏估计。所以岭回归是以放弃无偏性、降低精度为代价解决病态矩阵问题的回归方法。单位矩阵I的对角线上全是1，像一条山岭一样，这也是岭回归名称的由来。</p>
+<h3 id="2-λ的选择"><a href="#2-λ的选择" class="headerlink" title="2.λ的选择"></a>2.<em>λ</em>的选择</h3><img src="/2020/07/29/Ridge%20regression,%20Lasso%20regression/2.png" alt="2" style="zoom:;">
+
+<p>上图公式中平方应在括号外</p>
+<p><img src="/2020/07/29/Ridge%20regression,%20Lasso%20regression/3.png" alt="3"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> model_selection</span><br><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> Ridge</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line">data=pd.read_excel(<span class="string">r&#x27;C:\Users\Administrator\Desktop\diabetes.xlsx&#x27;</span>)</span><br><span class="line"><span class="comment">#拆分为训练集和测试集</span></span><br><span class="line">predictors=data.columns[:<span class="number">-1</span>]</span><br><span class="line">x_train,x_test,y_train,y_test=model_selection.train_test_split(data[predictors],data.Y,</span><br><span class="line">                                                               test_size=<span class="number">0.2</span>,random_state=<span class="number">1234</span>)</span><br><span class="line"><span class="comment">#构造不同的lambda值</span></span><br><span class="line">Lambdas=np.logspace(<span class="number">-5</span>,<span class="number">2</span>,<span class="number">200</span>)</span><br><span class="line"><span class="comment">#存放偏回归系数</span></span><br><span class="line">ridge_cofficients=[]</span><br><span class="line"><span class="keyword">for</span> Lambda <span class="keyword">in</span> Lambdas:</span><br><span class="line">    ridge=Ridge(alpha=Lambda,normalize=<span class="literal">True</span>)</span><br><span class="line">    ridge.fit(x_train,y_train)</span><br><span class="line">    ridge_cofficients.append(ridge.coef_)</span><br><span class="line"></span><br><span class="line"><span class="comment">#绘制岭迹曲线</span></span><br><span class="line">plt.rcParams[<span class="string">&#x27;font.sans-serif&#x27;</span>]=[<span class="string">&#x27;Microsoft YaHei&#x27;</span>]</span><br><span class="line">plt.rcParams[<span class="string">&#x27;axes.unicode_minus&#x27;</span>]=<span class="literal">False</span></span><br><span class="line">plt.style.use(<span class="string">&#x27;ggplot&#x27;</span>)</span><br><span class="line">plt.plot(Lambdas,ridge_cofficients)</span><br><span class="line"><span class="comment">#x轴做对数处理</span></span><br><span class="line">plt.xscale(<span class="string">&#x27;log&#x27;</span>)</span><br><span class="line">plt.xlabel(<span class="string">&#x27;Log(Lambda)&#x27;</span>)</span><br><span class="line">plt.ylabel(<span class="string">&#x27;Cofficients&#x27;</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/2020/07/29/Ridge%20regression,%20Lasso%20regression/ML\images\4.png" alt="4"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> model_selection</span><br><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> RidgeCV</span><br><span class="line"></span><br><span class="line">data=pd.read_excel(<span class="string">r&#x27;C:\Users\Administrator\Desktop\diabetes.xlsx&#x27;</span>)</span><br><span class="line"><span class="comment">#拆分为训练集和测试集</span></span><br><span class="line">predictors=data.columns[:<span class="number">-1</span>]</span><br><span class="line">x_train,x_test,y_train,y_test=model_selection.train_test_split(data[predictors],data.Y,</span><br><span class="line">                                                               test_size=<span class="number">0.2</span>,random_state=<span class="number">1234</span>)</span><br><span class="line"><span class="comment">#构造不同的lambda值</span></span><br><span class="line">Lambdas=np.logspace(<span class="number">-5</span>,<span class="number">2</span>,<span class="number">200</span>)</span><br><span class="line"><span class="comment">#设置交叉验证的参数，使用均方误差评估</span></span><br><span class="line">ridge_cv=RidgeCV(alphas=Lambdas,normalize=<span class="literal">True</span>,scoring=<span class="string">&#x27;neg_mean_squared_error&#x27;</span>,cv=<span class="number">10</span>)</span><br><span class="line">ridge_cv.fit(x_train,y_train)</span><br><span class="line">print(ridge_cv.alpha_)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h2 id="LASSO回归"><a href="#LASSO回归" class="headerlink" title="LASSO回归"></a>LASSO回归</h2><p><strong>用处</strong>：LASSO回归可以实现<strong>特征选择</strong>，从已有的M个特征中选择N个特征使得系统的特定指标最优化，去掉对结果没有影响的变量，是从原始特征中选择出一些最有效特征以降低数据集维度的过程,是提高学习算法性能的一个重要手段。一定程度上可以<strong>防止过拟合</strong>。</p>
+<h3 id="1-参数推导-1"><a href="#1-参数推导-1" class="headerlink" title="1.参数推导"></a>1.参数推导</h3><img src="/2020/07/29/Ridge%20regression,%20Lasso%20regression/5.png" alt="5" style="zoom:150%;">
+
+<p><img src="/2020/07/29/Ridge%20regression,%20Lasso%20regression/6.png" alt="6"></p>
+<h3 id="2-λ的选择-1"><a href="#2-λ的选择-1" class="headerlink" title="2.λ的选择"></a>2.λ的选择</h3><p>直接使用交叉验证法</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> model_selection</span><br><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LassoCV</span><br><span class="line"></span><br><span class="line">data=pd.read_excel(<span class="string">r&#x27;C:\Users\Administrator\Desktop\diabetes.xlsx&#x27;</span>)</span><br><span class="line"><span class="comment">#拆分为训练集和测试集</span></span><br><span class="line">predictors=data.columns[:<span class="number">-1</span>]</span><br><span class="line">x_train,x_test,y_train,y_test=model_selection.train_test_split(data[predictors],data.Y,</span><br><span class="line">                                                               test_size=<span class="number">0.2</span>,random_state=<span class="number">1234</span>)</span><br><span class="line"><span class="comment">#构造不同的lambda值</span></span><br><span class="line">Lambdas=np.logspace(<span class="number">-5</span>,<span class="number">2</span>,<span class="number">200</span>)</span><br><span class="line"><span class="comment">#设置交叉验证的参数，使用均方误差评估</span></span><br><span class="line">lasso_cv=LassoCV(alphas=Lambdas,normalize=<span class="literal">True</span>,cv=<span class="number">10</span>,max_iter=<span class="number">10000</span>)</span><br><span class="line">lasso_cv.fit(x_train,y_train)</span><br><span class="line">print(lasso_cv.alpha_)</span><br></pre></td></tr></table></figure>
+
+
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/07/29/%E5%B9%BF%E4%B9%89%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B/" rel="prev" title="sklearn广义线性模型">
+      <i class="fa fa-chevron-left"></i> sklearn广义线性模型
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/07/29/%E5%BD%92%E4%B8%80%E5%8C%96%EF%BC%8C%E5%8E%BB%E4%B8%AD%E5%BF%83%E5%8C%96%EF%BC%8C%E6%A0%87%E5%87%86%E5%8C%96/" rel="next" title="归一化，去中心化，标准化">
+      归一化，去中心化，标准化 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+        </div>
+        
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
+
+<!--动态线条背景-->
+<script type="text/javascript"
+color="220,220,220" opacity='1' zIndex="-2" count="200" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+</script>
 
 <!--单击显示文字-->
 <script type="text/javascript" src="/js/click_show_text.js"></script>
