@@ -245,9 +245,7 @@
 
       
         <h1 id="广义线性模型"><a href="#广义线性模型" class="headerlink" title="广义线性模型"></a>广义线性模型</h1><h2 id="普通最小二乘法"><a href="#普通最小二乘法" class="headerlink" title="普通最小二乘法"></a>普通最小二乘法</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> linear_model</span><br><span class="line"></span><br><span class="line">reg = linear_model.LinearRegression()</span><br><span class="line">reg.fit([[<span class="number">0</span>, <span class="number">0</span>], [<span class="number">1</span>, <span class="number">1</span>]], [<span class="number">0</span>, <span class="number">1</span>], [<span class="number">1</span>, <span class="number">1</span>])</span><br><span class="line"><span class="comment"># y=x+1</span></span><br><span class="line">print(reg.coef_)  <span class="comment"># 参数值</span></span><br><span class="line">print(reg.intercept_)  <span class="comment"># 截距</span></span><br><span class="line">print(reg.predict([[<span class="number">1</span>, <span class="number">2</span>], [<span class="number">2</span>, <span class="number">3</span>]]))  <span class="comment"># 想要预测的数据，放到一个列表中</span></span><br><span class="line"></span><br><span class="line">输出：</span><br><span class="line">[<span class="number">0.5</span> <span class="number">0.5</span>]</span><br><span class="line"><span class="number">5.551115123125783e-17</span></span><br><span class="line">[<span class="number">1.5</span> <span class="number">2.5</span>]</span><br></pre></td></tr></table></figure>
-
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LinearRegression(copy_X=<span class="literal">True</span>, fit_intercept=<span class="literal">True</span>, n_jobs=<span class="number">1</span>, normalize=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
-
 <ul>
 <li><p>fit_intercept：bool, default=True</p>
 <p>是否计算截距</p>
@@ -263,13 +261,10 @@
 </li>
 </ul>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fit(self, X, y, sample_weight=<span class="literal">None</span>)</span><br></pre></td></tr></table></figure>
-
 <p>X是自变量，y是每个自变量所对应的因变量，sample_weight是每个自变量的权重</p>
 <h2 id="岭回归"><a href="#岭回归" class="headerlink" title="岭回归"></a>岭回归</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> linear_model</span><br><span class="line"></span><br><span class="line">reg = linear_model.Ridge(alpha=<span class="number">.5</span>)  <span class="comment"># alpha参数大于0</span></span><br><span class="line">reg.fit([[<span class="number">0</span>, <span class="number">0</span>], [<span class="number">0</span>, <span class="number">0</span>], [<span class="number">1</span>, <span class="number">1</span>]], [<span class="number">0</span>, <span class="number">.1</span>, <span class="number">1</span>])</span><br><span class="line">print(reg.coef_, reg.intercept_, reg.predict([[<span class="number">3</span>, <span class="number">3</span>]]))</span><br></pre></td></tr></table></figure>
-
 <p>除了创建时不同，与其他线性模型一样， <a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Ridge.html#sklearn.linear_model.Ridge"><code>Ridge</code></a> 用 <code>fit</code> 方法完成拟合，并将模型系数 ω 存储在其 <code>coef_</code> 成员中。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Ridge(alpha=<span class="number">1.0</span>, fit_intercept=<span class="literal">True</span>, normalize=<span class="literal">False</span>, copy_X=<span class="literal">True</span>, max_iter=<span class="literal">None</span>, tol=<span class="number">0.001</span>, solver=<span class="string">&#x27;auto&#x27;</span>, random_state=<span class="literal">None</span>)</span><br></pre></td></tr></table></figure>
-
 <ul>
 <li><p><strong>alpha</strong>：float, ndarray of shape (n_targets), default=1.0</p>
 <p>正则化参数，传入的是正浮点数，如果有多个惩罚项则传入数组</p>
@@ -308,10 +303,8 @@
 <h5 id="设置正则化参数：广义交叉验证"><a href="#设置正则化参数：广义交叉验证" class="headerlink" title="设置正则化参数：广义交叉验证"></a>设置正则化参数：广义交叉验证</h5><p><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.RidgeCV.html#sklearn.linear_model.RidgeCV"><code>RidgeCV</code></a> 通过内置的关于的 alpha 参数的交叉验证来实现岭回归。 </p>
 <p>默认为 Generalized Cross-Validation(广义交叉验证 GCV)，这是一种有效的留一验证方法</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> linear_model</span><br><span class="line">reg = linear_model.RidgeCV(alphas=[<span class="number">0.1</span>, <span class="number">1.0</span>, <span class="number">10.0</span>])</span><br><span class="line">reg.fit([[<span class="number">0</span>, <span class="number">0</span>], [<span class="number">0</span>, <span class="number">0</span>], [<span class="number">1</span>, <span class="number">1</span>]], [<span class="number">0</span>, <span class="number">0.1</span>, <span class="number">1</span>])</span><br><span class="line">print(reg.alpha_)  <span class="comment"># 得出的正则化参数</span></span><br></pre></td></tr></table></figure>
-
 <p>指定cv属性的值将触发(通过GridSearchCV的)交叉验证。例如，cv=10将触发10折的交叉验证，而不是广义交叉验证(GCV)。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RidgeCV(alphas=(<span class="number">0.1</span>, <span class="number">1.0</span>, <span class="number">10.0</span>), fit_intercept=<span class="literal">True</span>, normalize=<span class="literal">False</span>, scoring=<span class="literal">None</span>, cv=<span class="literal">None</span>, gcv_mode=<span class="literal">None</span>, store_cv_values=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
-
 <ul>
 <li><p><strong>gcv_mode</strong>：{‘auto’, ‘svd’, eigen’}, default=’auto’</p>
 <p>指示执行通用交叉验证时使用哪种策略的标志</p>
@@ -319,10 +312,8 @@
 </ul>
 <h2 id="Lasso回归"><a href="#Lasso回归" class="headerlink" title="Lasso回归"></a>Lasso回归</h2><p><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Lasso.html#sklearn.linear_model.Lasso"><code>Lasso</code></a> 类的实现使用了 coordinate descent （坐标下降算法）来拟合系数。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> linear_model</span><br><span class="line"></span><br><span class="line">reg = linear_model.Lasso(alpha=<span class="number">0.1</span>)</span><br><span class="line">reg.fit([[<span class="number">0</span>, <span class="number">0</span>], [<span class="number">1</span>, <span class="number">1</span>]], [<span class="number">0</span>, <span class="number">1</span>])</span><br><span class="line">print(reg.predict([[<span class="number">1</span>, <span class="number">1</span>]]), reg.coef_, reg.intercept_)</span><br></pre></td></tr></table></figure>
-
 <p>对于较简单的任务，同样有用的是函数 <a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.lasso_path.html#sklearn.linear_model.lasso_path"><code>lasso_path</code></a> 。它能够通过搜索所有可能的路径上的值来计算系数。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Lasso(alpha=<span class="number">1.0</span>, *, fit_intercept=<span class="literal">True</span>, normalize=<span class="literal">False</span>, precompute=<span class="literal">False</span>, copy_X=<span class="literal">True</span>, max_iter=<span class="number">1000</span>, tol=<span class="number">0.0001</span>, warm_start=<span class="literal">False</span>, positive=<span class="literal">False</span>, random_state=<span class="literal">None</span>, selection=<span class="string">&#x27;cyclic&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
 <ul>
 <li><strong>alpha：</strong>float, optional</li>
 </ul>
@@ -487,6 +478,8 @@
 
 
 
+
+  
 
   
 
