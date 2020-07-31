@@ -47,7 +47,7 @@
 <meta property="og:image" content="http://yoursite.com/2020/07/28/%E6%AD%A3%E5%88%99%E5%8C%96%EF%BC%8CLasso%E5%9B%9E%E5%BD%92%EF%BC%8C%E5%B2%AD%E5%9B%9E%E5%BD%92/2.png">
 <meta property="og:image" content="http://yoursite.com/2020/07/28/%E6%AD%A3%E5%88%99%E5%8C%96%EF%BC%8CLasso%E5%9B%9E%E5%BD%92%EF%BC%8C%E5%B2%AD%E5%9B%9E%E5%BD%92/3.png">
 <meta property="article:published_time" content="2020-07-27T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-07-31T09:41:54.572Z">
+<meta property="article:modified_time" content="2020-07-31T09:47:08.129Z">
 <meta property="article:author" content="lyp">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/2020/07/28/%E6%AD%A3%E5%88%99%E5%8C%96%EF%BC%8CLasso%E5%9B%9E%E5%BD%92%EF%BC%8C%E5%B2%AD%E5%9B%9E%E5%BD%92/9.png">
@@ -247,7 +247,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-31 17:41:54" itemprop="dateModified" datetime="2020-07-31T17:41:54+08:00">2020-07-31</time>
+                <time title="Modified: 2020-07-31 17:47:08" itemprop="dateModified" datetime="2020-07-31T17:47:08+08:00">2020-07-31</time>
               </span>
 
           
@@ -308,7 +308,7 @@
 <h3 id="原理：-1"><a href="#原理：-1" class="headerlink" title="原理："></a>原理：</h3><h4 id="L2正则化和过拟合的关系"><a href="#L2正则化和过拟合的关系" class="headerlink" title="L2正则化和过拟合的关系"></a>L2正则化和过拟合的关系</h4><p>拟合过程中通常都倾向于让权值尽可能小，最后构造一个所有参数都比较小的模型。因为一般认为参数值小的模型比较简单，能适应不同的数据集，也在一定程度上避免了过拟合现象。可以设想一下对于一个线性回归方程，若参数很大，那么只要数据偏移一点点，就会对结果造成很大的影响；但如果参数足够小，数据偏移得多一点也不会对结果造成什么影响，专业一点的说法是『抗扰动能力强』。</p>
 <p>那为什么L2正则化可以获得值很小的参数？<br>        以线性回归中的梯度下降法为例，使用Andrew Ng机器学习的参数表示方法。假设要求解的参数为θ，$h_\boldsymbol{θ}(x)$是我们的假设函数。线性回归一般使用平方差损失函数。单个样本的平方差是$(h_\boldsymbol{θ}(x)−y)^2$，如果考虑所有样本，损失函数是对每个样本的平方差求和，假设有m个样本，线性回归的代价函数如下，为了后续处理方便，乘以一个常数<img src="/2020/07/28/%E6%AD%A3%E5%88%99%E5%8C%96%EF%BC%8CLasso%E5%9B%9E%E5%BD%92%EF%BC%8C%E5%B2%AD%E5%9B%9E%E5%BD%92/23.png" alt="23" style="zoom:80%;">：</p>
 <p><img src="/2020/07/28/%E6%AD%A3%E5%88%99%E5%8C%96%EF%BC%8CLasso%E5%9B%9E%E5%BD%92%EF%BC%8C%E5%B2%AD%E5%9B%9E%E5%BD%92/24.png" alt="24"></p>
-<h3 id="L2正则化参数"><a href="#L2正则化参数" class="headerlink" title="L2正则化参数"></a>L2正则化参数</h3><p>从公式5可以看到，λ越大，θ~j~衰减得越快。另一个理解可以参考图2，λ越大，L2圆的半径越小，最后求得代价函数最值时各参数也会变得很小，同样是一个shrink to zero的过程，原理与L1正则化类似。</p>
+<h3 id="L2正则化参数"><a href="#L2正则化参数" class="headerlink" title="L2正则化参数"></a>L2正则化参数</h3><p>从公式5可以看到，λ越大，$\pmb{θ}_j$衰减得越快。另一个理解可以参考图2，λ越大，L2圆的半径越小，最后求得代价函数最值时各参数也会变得很小，同样是一个shrink to zero的过程，原理与L1正则化类似。</p>
 <h4 id="参数推导-1"><a href="#参数推导-1" class="headerlink" title="参数推导"></a>参数推导</h4><p>线性回归模型的损失函数</p>
 <p>​                        J(β) = $∑(y-X\pmb{β})^2$</p>
 <p>为了保证回归系数β可求，岭回归模型在损失函数上加了一个<strong>L2范数</strong>的惩罚项</p>
