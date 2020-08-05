@@ -46,7 +46,7 @@
 <meta property="og:image" content="http://yoursite.com/2020/07/28/%E6%AD%A3%E5%88%99%E5%8C%96%EF%BC%8CLasso%E5%9B%9E%E5%BD%92%EF%BC%8C%E5%B2%AD%E5%9B%9E%E5%BD%92/2.png">
 <meta property="og:image" content="http://yoursite.com/2020/07/28/%E6%AD%A3%E5%88%99%E5%8C%96%EF%BC%8CLasso%E5%9B%9E%E5%BD%92%EF%BC%8C%E5%B2%AD%E5%9B%9E%E5%BD%92/3.png">
 <meta property="article:published_time" content="2020-07-27T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-08-05T03:02:03.417Z">
+<meta property="article:modified_time" content="2020-08-05T03:03:42.981Z">
 <meta property="article:author" content="lyp">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/2020/07/28/%E6%AD%A3%E5%88%99%E5%8C%96%EF%BC%8CLasso%E5%9B%9E%E5%BD%92%EF%BC%8C%E5%B2%AD%E5%9B%9E%E5%BD%92/9.png">
@@ -246,7 +246,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-08-05 11:02:03" itemprop="dateModified" datetime="2020-08-05T11:02:03+08:00">2020-08-05</time>
+                <time title="Modified: 2020-08-05 11:03:42" itemprop="dateModified" datetime="2020-08-05T11:03:42+08:00">2020-08-05</time>
               </span>
 
           
@@ -278,7 +278,7 @@
 <h2 id="L1正则化—Lasso回归"><a href="#L1正则化—Lasso回归" class="headerlink" title="L1正则化—Lasso回归"></a>L1正则化—Lasso回归</h2><h3 id="损失函数："><a href="#损失函数：" class="headerlink" title="损失函数："></a>损失函数：</h3><p><img src="/2020/07/28/%E6%AD%A3%E5%88%99%E5%8C%96%EF%BC%8CLasso%E5%9B%9E%E5%BD%92%EF%BC%8C%E5%B2%AD%E5%9B%9E%E5%BD%92/9.png" alt="9"></p>
 <h3 id="Lasso回归的功能："><a href="#Lasso回归的功能：" class="headerlink" title="Lasso回归的功能："></a>Lasso回归的功能：</h3><p>（1）LASSO回归可以实现<strong>特征选择</strong>或具有产生<strong>稀疏模型</strong>的能力，从已有的M个特征中选择N个特征使得                 系统的特定指标最优化，去掉对结果没有影响的变量，是从原始特征中选择出一些最有效特征以降                       低数据集维度的过程,是提高学习算法性能的一个重要手段。</p>
 <p>（2）一定程度上可以<strong>防止过拟合</strong>。</p>
-<h3 id="原理："><a href="#原理：" class="headerlink" title="原理："></a>原理：</h3><h4 id="稀疏模型与特征选择的关系"><a href="#稀疏模型与特征选择的关系" class="headerlink" title="稀疏模型与特征选择的关系"></a>稀疏模型与特征选择的关系</h4><p>&emsp;&emsp;上面提到L1正则化有助于生成一个稀疏权值矩阵，进而可以用于特征选择。为什么要生成一个稀疏矩阵？<br>稀疏矩阵指的是很多元素为0，只有少数元素是非零值的矩阵，即得到的线性回归模型的大部分系数都是0. 通常机器学习中特征数量很多，例如文本处理时，如果将一个词组（term）作为一个特征，那么特征数量会达到上万个（bigram）。在预测或分类时，那么多特征显然难以选择，但是如果代入这些特征得到的模型是一个稀疏模型，表示只有少数特征对这个模型有贡献，绝大部分特征是没有贡献的，或者贡献微小（因为它们前面的系数是0或者是很小的值，即使去掉对模型也没有什么影响），此时我们就可以只关注系数是非零值的特征。这就是稀疏模型与特征选择的关系。</p>
+<h3 id="原理："><a href="#原理：" class="headerlink" title="原理："></a>原理：</h3><h4 id="稀疏模型与特征选择的关系"><a href="#稀疏模型与特征选择的关系" class="headerlink" title="稀疏模型与特征选择的关系"></a>稀疏模型与特征选择的关系</h4><p>&emsp;&emsp;上面提到L1正则化有助于生成一个稀疏权值矩阵，进而可以用于特征选择。为什么要生成一个稀疏矩阵？<br>&emsp;&emsp;稀疏矩阵指的是很多元素为0，只有少数元素是非零值的矩阵，即得到的线性回归模型的大部分系数都是0. 通常机器学习中特征数量很多，例如文本处理时，如果将一个词组（term）作为一个特征，那么特征数量会达到上万个（bigram）。在预测或分类时，那么多特征显然难以选择，但是如果代入这些特征得到的模型是一个稀疏模型，表示只有少数特征对这个模型有贡献，绝大部分特征是没有贡献的，或者贡献微小（因为它们前面的系数是0或者是很小的值，即使去掉对模型也没有什么影响），此时我们就可以只关注系数是非零值的特征。这就是稀疏模型与特征选择的关系。</p>
 <h4 id="L1正则化和特征选择的关系"><a href="#L1正则化和特征选择的关系" class="headerlink" title="L1正则化和特征选择的关系"></a>L1正则化和特征选择的关系</h4><p>&emsp;&emsp;特征选择( Feature Selection )也称特征子集选择( Feature Subset Selection , FSS )，或属性选择( Attribute Selection )。是指<strong>从已有的M个特征(Feature)中选择N个特征</strong>使得系统的特定指标最优化，是从原始特征中选择出一些最有效特征以<strong>降低数据集维度</strong>的过程,是提高学习算法性能的一个重要手段</p>
 <h4 id="L1正则化正则化可以产生稀疏模型"><a href="#L1正则化正则化可以产生稀疏模型" class="headerlink" title="L1正则化正则化可以产生稀疏模型"></a>L1正则化正则化可以产生稀疏模型</h4><p>&emsp;&emsp;假设有如下带L1正则化的损失函数：</p>
 <p><img src="/2020/07/28/%E6%AD%A3%E5%88%99%E5%8C%96%EF%BC%8CLasso%E5%9B%9E%E5%BD%92%EF%BC%8C%E5%B2%AD%E5%9B%9E%E5%BD%92/14png.png" alt="14png" style="zoom:80%;"></p>
