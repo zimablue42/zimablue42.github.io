@@ -30,7 +30,7 @@
 <meta property="og:description" content="scikit-learn对于线性回归提供了比较多的类库，这些类库都可以用来做线性回归分析，本文就对这些类库的使用做一个总结，重点讲述这些线性回归算法库的不同和各自的使用场景。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-08-04T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-08-05T03:12:47.100Z">
+<meta property="article:modified_time" content="2020-08-05T08:44:20.280Z">
 <meta property="article:author" content="lyp">
 <meta name="twitter:card" content="summary">
 
@@ -161,7 +161,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-count">7</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -223,7 +223,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-08-05 00:00:00 / Modified: 11:12:47" itemprop="dateCreated datePublished" datetime="2020-08-05T00:00:00+08:00">2020-08-05</time>
+              <time title="Created: 2020-08-05 00:00:00 / Modified: 16:44:20" itemprop="dateCreated datePublished" datetime="2020-08-05T00:00:00+08:00">2020-08-05</time>
             </span>
 
           
@@ -277,7 +277,7 @@
 <h2 id="使用场景：-6"><a href="#使用场景：-6" class="headerlink" title="使用场景：　　"></a><strong>使用场景：</strong>　　</h2><p>&emsp;&emsp;LassoLarsCV类是进行Lasso回归的第二选择。第一选择是前面讲到LassoCV类。那么LassoLarsCV类有没有适用的场景呢？换句话说，用最小角回归法什么时候比坐标轴下降法好呢？场景一：如果我们想探索超参数α更多的相关值的话，由于最小角回归可以看到回归路径，此时用LassoLarsCV比较好。场景二： 如果我们的样本数远小于样本特征数的话，用LassoLarsCV也比LassoCV好。其余场景最好用LassoCV。</p>
 <h1 id="8-LassoLarsIC"><a href="#8-LassoLarsIC" class="headerlink" title="8. LassoLarsIC"></a>8. LassoLarsIC</h1><p>&emsp;&emsp;LassoLarsIC类的损失函数和损失函数的优化方法完全与LassoLarsCV类相同，区别在于验证方法。</p>
 <h2 id="验证方法：-6"><a href="#验证方法：-6" class="headerlink" title="验证方法："></a><strong>验证方法：</strong></h2><p>&emsp;&emsp;LassoLarsIC类对超参数α没有使用交叉验证，而是用 Akaike信息准则(AIC)和贝叶斯信息准则(BIC)。此时我们并不需要指定备选的α值，而是由LassoLarsIC类基于AIC和BIC自己选择。用LassoLarsIC类我们可以一轮找到超参数α，而用K折交叉验证的话，我们需要K+1轮才能找到。相比之下LassoLarsIC类寻找α更快。</p>
-<h2 id="使用场景：-7"><a href="#使用场景：-7" class="headerlink" title="使用场景："></a><strong>使用场景：</strong></h2><p>&emsp;&emsp;从验证方法可以看出，验证ααLassoLarsIC比LassoLarsCV快很多。那么是不是LassoLarsIC类一定比LassoLarsCV类好呢？ 不一定！由于使用了AIC和BIC准则，我们的数据必须满足一定的条件才能用LassoLarsIC类。这样的准则需要对解的自由度做一个适当的估计。该估计是来自大样本（渐近结果），并假设该模型是正确的（即这些数据确实是由假设的模型产生的）。当待求解的问题的条件数很差的时候（比如特征个数大于样本数量的时候），这些准则就会有崩溃的风险。所以除非我们知道数据是来自一个模型确定的大样本，并且样本数量够大，我们才能用LassoLarsIC。而实际上我们得到的数据大部分都不能满足这个要求，实际应用中我没有用到过这个看上去很美的类。</p>
+<h2 id="使用场景：-7"><a href="#使用场景：-7" class="headerlink" title="使用场景："></a><strong>使用场景：</strong></h2><p>&emsp;&emsp;从验证方法可以看出，验证时LassoLarsIC比LassoLarsCV快很多。那么是不是LassoLarsIC类一定比LassoLarsCV类好呢？ 不一定！由于使用了AIC和BIC准则，我们的数据必须满足一定的条件才能用LassoLarsIC类。这样的准则需要对解的自由度做一个适当的估计。该估计是来自大样本（渐近结果），并假设该模型是正确的（即这些数据确实是由假设的模型产生的）。当待求解的问题的条件数很差的时候（比如特征个数大于样本数量的时候），这些准则就会有崩溃的风险。所以除非我们知道数据是来自一个模型确定的大样本，并且样本数量够大，我们才能用LassoLarsIC。而实际上我们得到的数据大部分都不能满足这个要求，实际应用中我没有用到过这个看上去很美的类。</p>
 <h1 id="9-ElasticNet"><a href="#9-ElasticNet" class="headerlink" title="9.  ElasticNet"></a>9.  ElasticNet</h1><h2 id="损失函数：-3"><a href="#损失函数：-3" class="headerlink" title="损失函数："></a><strong>损失函数：</strong></h2><p>&emsp;&emsp;ElasticNet可以看做Lasso和Ridge的中庸化的产物。它也是对普通的线性回归做了正则化，但是它的损失函数既不全是L1的正则化，也不全是L2的正则化，而是用一个权重参数ρ来平衡L1和L2正则化的比重，形成了一个全新的损失函数如下：　　</p>
 <p>&emsp;&emsp;$J(\mathbf\theta) = \frac{1}{2m}(\mathbf{X\theta} - \mathbf{Y})^T(\mathbf{X\theta} - \mathbf{Y}) + \alpha\rho||\theta||_1 + \frac{\alpha(1-\rho)}{2}||\theta||_2^2$</p>
 <p>&emsp;&emsp;其中α为正则化超参数，ρ为范数权重超参数。</p>
@@ -299,6 +299,7 @@
 <h1 id="13-MultiTaskLasso"><a href="#13-MultiTaskLasso" class="headerlink" title="13.  MultiTaskLasso"></a>13.  MultiTaskLasso</h1><p>&emsp;&emsp;从这节到第16节，类里面都带有一个“MultiTask”的前缀。不过他不是编程里面的多线程，而是指多个线性回归模型共享样本特征，但是有不同的回归系数和特征输出。具体的线性回归模型是$\mathbf{Y = XW}$。其中X是m x n维度的矩阵。W为n x k维度的矩阵，Y为m x k维度的矩阵。m为样本个数，n为样本特征，而k就代表多个回归模型的个数。所谓的“MultiTask”这里其实就是指k个线性回归的模型一起去拟合。</p>
 <h2 id="损失函数：-5"><a href="#损失函数：-5" class="headerlink" title="损失函数："></a><strong>损失函数：</strong></h2><p>&emsp;&emsp;由于这里是多个线性回归一起拟合，所以损失函数和前面的都很不一样：</p>
 <p>&emsp;&emsp;$J(\mathbf{W}) = \frac{1}{2m}\mathbf{(||XW-Y||)_{Fro}^2} + \alpha||\mathbf{W}||_{21}$</p>
+<p>&emsp;&emsp;$||W||_{21} = \sum_i \sqrt{\sum_j w_{ij}^2}$</p>
 <p>&emsp;&emsp;其中， $\mathbf{(||XW-Y||)_{Fro}}$是$\mathbf{Y = XW}$的Frobenius范数。而$\mathbf{||W||_{21}}$代表W的各列的根平方和之和。</p>
 <h2 id="损失函数的优化方法：-6"><a href="#损失函数的优化方法：-6" class="headerlink" title="损失函数的优化方法：　　　"></a><strong>损失函数的优化方法：</strong>　　　</h2><p>&emsp;&emsp;MultiTaskLasso类使用坐标轴下降法来优化损失函数。</p>
 <h2 id="验证方法：-11"><a href="#验证方法：-11" class="headerlink" title="验证方法："></a><strong>验证方法：</strong></h2><p>&emsp;&emsp;MultiTaskLasso类并没有用到交叉验证之类的验证方法，和Lasso类类似。需要我们自己把数据集分成训练集和测试集，需要自己设置好超参数α。然后训练优化。</p>
@@ -337,10 +338,13 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/07/28/%E5%9D%87%E6%96%B9%E6%A0%B9%E8%AF%AF%E5%B7%AE%EF%BC%88RMSE%EF%BC%89%EF%BC%8C%E5%B9%B3%E5%9D%87%E7%BB%9D%E5%AF%B9%E8%AF%AF%E5%B7%AE(MAE)%EF%BC%8C%E6%A0%87%E5%87%86%E5%B7%AE(Standard%20Deviation)%E7%9A%84%E5%AF%B9%E6%AF%94/" rel="prev" title="均方根误差，平均绝对误差，标准差">
-      <i class="fa fa-chevron-left"></i> 均方根误差，平均绝对误差，标准差
+    <a href="/2020/07/28/scikit-learn%E5%B9%BF%E4%B9%89%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B/" rel="prev" title="scikit-learn广义线性模型">
+      <i class="fa fa-chevron-left"></i> scikit-learn广义线性模型
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2020/08/05/AIC%E5%87%86%E5%88%99%20BIC%E5%87%86%E5%88%99/" rel="next" title="AIC准则 BIC准则">
+      AIC准则 BIC准则 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     

@@ -22,21 +22,19 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Muse","version":"8.0.0-rc.4","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false};
   </script>
 
-  <meta name="description" content="均方根误差，平均绝对误差，标准差的意义与原理">
+  <meta name="description" content="人们提出许多信息准则，通过加入模型复杂度的惩罚项来避免过拟合问题，常用的两个模型选择方法为赤池信息准则（Akaike Information Criterion，AIC）和贝叶斯信息准则（Bayesian Information Criterion，BIC）。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="均方根误差，平均绝对误差，标准差">
-<meta property="og:url" content="http://yoursite.com/2020/07/28/%E5%9D%87%E6%96%B9%E6%A0%B9%E8%AF%AF%E5%B7%AE%EF%BC%88RMSE%EF%BC%89%EF%BC%8C%E5%B9%B3%E5%9D%87%E7%BB%9D%E5%AF%B9%E8%AF%AF%E5%B7%AE(MAE)%EF%BC%8C%E6%A0%87%E5%87%86%E5%B7%AE(Standard%20Deviation)%E7%9A%84%E5%AF%B9%E6%AF%94/index.html">
+<meta property="og:title" content="AIC准则 BIC准则">
+<meta property="og:url" content="http://yoursite.com/2020/08/05/AIC%E5%87%86%E5%88%99%20BIC%E5%87%86%E5%88%99/index.html">
 <meta property="og:site_name" content="Zima Blue&#39;s blog">
-<meta property="og:description" content="均方根误差，平均绝对误差，标准差的意义与原理">
+<meta property="og:description" content="人们提出许多信息准则，通过加入模型复杂度的惩罚项来避免过拟合问题，常用的两个模型选择方法为赤池信息准则（Akaike Information Criterion，AIC）和贝叶斯信息准则（Bayesian Information Criterion，BIC）。">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://yoursite.com/2020/07/28/%E5%9D%87%E6%96%B9%E6%A0%B9%E8%AF%AF%E5%B7%AE%EF%BC%88RMSE%EF%BC%89%EF%BC%8C%E5%B9%B3%E5%9D%87%E7%BB%9D%E5%AF%B9%E8%AF%AF%E5%B7%AE(MAE)%EF%BC%8C%E6%A0%87%E5%87%86%E5%B7%AE(Standard%20Deviation)%E7%9A%84%E5%AF%B9%E6%AF%94/25.jpg">
-<meta property="article:published_time" content="2020-07-27T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-07-30T04:40:32.221Z">
+<meta property="article:published_time" content="2020-08-04T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-08-05T06:34:23.315Z">
 <meta property="article:author" content="lyp">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/2020/07/28/%E5%9D%87%E6%96%B9%E6%A0%B9%E8%AF%AF%E5%B7%AE%EF%BC%88RMSE%EF%BC%89%EF%BC%8C%E5%B9%B3%E5%9D%87%E7%BB%9D%E5%AF%B9%E8%AF%AF%E5%B7%AE(MAE)%EF%BC%8C%E6%A0%87%E5%87%86%E5%B7%AE(Standard%20Deviation)%E7%9A%84%E5%AF%B9%E6%AF%94/25.jpg">
 
-<link rel="canonical" href="http://yoursite.com/2020/07/28/%E5%9D%87%E6%96%B9%E6%A0%B9%E8%AF%AF%E5%B7%AE%EF%BC%88RMSE%EF%BC%89%EF%BC%8C%E5%B9%B3%E5%9D%87%E7%BB%9D%E5%AF%B9%E8%AF%AF%E5%B7%AE(MAE)%EF%BC%8C%E6%A0%87%E5%87%86%E5%B7%AE(Standard%20Deviation)%E7%9A%84%E5%AF%B9%E6%AF%94/">
+<link rel="canonical" href="http://yoursite.com/2020/08/05/AIC%E5%87%86%E5%88%99%20BIC%E5%87%86%E5%88%99/">
 
 
 <script class="page-configurations">
@@ -49,7 +47,7 @@
   };
 </script>
 
-  <title>均方根误差，平均绝对误差，标准差 | Zima Blue's blog</title>
+  <title>AIC准则 BIC准则 | Zima Blue's blog</title>
   
 
 
@@ -150,7 +148,7 @@
 
       <!--noindex-->
       <section class="post-toc-wrap sidebar-panel">
-          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9D%87%E6%96%B9%E6%A0%B9%E8%AF%AF%E5%B7%AE%EF%BC%8C%E5%B9%B3%E5%9D%87%E7%BB%9D%E5%AF%B9%E8%AF%AF%E5%B7%AE%EF%BC%8C%E6%A0%87%E5%87%86%E5%B7%AE"><span class="nav-number">1.</span> <span class="nav-text">均方根误差，平均绝对误差，标准差</span></a></li></ol></div>
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#AIC"><span class="nav-number">1.</span> <span class="nav-text">AIC</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#BIC"><span class="nav-number">2.</span> <span class="nav-text">BIC</span></a></li></ol></div>
       </section>
       <!--/noindex-->
 
@@ -201,7 +199,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/28/%E5%9D%87%E6%96%B9%E6%A0%B9%E8%AF%AF%E5%B7%AE%EF%BC%88RMSE%EF%BC%89%EF%BC%8C%E5%B9%B3%E5%9D%87%E7%BB%9D%E5%AF%B9%E8%AF%AF%E5%B7%AE(MAE)%EF%BC%8C%E6%A0%87%E5%87%86%E5%B7%AE(Standard%20Deviation)%E7%9A%84%E5%AF%B9%E6%AF%94/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/05/AIC%E5%87%86%E5%88%99%20BIC%E5%87%86%E5%88%99/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -214,7 +212,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          均方根误差，平均绝对误差，标准差
+          AIC准则 BIC准则
         </h1>
 
         <div class="post-meta">
@@ -223,19 +221,13 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
+              
 
-              <time title="Created: 2020-07-28 00:00:00" itemprop="dateCreated datePublished" datetime="2020-07-28T00:00:00+08:00">2020-07-28</time>
+              <time title="Created: 2020-08-05 00:00:00 / Modified: 14:34:23" itemprop="dateCreated datePublished" datetime="2020-08-05T00:00:00+08:00">2020-08-05</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-30 12:40:32" itemprop="dateModified" datetime="2020-07-30T12:40:32+08:00">2020-07-30</time>
-              </span>
 
           
-            <div class="post-description">均方根误差，平均绝对误差，标准差的意义与原理</div>
+            <div class="post-description">人们提出许多信息准则，通过加入模型复杂度的惩罚项来避免过拟合问题，常用的两个模型选择方法为赤池信息准则（Akaike Information Criterion，AIC）和贝叶斯信息准则（Bayesian Information Criterion，BIC）。</div>
 
         </div>
       </header>
@@ -246,33 +238,19 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="均方根误差，平均绝对误差，标准差"><a href="#均方根误差，平均绝对误差，标准差" class="headerlink" title="均方根误差，平均绝对误差，标准差"></a>均方根误差，平均绝对误差，标准差</h1><p><strong>RMSE</strong></p>
-<ul>
-<li><p>Root Mean Square Error,均方根误差</p>
-</li>
-<li><p>是观测值与真值偏差的平方和与观测次数m比值的平方根。</p>
-</li>
-<li><p>是用来衡量观测值同真值之间的偏差</p>
-</li>
-</ul>
-<p><strong>MAE</strong></p>
-<ul>
-<li>Mean Absolute Error ，平均绝对误差</li>
-<li>是绝对误差的平均值</li>
-<li>能更好地反映预测值误差的实际情况.</li>
-</ul>
-<p><strong>标准差</strong></p>
-<ul>
-<li><p>Standard Deviation ，标准差</p>
-</li>
-<li><p>是方差的算数平方根</p>
-</li>
-<li><p>是用来衡量一组数自身的离散程度</p>
-</li>
-</ul>
-<p><img src="/2020/07/28/%E5%9D%87%E6%96%B9%E6%A0%B9%E8%AF%AF%E5%B7%AE%EF%BC%88RMSE%EF%BC%89%EF%BC%8C%E5%B9%B3%E5%9D%87%E7%BB%9D%E5%AF%B9%E8%AF%AF%E5%B7%AE(MAE)%EF%BC%8C%E6%A0%87%E5%87%86%E5%B7%AE(Standard%20Deviation)%E7%9A%84%E5%AF%B9%E6%AF%94/25.jpg" alt="25" style="zoom:120%;"></p>
-<p><strong>RMSE与标准差对比</strong>：标准差是用来衡量一组数自身的离散程度，而均方根误差是用来衡量观测值同真值之间的偏差，它们的研究对象和研究目的不同，但是计算过程类似。</p>
-<p><strong>RMSE与MAE对比</strong>：RMSE相当于L2范数，MAE相当于L1范数。次数越高，计算结果就越与较大的值有关，而忽略较小的值，所以这就是为什么RMSE针对异常值更敏感的原因（即有一个预测值与真实值相差很大，那么RMSE就会很大）。</p>
+        <p>很多参数估计问题均采用似然函数作为目标函数，当训练数据足够多时，可以不断提高模型精度，但是是以提高模型复杂度为代价的，同时带来一个机器学习中非常普遍的问题——过拟合。所以，模型选择问题是在模型复杂度与模型对数据集描述能力（即似然函数）之间寻求最佳平衡。</p>
+<p>人们提出许多信息准则，通过加入模型复杂度的惩罚项来避免过拟合问题，常用的两个模型选择方法为赤池信息准则（Akaike Information Criterion，AIC）和贝叶斯信息准则（Bayesian Information Criterion，BIC）。</p>
+<h1 id="AIC"><a href="#AIC" class="headerlink" title="AIC"></a>AIC</h1><p>AIC是衡量统计模型拟合优良性的一种标准，由日本统计学家赤池弘次在1974年提出，它建立在熵的概念上，提供了权衡估计模型复杂度和拟合数据优良性的标准。</p>
+<p>通常情况下，它是拟合精度和参数未知个数的加权函数，AIC定义为：</p>
+<p>$AIC = 2K-2ln(L)$</p>
+<p>其中<strong>k</strong>是模型中<strong>未知参数个数</strong>，<strong>L</strong>是模型中<strong>极大似然函数值</strong>。从一组可供选择的模型中选择最佳模型时，通常<strong>选择AIC最小的模型</strong>。</p>
+<p>让n为观察数，RSS为剩余平方和，那么AIC变为：</p>
+<p>$AIC=2k+nIn(RSS/n)$</p>
+<p>一般而言，当模型复杂度提高（<em>k</em>增大）时，似然函数<em>L</em>也会增大，从而使AIC变小，但是<em>k</em>过大时，似然函数增速减缓，导致AIC增大，模型过于复杂容易造成过拟合现象。目标是选取AIC最小的模型，AIC不仅要提高模型拟合度（极大似然），而且引入了惩罚项，使模型参数尽可能少，有助于<strong>降低过拟合</strong>的可能性。</p>
+<h1 id="BIC"><a href="#BIC" class="headerlink" title="BIC"></a>BIC</h1><p>BIC（Bayesian InformationCriterion）贝叶斯信息准则与AIC相似，用于模型选择，1978年由Schwarz提出。训练模型时，增加参数数量，也就是增加模型复杂度，会增大似然函数，但是也会导致过拟合现象，针对该问题，AIC和BIC均引入了与模型参数个数相关的惩罚项，BIC的惩罚项比AIC的大，考虑了样本数量，样本数量过多时，可有效防止模型精度过高造成的模型复杂度过高。BIC与AIC一样都是<strong>越小越好</strong>。</p>
+<p>$BIC=kln(n)-2ln(L)$</p>
+<p>其中，<em>k</em>为模型参数个数，<em>n</em>为样本数量，<em>L</em>为似然函数。<em>k</em>ln(<em>n</em>)惩罚项在维数过大且训练样本数据相对较少的情况下，可以有效避免出现维度灾难现象。</p>
+<p><strong>维度灾难</strong>：分类器的性能随着特征个数的变化不断增加，过了某一个值后，性能不升反降。这种现象称为“维数灾难”。</p>
 
     </div>
 
@@ -288,13 +266,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/07/28/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E4%B8%8E%E5%9D%90%E6%A0%87%E4%B8%8B%E9%99%8D%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/" rel="prev" title="梯度下降与坐标下降优化方法">
-      <i class="fa fa-chevron-left"></i> 梯度下降与坐标下降优化方法
+    <a href="/2020/08/05/scikit-learn%20%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92%E7%AE%97%E6%B3%95%E5%BA%93%E5%B0%8F%E7%BB%93/" rel="prev" title="scikit-learn 线性回归算法库小结">
+      <i class="fa fa-chevron-left"></i> scikit-learn 线性回归算法库小结
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/07/28/scikit-learn%E5%B9%BF%E4%B9%89%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B/" rel="next" title="scikit-learn广义线性模型">
-      scikit-learn广义线性模型 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -397,6 +372,59 @@
   
 
   
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      const script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 
