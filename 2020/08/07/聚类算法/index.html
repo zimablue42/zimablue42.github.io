@@ -22,19 +22,21 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Muse","version":"8.0.0-rc.4","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false};
   </script>
 
-  <meta name="description" content="人们提出许多信息准则，通过加入模型复杂度的惩罚项来避免过拟合问题，常用的两个模型选择方法为赤池信息准则（Akaike Information Criterion，AIC）和贝叶斯信息准则（Bayesian Information Criterion，BIC）。">
+  <meta name="description" content="K-Means，均值漂移算法">
 <meta property="og:type" content="article">
-<meta property="og:title" content="AIC准则 BIC准则">
-<meta property="og:url" content="http://yoursite.com/2020/08/05/AIC%E5%87%86%E5%88%99%20BIC%E5%87%86%E5%88%99/index.html">
+<meta property="og:title" content="聚类算法">
+<meta property="og:url" content="http://yoursite.com/2020/08/07/%E8%81%9A%E7%B1%BB%E7%AE%97%E6%B3%95/index.html">
 <meta property="og:site_name" content="Zima Blue&#39;s blog">
-<meta property="og:description" content="人们提出许多信息准则，通过加入模型复杂度的惩罚项来避免过拟合问题，常用的两个模型选择方法为赤池信息准则（Akaike Information Criterion，AIC）和贝叶斯信息准则（Bayesian Information Criterion，BIC）。">
+<meta property="og:description" content="K-Means，均值漂移算法">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-08-04T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-08-05T11:04:12.214Z">
+<meta property="og:image" content="http://yoursite.com/2020/08/07/%E8%81%9A%E7%B1%BB%E7%AE%97%E6%B3%95/1.png">
+<meta property="article:published_time" content="2020-08-06T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-08-07T07:33:58.125Z">
 <meta property="article:author" content="lyp">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2020/08/07/%E8%81%9A%E7%B1%BB%E7%AE%97%E6%B3%95/1.png">
 
-<link rel="canonical" href="http://yoursite.com/2020/08/05/AIC%E5%87%86%E5%88%99%20BIC%E5%87%86%E5%88%99/">
+<link rel="canonical" href="http://yoursite.com/2020/08/07/%E8%81%9A%E7%B1%BB%E7%AE%97%E6%B3%95/">
 
 
 <script class="page-configurations">
@@ -47,7 +49,7 @@
   };
 </script>
 
-  <title>AIC准则 BIC准则 | Zima Blue's blog</title>
+  <title>聚类算法 | Zima Blue's blog</title>
   
 
 
@@ -148,7 +150,7 @@
 
       <!--noindex-->
       <section class="post-toc-wrap sidebar-panel">
-          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#AIC"><span class="nav-number">1.</span> <span class="nav-text">AIC</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#BIC"><span class="nav-number">2.</span> <span class="nav-text">BIC</span></a></li></ol></div>
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%81%9A%E7%B1%BB%E7%AE%97%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">聚类算法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#K-Means"><span class="nav-number">1.1.</span> <span class="nav-text">K-Means</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9D%87%E5%80%BC%E6%BC%82%E7%A7%BB%E7%AE%97%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">均值漂移算法</span></a></li></ol></li></ol></div>
       </section>
       <!--/noindex-->
 
@@ -199,7 +201,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/05/AIC%E5%87%86%E5%88%99%20BIC%E5%87%86%E5%88%99/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/07/%E8%81%9A%E7%B1%BB%E7%AE%97%E6%B3%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -212,7 +214,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          AIC准则 BIC准则
+          聚类算法
         </h1>
 
         <div class="post-meta">
@@ -223,11 +225,11 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-08-05 00:00:00 / Modified: 19:04:12" itemprop="dateCreated datePublished" datetime="2020-08-05T00:00:00+08:00">2020-08-05</time>
+              <time title="Created: 2020-08-07 00:00:00 / Modified: 15:33:58" itemprop="dateCreated datePublished" datetime="2020-08-07T00:00:00+08:00">2020-08-07</time>
             </span>
 
           
-            <div class="post-description">人们提出许多信息准则，通过加入模型复杂度的惩罚项来避免过拟合问题，常用的两个模型选择方法为赤池信息准则（Akaike Information Criterion，AIC）和贝叶斯信息准则（Bayesian Information Criterion，BIC）。</div>
+            <div class="post-description">K-Means，均值漂移算法</div>
 
         </div>
       </header>
@@ -238,19 +240,34 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>&emsp;&emsp;很多参数估计问题均采用似然函数作为目标函数，当训练数据足够多时，可以不断提高模型精度，但是是以提高模型复杂度为代价的，同时带来一个机器学习中非常普遍的问题——过拟合。所以，模型选择问题是在模型复杂度与模型对数据集描述能力（即似然函数）之间寻求最佳平衡。</p>
-<p>&emsp;&emsp;人们提出许多信息准则，通过加入模型复杂度的惩罚项来避免过拟合问题，常用的两个模型选择方法为赤池信息准则（Akaike Information Criterion，AIC）和贝叶斯信息准则（Bayesian Information Criterion，BIC）。</p>
-<h1 id="AIC"><a href="#AIC" class="headerlink" title="AIC"></a>AIC</h1><p>&emsp;&emsp;AIC是衡量统计模型拟合优良性的一种标准，由日本统计学家赤池弘次在1974年提出，它建立在熵的概念上，提供了权衡估计模型复杂度和拟合数据优良性的标准。</p>
-<p>&emsp;&emsp;通常情况下，它是拟合精度和参数未知个数的加权函数，AIC定义为：</p>
-<p>&emsp;&emsp;$AIC = 2K-2ln(L)$</p>
-<p>&emsp;&emsp;其中<strong>k</strong>是模型中<strong>未知参数个数</strong>，<strong>L</strong>是模型中<strong>极大似然函数值</strong>。从一组可供选择的模型中选择最佳模型时，通常<strong>选择AIC最小的模型</strong>。</p>
-<p>&emsp;&emsp;让n为观察数，RSS为剩余平方和，那么AIC变为：</p>
-<p>&emsp;&emsp;$AIC=2k+nIn(RSS/n)$</p>
-<p>&emsp;&emsp;一般而言，当模型复杂度提高（<em>k</em>增大）时，似然函数<em>L</em>也会增大，从而使AIC变小，但是<em>k</em>过大时，似然函数增速减缓，导致AIC增大，模型过于复杂容易造成过拟合现象。目标是选取AIC最小的模型，AIC不仅要提高模型拟合度（极大似然），而且引入了惩罚项，使模型参数尽可能少，有助于<strong>降低过拟合</strong>的可能性。</p>
-<h1 id="BIC"><a href="#BIC" class="headerlink" title="BIC"></a>BIC</h1><p>&emsp;&emsp;BIC（Bayesian InformationCriterion）贝叶斯信息准则与AIC相似，用于模型选择，1978年由Schwarz提出。训练模型时，增加参数数量，也就是增加模型复杂度，会增大似然函数，但是也会导致过拟合现象，针对该问题，AIC和BIC均引入了与模型参数个数相关的惩罚项，BIC的惩罚项比AIC的大，考虑了样本数量，样本数量过多时，可有效防止模型精度过高造成的模型复杂度过高。BIC与AIC一样都是<strong>越小越好</strong>。</p>
-<p>&emsp;&emsp;$BIC=kln(n)-2ln(L)$</p>
-<p>&emsp;&emsp;其中，<em>k</em>为模型参数个数，<em>n</em>为样本数量，<em>L</em>为似然函数。<em>k</em>ln(<em>n</em>)惩罚项在维数过大且训练样本数据相对较少的情况下，可以有效避免出现维度灾难现象。</p>
-<p>&emsp;&emsp;<strong>维度灾难</strong>：分类器的性能随着特征个数的变化不断增加，过了某一个值后，性能不升反降。这种现象称为“维数灾难”。</p>
+        <h1 id="聚类算法"><a href="#聚类算法" class="headerlink" title="聚类算法"></a>聚类算法</h1><h2 id="K-Means"><a href="#K-Means" class="headerlink" title="K-Means"></a>K-Means</h2><p>&emsp;&emsp;<strong>K值</strong>：要得到的簇的个数</p>
+<p>&emsp;&emsp;<strong>质心</strong>：每个簇的<strong>均值向量</strong>，即向量各维取平均即可</p>
+<p>&emsp;&emsp;<strong>距离量度</strong>：常用欧几里得距离和余弦相似度（先标准化）</p>
+<p>&emsp;&emsp;<strong>均值向量</strong>：随机向量的数学期望，随机向量是指多个随机变量的有序数组，每一个分量的数学期望所构成的向量就是均值向量.</p>
+<p>&emsp;&emsp;<strong>算法流程：</strong></p>
+<p>1、首先确定一个k值，即我们希望将数据集经过聚类得到k个集合。</p>
+<p>2、从数据集中随机选择k个数据点作为质心。</p>
+<p>3、对数据集中每一个点，计算其与每一个质心的距离（如欧式距离），离哪个质心近，就划分到那个&emsp;&emsp;&emsp; &emsp; 质心所属的集合。</p>
+<p>4、把所有数据归好集合后，一共有k个集合。然后重新计算每个集合的质心。</p>
+<p>5、如果新计算出来的质心和原来的质心之间的距离小于某一个设置的阈值（表示重新计算的质心的位&emsp;&emsp;&emsp;  &emsp;置变化不大，趋于稳定，或者说收敛），我们可以认为聚类已经达到期望的结果，算法终止。</p>
+<p>6、如果新质心和原质心距离变化很大，需要迭代3~5步骤。</p>
+<p><strong>优点：</strong><br>&emsp;&emsp;速度快，计算简便</p>
+<p><strong>缺点：</strong><br>&emsp;&emsp;我们必须提前知道数据有多少类/组。K-Medians是K-Means的一种变体，是用数据集的中位数而不是&emsp;&emsp;&emsp;均值来计算数据的中心点。K-Medians的优势是使用中位数来计算中心点不受异常值的影响；缺点是计&emsp;&emsp;&emsp;算中位数时需要对数据集中的数据进行排序，速度相对于K-Means较慢。</p>
+<h2 id="均值漂移算法"><a href="#均值漂移算法" class="headerlink" title="均值漂移算法"></a>均值漂移算法</h2><p>&emsp;&emsp;均值漂移算法的应用非常广泛，比如在聚类，图像分割，目标跟踪等领域，其运算步骤往往包含有如下几个步骤：</p>
+<p>1，在数据点中随机选择一个点作为初始中心点。</p>
+<p>2，找出离该中心点距离在带宽之内的所有点，记做集合M，认为这些点属于簇C.</p>
+<p>3，计算从中心点开始到集合M中每个元素的向量，将这些向量相加，得到偏移向量。</p>
+<p>4，将该中心点沿着偏移的方向移动，移动距离就是该偏移向量的模。</p>
+<p>5，重复上述步骤2,3,4，直到偏移向量的大小满足设定的阈值要求，记住此时的中心点。</p>
+<p>6，重复上述1,2,3，4，5直到所有的点都被归类。</p>
+<p>7，分类：根据每个类，对每个点的访问频率，取访问频率最大的那个类，作为当前点集的所属类。</p>
+<p><strong>偏移方向及距离</strong></p>
+<p><img src="/2020/08/07/%E8%81%9A%E7%B1%BB%E7%AE%97%E6%B3%95/1.png" alt="1"></p>
+<p>M(x)就是偏移向量，模即距离。</p>
+<p><strong>优点：</strong></p>
+<p>&emsp;&emsp;（1）不同于K-Means算法，均值漂移聚类算法不需要我们知道有多少类/组。<br>&emsp;&emsp;（2）基于密度的算法相比于K-Means受均值影响较小。</p>
+<p><strong>缺点：</strong></p>
+<p>&emsp;&emsp;（1）窗口半径r的选择可能是不重要的。</p>
 
     </div>
 
@@ -266,12 +283,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/08/05/scikit-learn%20%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92%E7%AE%97%E6%B3%95%E5%BA%93%E5%B0%8F%E7%BB%93/" rel="prev" title="scikit-learn 线性回归算法库小结">
-      <i class="fa fa-chevron-left"></i> scikit-learn 线性回归算法库小结
+    <a href="/2020/08/05/AIC%E5%87%86%E5%88%99%20BIC%E5%87%86%E5%88%99/" rel="prev" title="AIC准则 BIC准则">
+      <i class="fa fa-chevron-left"></i> AIC准则 BIC准则
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/08/07/%E8%81%9A%E7%B1%BB%E7%AE%97%E6%B3%95/" rel="next" title="聚类算法">
-      聚类算法 <i class="fa fa-chevron-right"></i>
+    <a href="/2020/08/07/%E6%A0%B8%E5%87%BD%E6%95%B0/" rel="next" title="核函数">
+      核函数 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
