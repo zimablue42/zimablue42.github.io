@@ -30,7 +30,7 @@
 <meta property="og:description" content="普通最小二乘法,岭回归,Lasso,多任务 Lasso,弹性网络,多任务弹性网络,LARS Lasso,正交匹配追踪法,贝叶斯回归,贝叶斯岭回归,logistic 回归,Huber 回归,多项式回归：用基函数展开线性模型">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-07-27T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-08-05T09:03:30.471Z">
+<meta property="article:modified_time" content="2020-08-08T08:38:59.295Z">
 <meta property="article:author" content="lyp">
 <meta name="twitter:card" content="summary">
 
@@ -148,7 +148,7 @@
 
       <!--noindex-->
       <section class="post-toc-wrap sidebar-panel">
-          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B9%BF%E4%B9%89%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.</span> <span class="nav-text">广义线性模型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%99%AE%E9%80%9A%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%B3%95"><span class="nav-number">1.1.</span> <span class="nav-text">普通最小二乘法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B2%AD%E5%9B%9E%E5%BD%92"><span class="nav-number">1.2.</span> <span class="nav-text">岭回归</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B2%AD%E5%9B%9E%E5%BD%92%E6%89%80%E8%A7%A3%E5%86%B3%E7%9A%84%E9%97%AE%E9%A2%98%EF%BC%9A"><span class="nav-number">1.2.1.</span> <span class="nav-text">岭回归所解决的问题：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E6%AD%A3%E5%88%99%E5%8C%96%E5%8F%82%E6%95%B0%EF%BC%9A%E5%B9%BF%E4%B9%89%E4%BA%A4%E5%8F%89%E9%AA%8C%E8%AF%81"><span class="nav-number">1.2.2.</span> <span class="nav-text">设置正则化参数：广义交叉验证</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Lasso%E5%9B%9E%E5%BD%92"><span class="nav-number">1.3.</span> <span class="nav-text">Lasso回归</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Lasso%E5%9B%9E%E5%BD%92%E5%8A%9F%E8%83%BD%EF%BC%9A"><span class="nav-number">1.3.1.</span> <span class="nav-text">Lasso回归功能：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E6%AD%A3%E5%88%99%E5%8C%96%E5%8F%82%E6%95%B0"><span class="nav-number">1.3.2.</span> <span class="nav-text">设置正则化参数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E4%BF%A1%E6%81%AF%E6%A0%87%E5%87%86%E7%9A%84%E6%A8%A1%E5%9E%8B%E9%80%89%E6%8B%A9"><span class="nav-number">1.4.</span> <span class="nav-text">基于信息标准的模型选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E4%BB%BB%E5%8A%A1-Lasso"><span class="nav-number">1.5.</span> <span class="nav-text">多任务 Lasso</span></a></li></ol></li></ol></div>
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B9%BF%E4%B9%89%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.</span> <span class="nav-text">广义线性模型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%99%AE%E9%80%9A%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%B3%95"><span class="nav-number">1.1.</span> <span class="nav-text">普通最小二乘法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B2%AD%E5%9B%9E%E5%BD%92"><span class="nav-number">1.2.</span> <span class="nav-text">岭回归</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B2%AD%E5%9B%9E%E5%BD%92%E6%89%80%E8%A7%A3%E5%86%B3%E7%9A%84%E9%97%AE%E9%A2%98%EF%BC%9A"><span class="nav-number">1.2.1.</span> <span class="nav-text">岭回归所解决的问题：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E6%AD%A3%E5%88%99%E5%8C%96%E5%8F%82%E6%95%B0%EF%BC%9A%E5%B9%BF%E4%B9%89%E4%BA%A4%E5%8F%89%E9%AA%8C%E8%AF%81"><span class="nav-number">1.2.2.</span> <span class="nav-text">设置正则化参数：广义交叉验证</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Lasso%E5%9B%9E%E5%BD%92"><span class="nav-number">1.3.</span> <span class="nav-text">Lasso回归</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Lasso%E5%9B%9E%E5%BD%92%E5%8A%9F%E8%83%BD%EF%BC%9A"><span class="nav-number">1.3.1.</span> <span class="nav-text">Lasso回归功能：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E6%AD%A3%E5%88%99%E5%8C%96%E5%8F%82%E6%95%B0"><span class="nav-number">1.3.2.</span> <span class="nav-text">设置正则化参数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E4%BF%A1%E6%81%AF%E6%A0%87%E5%87%86%E7%9A%84%E6%A8%A1%E5%9E%8B%E9%80%89%E6%8B%A9"><span class="nav-number">1.4.</span> <span class="nav-text">基于信息标准的模型选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E4%BB%BB%E5%8A%A1-Lasso"><span class="nav-number">1.5.</span> <span class="nav-text">多任务 Lasso</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%B9%E6%80%A7%E7%BD%91%E7%BB%9C"><span class="nav-number">1.6.</span> <span class="nav-text">弹性网络</span></a></li></ol></li></ol></div>
       </section>
       <!--/noindex-->
 
@@ -229,7 +229,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-08-05 17:03:30" itemprop="dateModified" datetime="2020-08-05T17:03:30+08:00">2020-08-05</time>
+                <time title="Modified: 2020-08-08 16:38:59" itemprop="dateModified" datetime="2020-08-08T16:38:59+08:00">2020-08-08</time>
               </span>
 
           
@@ -412,6 +412,9 @@
 <p>验证的速度要快于CV，但是样本数要多于特征数。</p>
 <h2 id="多任务-Lasso"><a href="#多任务-Lasso" class="headerlink" title="多任务 Lasso"></a>多任务 Lasso</h2><p>指多个线性回归模型共享样本特征，但是有不同的回归系数和特征输出。具体的线性回归模型是$\mathbf{Y = XW}$。其中X是m x n维度的矩阵。W为n x k维度的矩阵，Y为m x k维度的矩阵。m为样本个数，n为样本特征，而k就代表多个回归模型的个数。所谓的“MultiTask”这里其实就是指k个线性回归的模型一起去拟合。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sklearn.linear_model.MultiTaskLasso(alpha=<span class="number">1.0</span>, fit_intercept=<span class="literal">True</span>, normalize=<span class="literal">False</span>, copy_X=<span class="literal">True</span>, max_iter=<span class="number">1000</span>, tol=<span class="number">0.0001</span>, warm_start=<span class="literal">False</span>, random_state=<span class="literal">None</span>, selection=<span class="string">&#x27;cyclic&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="弹性网络"><a href="#弹性网络" class="headerlink" title="弹性网络"></a>弹性网络</h2><p>弹性网络是一种使用 L1， L2 范数作为先验正则项训练的线性回归模型。 </p>
+<p>最小化的目标函数是</p>
+<p>$\mathbf{min\frac{1}{2n_{samples}}||Xω-y||_2^2+αρ||ω||_1+\frac{α(1-ρ)}{2}||ω||_2^2}$</p>
 
     </div>
 
@@ -431,8 +434,8 @@
       <i class="fa fa-chevron-left"></i> 均方根误差，平均绝对误差，标准差
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/07/28/%E5%BD%92%E4%B8%80%E5%8C%96%EF%BC%8C%E5%8E%BB%E4%B8%AD%E5%BF%83%E5%8C%96%EF%BC%8C%E6%A0%87%E5%87%86%E5%8C%96/" rel="next" title="归一化，去中心化，标准化">
-      归一化，去中心化，标准化 <i class="fa fa-chevron-right"></i>
+    <a href="/2020/08/05/scikit-learn%20%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92%E7%AE%97%E6%B3%95%E5%BA%93%E5%B0%8F%E7%BB%93/" rel="next" title="scikit-learn 线性回归算法库小结">
+      scikit-learn 线性回归算法库小结 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -536,6 +539,59 @@
   
 
   
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      const script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 
