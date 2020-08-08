@@ -30,7 +30,7 @@
 <meta property="og:description" content="普通最小二乘法,岭回归,Lasso,多任务 Lasso,弹性网络,多任务弹性网络,LARS Lasso,正交匹配追踪法,贝叶斯回归,贝叶斯岭回归,logistic 回归,Huber 回归,多项式回归：用基函数展开线性模型">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-07-27T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-08-08T08:38:59.295Z">
+<meta property="article:modified_time" content="2020-08-08T09:36:38.020Z">
 <meta property="article:author" content="lyp">
 <meta name="twitter:card" content="summary">
 
@@ -229,7 +229,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-08-08 16:38:59" itemprop="dateModified" datetime="2020-08-08T16:38:59+08:00">2020-08-08</time>
+                <time title="Modified: 2020-08-08 17:36:38" itemprop="dateModified" datetime="2020-08-08T17:36:38+08:00">2020-08-08</time>
               </span>
 
           
@@ -415,6 +415,12 @@
 <h2 id="弹性网络"><a href="#弹性网络" class="headerlink" title="弹性网络"></a>弹性网络</h2><p>弹性网络是一种使用 L1， L2 范数作为先验正则项训练的线性回归模型。 </p>
 <p>最小化的目标函数是</p>
 <p>$\mathbf{min\frac{1}{2n_{samples}}||Xω-y||_2^2+αρ||ω||_1+\frac{α(1-ρ)}{2}||ω||_2^2}$</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sklearn.linear_model.ElasticNetCV(l1_ratio=<span class="number">0.5</span>, eps=<span class="number">0.001</span>, n_alphas=<span class="number">100</span>, alphas=<span class="literal">None</span>, fit_intercept=<span class="literal">True</span>, normalize=<span class="literal">False</span>, precompute=<span class="string">&#x27;auto&#x27;</span>, max_iter=<span class="number">1000</span>, tol=<span class="number">0.0001</span>, cv=<span class="literal">None</span>, copy_X=<span class="literal">True</span>, verbose=<span class="number">0</span>, n_jobs=<span class="literal">None</span>, positive=<span class="literal">False</span>, random_state=<span class="literal">None</span>, selection=<span class="string">&#x27;cyclic&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p><strong>l1_ratio</strong>：float or list of float, default=0.5</p>
+<p>0 到 1 之间的一个小数，即公式中的 $\mathbf{ρ}$ 当为 0 时只有L2范数，当为 1 时只有L1范数。此参数可以是一个list，在这种情况下，通过交叉验证测试不同的值，并使用给出最佳预测得分的值。l1_ratio值列表的一个很好的选择通常是将更多的值设置为接近1（即Lasso），而不是接近0（即Ridge），如[.1，.5，.7，.9，。 95，.99，1]</p>
+</li>
+</ul>
 
     </div>
 
@@ -430,8 +436,8 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/07/28/%E5%9D%87%E6%96%B9%E6%A0%B9%E8%AF%AF%E5%B7%AE%EF%BC%88RMSE%EF%BC%89%EF%BC%8C%E5%B9%B3%E5%9D%87%E7%BB%9D%E5%AF%B9%E8%AF%AF%E5%B7%AE(MAE)%EF%BC%8C%E6%A0%87%E5%87%86%E5%B7%AE(Standard%20Deviation)%E7%9A%84%E5%AF%B9%E6%AF%94/" rel="prev" title="均方根误差，平均绝对误差，标准差">
-      <i class="fa fa-chevron-left"></i> 均方根误差，平均绝对误差，标准差
+    <a href="/2020/07/28/%E5%BD%92%E4%B8%80%E5%8C%96%EF%BC%8C%E5%8E%BB%E4%B8%AD%E5%BF%83%E5%8C%96%EF%BC%8C%E6%A0%87%E5%87%86%E5%8C%96/" rel="prev" title="归一化，去中心化，标准化">
+      <i class="fa fa-chevron-left"></i> 归一化，去中心化，标准化
     </a></div>
       <div class="post-nav-item">
     <a href="/2020/08/05/scikit-learn%20%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92%E7%AE%97%E6%B3%95%E5%BA%93%E5%B0%8F%E7%BB%93/" rel="next" title="scikit-learn 线性回归算法库小结">
