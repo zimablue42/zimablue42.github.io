@@ -42,7 +42,7 @@
 <meta property="og:image" content="http://yoursite.com/2020/08/08/%E5%BE%84%E5%90%91%E5%9F%BA%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/11.png">
 <meta property="og:image" content="http://yoursite.com/2020/08/08/%E5%BE%84%E5%90%91%E5%9F%BA%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/12.png">
 <meta property="article:published_time" content="2020-08-07T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-08-08T07:28:12.358Z">
+<meta property="article:modified_time" content="2020-08-08T07:43:10.379Z">
 <meta property="article:author" content="lyp">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/2020/08/08/%E5%BE%84%E5%90%91%E5%9F%BA%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/2.png">
@@ -236,7 +236,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-08-08 00:00:00 / Modified: 15:28:12" itemprop="dateCreated datePublished" datetime="2020-08-08T00:00:00+08:00">2020-08-08</time>
+              <time title="Created: 2020-08-08 00:00:00 / Modified: 15:43:10" itemprop="dateCreated datePublished" datetime="2020-08-08T00:00:00+08:00">2020-08-08</time>
             </span>
 
           
@@ -251,7 +251,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="径向基神经网络"><a href="#径向基神经网络" class="headerlink" title="径向基神经网络"></a>径向基神经网络</h1><h2 id="径向基函数-插值问题"><a href="#径向基函数-插值问题" class="headerlink" title="径向基函数  插值问题"></a>径向基函数  插值问题</h2><p> &emsp;&emsp;1963年Davis提出高维空间的多变量插值理论。径向基函数技术则是20世纪80年代后期，Powell在解决“多变量有限点严格（精确）插值问题”时引入的，目前径向基函数已成为数值分析研究中的一个重要领域。</p>
+        <h1 id="径向基神经网络"><a href="#径向基神经网络" class="headerlink" title="径向基神经网络"></a>径向基神经网络</h1><p> &emsp;</p>
+<h2 id="径向基函数-插值问题"><a href="#径向基函数-插值问题" class="headerlink" title="径向基函数  插值问题"></a>径向基函数  插值问题</h2><p> &emsp;&emsp;1963年Davis提出高维空间的多变量插值理论。径向基函数技术则是20世纪80年代后期，Powell在解决“多变量有限点严格（精确）插值问题”时引入的，目前径向基函数已成为数值分析研究中的一个重要领域。</p>
 <p>&emsp;&emsp;考虑一个由N维输入空间到一维输出空间的映射。设N维空间有 $ p $ 个输入向量平，它  $p$=1, 2, …., P们在输出空间相应的目标值为$d^p$，$p$=1, 2, …., P  ，P对输入一输出样本构成了训练样本集。插值的目的是寻找一个非线性映射函数F(X)，使其满足下述插值条件：</p>
 <p>&emsp;&emsp;$\mathbf{F(x)=d^p}$           $p$=1, 2, …., P &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<strong>(1)</strong></p>
 <p>&emsp;&emsp;式子中，函数$F(x)$描述了一个插值曲面，所谓严格插值或精确插值，是一种完全内插，即该插值曲面必须通过所有训练数据点。</p>
@@ -274,10 +275,12 @@
 <p>&emsp;&emsp;&emsp;&emsp;$\mathbf{Φ}\mathbf{w}\mathbf{=}\mathbf{d}$&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<strong>(6)</strong></p>
 <p>式中，$\mathbf{Φ}$称为插值矩阵，若$\mathbf{Φ}$为可逆矩阵，就可以从（6）式中解出系数向量$\mathbf{w}$，即</p>
 <p>&emsp;&emsp;&emsp;&emsp;$\mathbf{w}\mathbf{=}\mathbf{Φ^{-1}}\mathbf{d}$</p>
+<p> &emsp;</p>
 <p><strong>高斯径向基函数：</strong></p>
 <p><img src="/2020/08/08/%E5%BE%84%E5%90%91%E5%9F%BA%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/2.png" alt="2" style="zoom:80%;"></p>
 <p><img src="/2020/08/08/%E5%BE%84%E5%90%91%E5%9F%BA%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/3.png" alt="3"></p>
 <p> &emsp;&emsp;横轴就是到中心的距离用半径r表示，如上图，我们发现当距离等于0时，径向基函数等于1，距离越近衰减越快，$\mathbf{σ}$ 越小图像越窄。</p>
+<p> &emsp;</p>
 <h2 id="正则化径向基神经网络"><a href="#正则化径向基神经网络" class="headerlink" title="正则化径向基神经网络"></a>正则化径向基神经网络</h2><h3 id="神经网络的结构："><a href="#神经网络的结构：" class="headerlink" title="神经网络的结构："></a>神经网络的结构：</h3><p>&emsp;&emsp;正则化RBF网络的结构如下图所示。其特点是：网络具有N个输入节点，<strong>P</strong>个隐节点，一个隐节点有一个数据中心，i个输出节点；网络的隐节点数等于输入样本数，隐节点的激活函数常高斯径向基函数，并将所有输入样本设为径向基函数的中心，各径向基函数取统一的扩展常数。</p>
 <p><img src="/2020/08/08/%E5%BE%84%E5%90%91%E5%9F%BA%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/1.png" alt="2" style="zoom:80%;"></p>
 <p> &emsp;&emsp;设输入层的任意节点你用 <strong>i</strong> 表示，隐节点任一节点用 <strong>j</strong> 表示，输出层的任一节点用 <strong>k</strong> 表示。对各层的数学描述如下：</p>
@@ -285,19 +288,24 @@
 <p>&emsp;&emsp;任一隐节点的激活函数：$\mathbf{φ}(X,X^P)$ 称为基函数。一般使用高斯函数。</p>
 <p>&emsp;&emsp;输出权矩阵：$\mathbf{W}$，其中$\mathbf{ω}_{ik}$，为隐层的第 <strong>j</strong> 个节点与输出层第 <strong>k</strong> 个节点间的突触权值。</p>
 <p>&emsp;&emsp;输出向量： $Y=(y_1,y_2,…,y_l)$</p>
+<p> &emsp;</p>
 <p>&emsp;&emsp;当输人训练集中的某个样本 $x^p$ 时，对应的期望输出 $d^p$ 就是教师信号。为了确定网络隐层到输出层之间的P个权值，需要将训练集中的样本逐一输人一遍，从而可得到式 (4) 中的方程组。网络的权值确定后，对训练集的样本实现了完全内插，即对所有样本误差为0。而对非训练集的输人模式，网络的输出值相当于函数的内插，因此径向基函数网络可用作函数逼近。</p>
+<p> &emsp;</p>
 <h3 id="与插值问题的联系："><a href="#与插值问题的联系：" class="headerlink" title="与插值问题的联系："></a><strong>与插值问题的联系：</strong></h3><p>&emsp;&emsp;插值问题所要求的函数</p>
 <p>&emsp;&emsp;$F(x)=\sum_{p=1}^{\mathbf{P}}{\mathbf{ω}_p\mathbf{φ}(||x-x^p||)}$</p>
 <p>&emsp;&emsp;径向基神经网络的结构就是这个函数的体现，隐层的每一个神经元的激活函数就是$\mathbf{φ}(||x-x^p||)$，激活函数得出结果后，每个结果与各自的权值相乘，隐层到输出层的权值就是式中的$\mathbf{ω}_p$，最后相加得到结果。</p>
+<p> &emsp;</p>
 <h3 id="正则化RBF网络的学习算法："><a href="#正则化RBF网络的学习算法：" class="headerlink" title="正则化RBF网络的学习算法："></a>正则化RBF网络的学习算法：</h3><p>&emsp;&emsp; 当采用正则化RBP网络结构时，隐节点数即样本数，基函数的数据中心即为样本本身，只需考虑扩展常数和输出节点的权值。径向基函数的扩展常数可根据数据中心的散布而确定，为了避免每个径向基函数太尖或太平，一种选择方法是将所有径向基函数的扩展常数设为：</p>
 <p><img src="/2020/08/08/%E5%BE%84%E5%90%91%E5%9F%BA%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/4.png" alt="4" style="zoom:80%;"></p>
 <p>&emsp;&emsp;式中，$d_{max}$是样本之间的最大距离，P是样本的数目。</p>
 <p>&emsp;&emsp; 隐层到输出层的权值采用梯度下降法。</p>
+<p> &emsp;</p>
 <h2 id="广义的RBF神经网络"><a href="#广义的RBF神经网络" class="headerlink" title="广义的RBF神经网络"></a>广义的RBF神经网络</h2><p>&emsp;&emsp;正则化的RBF要求所有样本对应一个隐层神经元，所带来额问题是计算量很大，因为一旦样本成千上万则计算量急剧增加，计算量会急剧加大，为解决这一问题，可减少隐层节点的个数。广义的RBF神经网络的隐层节点不会随着样本数的增加而增加，而是N&lt;M&lt;P，N为样本维数，M为隐层节点数，P为样本个数。</p>
 <h3 id="神经网络的结构：-1"><a href="#神经网络的结构：-1" class="headerlink" title="神经网络的结构："></a>神经网络的结构：</h3><p><img src="/2020/08/08/%E5%BE%84%E5%90%91%E5%9F%BA%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/5.png" alt="5" style="zoom: 67%;"></p>
 <p>&emsp;&emsp;与正则化RBF神经网络相比多了阈值 $\mathbf{φ_0}$ ，其输出恒为1，少了隐层神经元的数量</p>
 <p>&emsp;&emsp;网络第 <strong>j</strong> 个输出神经元得出的结果是：</p>
 <p><img src="/2020/08/08/%E5%BE%84%E5%90%91%E5%9F%BA%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/6.png" alt="6"></p>
+<p> &emsp;</p>
 <p>&emsp;&emsp;从输入层到隐藏层相当于是把低维空间的数据映射到高维空间，输入层细胞个数为样本的维度，所以隐藏层细胞个数一定要比输入层细胞个数多。从隐藏层到输出层是对高维空间的数据进行线性分类的过程，可以采用单层感知器常用的那些学习规则。</p>
 <p>&emsp;&emsp;注意广义RBF网络只要求隐藏层神经元个数大于输入层神经元个数，并没有要求等于输入样本个数，实际上它比样本数目要少得多。因为在标准RBF网络中，当样本数目很大时，就需要很多基函数，权值矩阵就会很大，计算复杂且容易产生病态问题。另外广RBF网与传统RBF网相比，还有以下不同：</p>
 <ol>
@@ -311,15 +319,19 @@
 <p>因此广义RBF网络的设计包括：</p>
 <p>&emsp;&emsp;结构设计—隐藏层含有几个节点合适</p>
 <p>&emsp;&emsp;参数设计—各基函数的数据中心及扩展常数、输出节点的权值。</p>
-<h2 id="广义RBF网络学习方法"><a href="#广义RBF网络学习方法" class="headerlink" title="广义RBF网络学习方法"></a>广义RBF网络学习方法</h2><h3 id="1-随机选取固定中心"><a href="#1-随机选取固定中心" class="headerlink" title="1.随机选取固定中心"></a>1.随机选取固定中心</h3><h4 id="数据中心"><a href="#数据中心" class="headerlink" title="数据中心"></a><strong>数据中心</strong></h4><p>&emsp;&emsp;数据中心从样本输入中选取，样本密集的地方中心点可以适当多些，样本稀疏的地方中心点可以少些，若数据本身是均匀分布的，中心点也可以均匀分布。总之，选出的数据中心应具有代表性。</p>
+<p> &emsp;</p>
+<h2 id="广义RBF网络学习方法"><a href="#广义RBF网络学习方法" class="headerlink" title="广义RBF网络学习方法"></a>广义RBF网络学习方法</h2><p> &emsp;</p>
+<h3 id="1-随机选取固定中心"><a href="#1-随机选取固定中心" class="headerlink" title="1.随机选取固定中心"></a>1.随机选取固定中心</h3><h4 id="数据中心"><a href="#数据中心" class="headerlink" title="数据中心"></a><strong>数据中心</strong></h4><p>&emsp;&emsp;数据中心从样本输入中选取，样本密集的地方中心点可以适当多些，样本稀疏的地方中心点可以少些，若数据本身是均匀分布的，中心点也可以均匀分布。总之，选出的数据中心应具有代表性。</p>
 <h4 id="标准差"><a href="#标准差" class="headerlink" title="标准差"></a>标准差</h4><p>&emsp;&emsp;径向基函数的标准差是根据数据中心的散布而确定的，为了避免每个径向基函数太尖或太平，一种选择方法是将所有径向基函数的标准差设为：</p>
 <p><img src="/2020/08/08/%E5%BE%84%E5%90%91%E5%9F%BA%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/7.png" alt="7" style="zoom:67%;"></p>
 <p>&emsp;&emsp;式中，$d_{max}$是样本之间的最大距离，M是数据中心的数目。</p>
 <h4 id="隐层到输出层的权值"><a href="#隐层到输出层的权值" class="headerlink" title="隐层到输出层的权值"></a>隐层到输出层的权值</h4><p>&emsp;&emsp;可以使用<strong>LMS</strong>（只使用一个样本的梯度下降）和<strong>伪逆法</strong></p>
+<p> &emsp;</p>
 <h3 id="2-自组织选取中心"><a href="#2-自组织选取中心" class="headerlink" title="2.自组织选取中心"></a>2.自组织选取中心</h3><h4 id="数据中心-1"><a href="#数据中心-1" class="headerlink" title="数据中心"></a><strong>数据中心</strong></h4><p>&emsp;&emsp;数据中心的自组织选择常采用各种动态<strong>聚类算法</strong>对数据中心进行自组织选择，在学习过程中需对数据中心的位置进行动态调节。除了聚类，也可以使用<strong>梯度训练法</strong>、<strong>资源分配网络</strong>等。</p>
 <h4 id="标准差-1"><a href="#标准差-1" class="headerlink" title="标准差"></a><strong>标准差</strong></h4><p><img src="/2020/08/08/%E5%BE%84%E5%90%91%E5%9F%BA%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/8.png" alt="8"></p>
 <p>&emsp;&emsp;对于每一个数据中心，先找出距离这个数据中心最近的另一个数据中心，标准差就是这两个数据中心之间距离的$\mathbf{λ}$倍，λ是重叠系数。</p>
 <h4 id="隐层到输出层的权值-1"><a href="#隐层到输出层的权值-1" class="headerlink" title="隐层到输出层的权值"></a><strong>隐层到输出层的权值</strong></h4><p><strong>&emsp;&emsp;LMS</strong>或<strong>伪逆法</strong></p>
+<p> &emsp;</p>
 <h3 id="3-有监督选取中心"><a href="#3-有监督选取中心" class="headerlink" title="3.有监督选取中心"></a>3.有监督选取中心</h3><p>&emsp;&emsp;RBF函数中心、扩展常数、输出权值都应该采用监督学习算法进行训练，经历一个误差修正学习的过程，与BP网络的学习原理一样。同样采用<strong>梯度下降法</strong>，定义目标函数为</p>
 <p><img src="/2020/08/08/%E5%BE%84%E5%90%91%E5%9F%BA%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/9.png" alt="9"></p>
 <p>&emsp;&emsp;$e_i$为输入第i个样本时的误差信号。</p>
@@ -330,13 +342,16 @@
 <p>&emsp;&emsp;c 为数据中心，$\mathbf{σ}$ 为标准差，$w$ 为权值。</p>
 <p>&emsp;&emsp;具体计算式为</p>
 <p><img src="/2020/08/08/%E5%BE%84%E5%90%91%E5%9F%BA%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/12.png" alt="12"></p>
+<p> &emsp;</p>
 <h2 id="RBF神经网络与BP神经网络优缺点比较"><a href="#RBF神经网络与BP神经网络优缺点比较" class="headerlink" title="RBF神经网络与BP神经网络优缺点比较"></a>RBF神经网络与BP神经网络优缺点比较</h2><ol>
 <li><p>RBF 的泛化能力在多个方面都优于BP 网络，但是在解决具有相同精度要求的问题时，BP 网络的结构要比RBF <strong>网络简单</strong>。</p>
 </li>
 <li><p>RBF 网络的<strong>逼近精度</strong>要明显高于BP 网络，它几乎能实现完全逼近，而且设计起来极其方便, 网络可以自动增加神经元直到满足精度要求为止。但是在训练样本增多时，RBF 网络的隐层神经元数远远高于前者，使得RBF 网络的复杂度大增加，结构过于庞大，从而<strong>运算量也有所增加</strong>。</p>
 </li>
 <li>RBF神经网络是一种性能优良的前馈型神经网络，RBF网络可以任意精度逼近任意的非线性函数，且具有<strong>全局逼近能力</strong>，从根本上解决了BP网络的<strong>局部最优问题</strong>，而且拓扑结构紧凑，结构参数可实现分离学习，<strong>收敛速度快</strong>。</li>
-<li>bp神经网络学习速率是固定的，因此网络的<strong>收敛速度慢</strong>，需要较长的训练时间。对于一些复杂问题，BP算法需要的训练时间可能非常长，而rbf神经网络是种高效的前馈式网络，它具有其他前向网络所不具有的最佳逼近性能和全局最优特性，并且结构简单，<strong>训练速度快</strong>。</li>
+<li><p>bp神经网络学习速率是固定的，因此网络的<strong>收敛速度慢</strong>，需要较长的训练时间。对于一些复杂问题，BP算法需要的训练时间可能非常长，而rbf神经网络是种高效的前馈式网络，它具有其他前向网络所不具有的最佳逼近性能和全局最优特性，并且结构简单，<strong>训练速度快</strong>。</p>
+<p>&emsp;</p>
+</li>
 </ol>
 <p><strong>RBF网络的优点：</strong></p>
 <p>①  它具有唯一最佳逼近的特性，且无局部极小问题存在。</p>
