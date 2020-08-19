@@ -35,7 +35,7 @@
 <meta property="og:image" content="http://yoursite.com/2020/08/19/%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E4%B9%98%E5%AD%90%E6%B3%95%E4%B8%8E%E5%AF%B9%E5%81%B6%E9%97%AE%E9%A2%98/4.png">
 <meta property="og:image" content="http://yoursite.com/2020/08/19/%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E4%B9%98%E5%AD%90%E6%B3%95%E4%B8%8E%E5%AF%B9%E5%81%B6%E9%97%AE%E9%A2%98/5.png">
 <meta property="article:published_time" content="2020-08-18T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-08-19T12:06:26.852Z">
+<meta property="article:modified_time" content="2020-08-19T12:14:18.181Z">
 <meta property="article:author" content="lyp">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/2020/08/19/%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E4%B9%98%E5%AD%90%E6%B3%95%E4%B8%8E%E5%AF%B9%E5%81%B6%E9%97%AE%E9%A2%98/1.png">
@@ -229,7 +229,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-08-19 00:00:00 / Modified: 20:06:26" itemprop="dateCreated datePublished" datetime="2020-08-19T00:00:00+08:00">2020-08-19</time>
+              <time title="Created: 2020-08-19 00:00:00 / Modified: 20:14:18" itemprop="dateCreated datePublished" datetime="2020-08-19T00:00:00+08:00">2020-08-19</time>
             </span>
 
           
@@ -266,7 +266,7 @@
 <p>&emsp;&emsp;(1) $g(\mathbf{x}_1)&lt;0$，最佳解位于可行域的内部，称为内部解(interior solution)，这时约束条件是无效的(inactive)，约束优化问题退化为无约束优化问题，直接通过条件 $∇ f(\mathbf{x})$ 得到最优解，且$\mathbf{λ}=0$。</p>
 <p>&emsp;&emsp;(2) $g(\mathbf{x}_1)=0$，最佳解位于可行域的边界，称为边界解(boundary solution)，此时约束条件是有效的(active)，约束不等式变成等式 $g(\mathbf{x})=0$，这与前述Lagrange乘子法的情况相同。因为我们希望最小化 $f(\mathbf{x})$，梯度  $∇ f(\mathbf{x})$ （函数 $f(\mathbf{x})$ 在点 $\mathbf{x}$ 的上升最快的方向）应该指向可行域的内部（因为最优解最小值是在边界取得的），但 $∇ g(\mathbf{x})$ 指向可行域的外部（即 $g(x)&gt;0$ 的区域，因为约束是小于等于的0）称为<strong>对偶可行性</strong>。所以此时存在 $\mathbf{λ}$ 使得 $∇ f(\mathbf{x})=-\mathbf{λ}∇ g(\mathbf{x})$， $\mathbf{λ}&gt;0$。</p>
 <p>&emsp;&emsp;因此，不论是内部解或边界解，$\mathbf{λ}g(\mathbf{x})=0$ 恒成立，称为互补松弛性(complementary slackness)。整合上述两种情况，<strong>最佳解</strong>的必要条件包括Lagrangian函数$L(\mathbf{x},\mathbf{λ})$的定常方程式、原始可行性、对偶可行性，以及互补松弛性：</p>
-<p>&emsp;&emsp;$∇ f(\mathbf{x})+∇ g(\mathbf{x})=0$</p>
+<p>&emsp;&emsp;$∇ f(\mathbf{x})+\mathbf{λ}∇ g(\mathbf{x})=0$</p>
 <p>&emsp;&emsp;$g(\mathbf{x})\leq0$</p>
 <p>&emsp;&emsp;$\mathbf{λ}\geq0$</p>
 <p>&emsp;&emsp;$\mathbf{λ}g(\mathbf{x})=0$</p>
