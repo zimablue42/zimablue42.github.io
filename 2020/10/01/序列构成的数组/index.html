@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  
+  <link rel="stylesheet" href="/lib/animate-css/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Muse","version":"8.0.0-rc.4","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false};
+  </script>
+
+  <meta name="description" content=".">
+<meta property="og:type" content="article">
+<meta property="og:title" content="流畅的Python 序列构成的数组小结">
+<meta property="og:url" content="http://yoursite.com/2020/10/01/%E5%BA%8F%E5%88%97%E6%9E%84%E6%88%90%E7%9A%84%E6%95%B0%E7%BB%84/index.html">
+<meta property="og:site_name" content="Zima Blue&#39;s blog">
+<meta property="og:description" content=".">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-09-30T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-10-01T13:09:09.119Z">
+<meta property="article:author" content="lyp">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2020/10/01/%E5%BA%8F%E5%88%97%E6%9E%84%E6%88%90%E7%9A%84%E6%95%B0%E7%BB%84/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>流畅的Python 序列构成的数组小结 | Zima Blue's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <main class="main">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Zima Blue's blog</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E5%99%A8%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-number">1.</span> <span class="nav-text">生成器表达式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%83%E7%BB%84"><span class="nav-number">2.</span> <span class="nav-text">元组</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%83%E7%BB%84%E6%8B%86%E5%8C%85"><span class="nav-number">2.1.</span> <span class="nav-text">元组拆包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B5%8C%E5%A5%97%E5%85%83%E7%BB%84%E6%8B%86%E5%8C%85"><span class="nav-number">2.2.</span> <span class="nav-text">嵌套元组拆包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B7%E5%90%8D%E5%85%83%E7%BB%84"><span class="nav-number">2.3.</span> <span class="nav-text">具名元组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%9C%E4%B8%BA%E4%B8%8D%E5%8F%AF%E5%8F%98%E5%88%97%E8%A1%A8%E7%9A%84%E5%85%83%E7%BB%84"><span class="nav-number">2.4.</span> <span class="nav-text">作为不可变列表的元组</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%87%E7%89%87"><span class="nav-number">3.</span> <span class="nav-text">切片</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E7%BB%B4%E5%88%87%E7%89%87%E5%92%8C%E7%9C%81%E7%95%A5"><span class="nav-number">3.1.</span> <span class="nav-text">多维切片和省略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%99%E5%88%87%E7%89%87%E8%B5%8B%E5%80%BC"><span class="nav-number">3.2.</span> <span class="nav-text">给切片赋值</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BA%8F%E5%88%97%E7%9A%84-%E4%B8%8E"><span class="nav-number">4.</span> <span class="nav-text">序列的+与 *</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B5%8C%E5%A5%97%E5%88%97%E8%A1%A8%E7%9A%84%E5%88%9B%E5%BB%BA"><span class="nav-number">4.1.</span> <span class="nav-text">嵌套列表的创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%8F%E5%88%97%E7%9A%84%E5%A2%9E%E9%87%8F%E8%B5%8B%E5%80%BC"><span class="nav-number">4.2.</span> <span class="nav-text">序列的增量赋值</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sort-%E4%B8%8Esorted"><span class="nav-number">5.</span> <span class="nav-text">.sort()与sorted()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8bisect%E6%9D%A5%E7%AE%A1%E7%90%86%E5%B7%B2%E6%8E%92%E5%BA%8F%E7%9A%84%E5%BA%8F%E5%88%97"><span class="nav-number">6.</span> <span class="nav-text">用bisect来管理已排序的序列</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%A8bisect%E6%9D%A5%E6%90%9C%E7%B4%A2"><span class="nav-number">6.1.</span> <span class="nav-text">用bisect来搜索</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%A8-bisect-insort-%E6%8F%92%E5%85%A5%E6%96%B0%E5%85%83%E7%B4%A0"><span class="nav-number">6.2.</span> <span class="nav-text">用 bisect.insort 插入新元素</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%97%E8%A1%A8%E7%9A%84%E6%9B%BF%E4%BB%A3%E5%93%81"><span class="nav-number">7.</span> <span class="nav-text">列表的替代品</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E7%BB%84"><span class="nav-number">7.1.</span> <span class="nav-text">数组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E8%A7%86%E5%9B%BE"><span class="nav-number">7.2.</span> <span class="nav-text">内存视图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Numpy%E5%92%8CSciPy%E6%95%B0%E7%BB%84"><span class="nav-number">7.3.</span> <span class="nav-text">Numpy和SciPy数组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%98%9F%E5%88%97"><span class="nav-number">7.4.</span> <span class="nav-text">队列</span></a></li></ol></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">lyp</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </section>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </header>
+
+      
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div id="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+      <div class="main-inner">
+        
+
+        <div class="content post posts-expand">
+          
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/01/%E5%BA%8F%E5%88%97%E6%9E%84%E6%88%90%E7%9A%84%E6%95%B0%E7%BB%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="lyp">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zima Blue's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          流畅的Python 序列构成的数组小结
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-10-01 00:00:00 / Modified: 21:09:09" itemprop="dateCreated datePublished" datetime="2020-10-01T00:00:00+08:00">2020-10-01</time>
+            </span>
+
+          
+            <div class="post-description">.</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="生成器表达式"><a href="#生成器表达式" class="headerlink" title="生成器表达式"></a>生成器表达式</h2><p>生成器表达式的语法和列表推导式几乎相同，只不过把方括号换成圆括号。生成器表达式在每次使用.__next__()时才会生成下一个数，或者使用for循环。生成器表达式会在每次for循环运行时才会生成一个组合，避免额外的内存占用。</p>
+<h2 id="元组"><a href="#元组" class="headerlink" title="元组"></a>元组</h2><p>元组有两个用途：</p>
+<ol>
+<li>作为不可变的列表</li>
+<li>元组可以看作是对数据的记录，元组中的每一个元素都存放了记录中的一个字段的数据，外加一个字段的位置。正是这个位置信息给数据赋予了意义。  </li>
+</ol>
+<h3 id="元组拆包"><a href="#元组拆包" class="headerlink" title="元组拆包"></a>元组拆包</h3><p>不使用中间变量交换两个变量的值</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a, b = b, a</span><br></pre></td></tr></table></figure>
+<p>还可以用 * 运算符把一个可迭代对象拆开作为函数的参数，也可以用来处理剩下的元素。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sum_num</span>(<span class="params">a, b</span>):</span></span><br><span class="line">    <span class="keyword">return</span> a+b</span><br><span class="line"></span><br><span class="line">a, b, *number = range(<span class="number">4</span>) </span><br><span class="line">print(number)  <span class="comment"># [2, 3]</span></span><br><span class="line">print(sum_num(*number))  <span class="comment"># 5</span></span><br></pre></td></tr></table></figure>
+<h3 id="嵌套元组拆包"><a href="#嵌套元组拆包" class="headerlink" title="嵌套元组拆包"></a>嵌套元组拆包</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a, b, (c, d) &#x3D; (1, 2, (3, 4))</span><br></pre></td></tr></table></figure>
+<h3 id="具名元组"><a href="#具名元组" class="headerlink" title="具名元组"></a>具名元组</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> namedtuple</span><br><span class="line"></span><br><span class="line">Num = namedtuple(<span class="string">&#x27;number&#x27;</span>, <span class="string">&#x27;number smaller bigger&#x27;</span>)</span><br><span class="line">one = Num(<span class="string">&#x27;1&#x27;</span>, <span class="string">&#x27;0&#x27;</span>, <span class="string">&#x27;2&#x27;</span>)</span><br><span class="line">print(one)  <span class="comment"># number(number=&#x27;1&#x27;, smaller=&#x27;0&#x27;, bigger=&#x27;2&#x27;)</span></span><br></pre></td></tr></table></figure>
+<p>创建一个具名元组需要两个参数，一个是类名，另一个是类的各个字段的名字。后者可以是由数个字符串组成的可迭代对象，或者是由空格分隔开的字段名组成的字符串。</p>
+<h3 id="作为不可变列表的元组"><a href="#作为不可变列表的元组" class="headerlink" title="作为不可变列表的元组"></a>作为不可变列表的元组</h3><p>除了跟增减元素相关的方法之外，元组支持列表的其他所有方法。</p>
+<h2 id="切片"><a href="#切片" class="headerlink" title="切片"></a>切片</h2><h3 id="多维切片和省略"><a href="#多维切片和省略" class="headerlink" title="多维切片和省略"></a>多维切片和省略</h3><p>Numpy库支持多维切片，省略用的是  …  三个英语句号</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x[i,:,:,:] 与 x[i, ...] 相同</span><br></pre></td></tr></table></figure>
+<h3 id="给切片赋值"><a href="#给切片赋值" class="headerlink" title="给切片赋值"></a>给切片赋值</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">l = [<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>]</span><br><span class="line"></span><br><span class="line">l[<span class="number">2</span>:<span class="number">4</span>] = [<span class="number">2</span>, <span class="number">2</span>]</span><br><span class="line">print(l)  <span class="comment"># [1, 1, 2, 2, 1, 1, 1]</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">l[::<span class="number">3</span>] = [<span class="number">3</span>, <span class="number">3</span>, <span class="number">3</span>]</span><br><span class="line">print(l)  <span class="comment"># [3, 1, 2, 3, 1, 1, 3]</span></span><br></pre></td></tr></table></figure>
+<h2 id="序列的-与"><a href="#序列的-与" class="headerlink" title="序列的+与 *"></a>序列的+与 *</h2><h3 id="嵌套列表的创建"><a href="#嵌套列表的创建" class="headerlink" title="嵌套列表的创建"></a>嵌套列表的创建</h3><ol>
+<li><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">l = [[<span class="string">&#x27;-&#x27;</span>] * <span class="number">3</span>] * <span class="number">3</span></span><br></pre></td></tr></table></figure>
+</li>
+<li></li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">l = []</span><br><span class="line">row = [<span class="string">&#x27;-&#x27;</span>] * <span class="number">3</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">3</span>):</span><br><span class="line">    l.append(row)</span><br></pre></td></tr></table></figure>
+<p>以上列表的创建都是错的，l 列表中的三个元素是同一个元素的引用，改变一个都会变。</p>
+<p>下面为正确的创建，每次循环都会创建一个新的row列表。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">l = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">3</span>):</span><br><span class="line">    row = [<span class="string">&#x27;-&#x27;</span>] * <span class="number">3</span></span><br><span class="line">    l.append(row)</span><br></pre></td></tr></table></figure>
+<h3 id="序列的增量赋值"><a href="#序列的增量赋值" class="headerlink" title="序列的增量赋值"></a>序列的增量赋值</h3><p>若 *= 和 +=作用在可变对象上并没有创建新的对象，运行速度较快，若作用到不可变对象（元组）上，就会先把原来对象中的元素先复制到新的对象里，然后再追加元素，运行速度较慢。</p>
+<h2 id="sort-与sorted"><a href="#sort-与sorted" class="headerlink" title=".sort()与sorted()"></a>.sort()与sorted()</h2><p>list.sort()方法会就地排序列表，也就是说不会把原序列复制一份，返回值为None</p>
+<p>sorted()可以接受任何形式的可迭代对象，不管接受的是怎样的参数，最后都会返回一个列表。</p>
+<h2 id="用bisect来管理已排序的序列"><a href="#用bisect来管理已排序的序列" class="headerlink" title="用bisect来管理已排序的序列"></a>用bisect来管理已排序的序列</h2><p>bisect模块包含两个主要函数，bisect和insort，两个函数都利用二分查找算法来在有序序列中查找或插入元素。</p>
+<h3 id="用bisect来搜索"><a href="#用bisect来搜索" class="headerlink" title="用bisect来搜索"></a>用bisect来搜索</h3><p>bisect(haystack, needle)  在haystack（干草堆）中搜索needle（针）的位置，该位置满足的条件是，把needle插入这个位置后，haystack还能保持升序。也就是说needle之前的值都小于或等于needle。</p>
+<p>bieect函数其实是bisect_right函数的别名，还有一个函数叫bisect_left。</p>
+<p>bisect_left 返回的位置在与被插入元素位置相等的元素之前。</p>
+<p>bisect_left 返回的位置在与被插入元素位置相等的元素之后。</p>
+<p>这些函数都有两个可选参数——lo与hi，lo 的默认值为0，hi 的默认值为序列的长度，这两个参数可以用来缩小搜索范围。这些函数可以在很长的有序序列中作为 .index() 的替代。</p>
+<h3 id="用-bisect-insort-插入新元素"><a href="#用-bisect-insort-插入新元素" class="headerlink" title="用 bisect.insort 插入新元素"></a>用 bisect.insort 插入新元素</h3><p>insort(seq, item) 把变量 item 插入到序列 seq 中，并能保持 seq 的升序顺序。</p>
+<p>insort与bisect与相似，也有 insort_left 和 insort_right。insort与bisect的差距只是，一个为插入数据，一个只是找位置但不插入。</p>
+<h2 id="列表的替代品"><a href="#列表的替代品" class="headerlink" title="列表的替代品"></a>列表的替代品</h2><h3 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h3><p>Python 的数组和C语言的一样精简。</p>
+<p>数组的构造方法</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">array.array(typecode[, initializer])</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> array <span class="keyword">import</span> array</span><br><span class="line"></span><br><span class="line"><span class="comment"># 构造一个空的int类型数组</span></span><br><span class="line">arr = array(<span class="string">&#x27;i&#x27;</span>, [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">100</span>])</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/xc_zhou/article/details/88538793">https://blog.csdn.net/xc_zhou/article/details/88538793</a></p>
+<h3 id="内存视图"><a href="#内存视图" class="headerlink" title="内存视图"></a>内存视图</h3><p>内存视图其实是泛化和去数学化的Numpy数组。</p>
+<p>下面的例子通过改变一个字节来更新数组里的某一个元素</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> array <span class="keyword">import</span> array</span><br><span class="line"></span><br><span class="line">numbers = array(<span class="string">&#x27;h&#x27;</span>, [<span class="number">-2</span>, <span class="number">-1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>])</span><br><span class="line">memv = memoryview(numbers)</span><br><span class="line">memv_oct = memv.cast(<span class="string">&#x27;B&#x27;</span>)</span><br><span class="line">print(memv_oct.tolist())  <span class="comment"># [254, 255, 255, 255, 0, 0, 1, 0, 2, 0]</span></span><br><span class="line">memv_oct[<span class="number">5</span>] = <span class="number">4</span></span><br><span class="line">print(numbers)  <span class="comment"># array(&#x27;h&#x27;, [-2, -1, 1024, 1, 2])</span></span><br></pre></td></tr></table></figure>
+<p>此例中 memv_oct.tolist() 中每两个数代表 numbers 中的一个数。</p>
+<p>signed short int类型的-2，其原码为1000 0000 0000 0010，除符号位取反，为1111 1111 1111 1101，</p>
+<p>再加1，为1111 1111 1111 1110 前8位是255，后8位为254。、</p>
+<h3 id="Numpy和SciPy数组"><a href="#Numpy和SciPy数组" class="headerlink" title="Numpy和SciPy数组"></a>Numpy和SciPy数组</h3><h3 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h3><ol>
+<li>collections 中的 deque </li>
+<li>queue 库中的 Queue，LifoQueue 和 PriorityQueue</li>
+<li>multiprocessing 中的 Queue，用于给进程间通信。</li>
+<li>asyncio 中的Queue，LifoQueue，OriorityQueue和JoinableQueue，用于给异步编程里的任务管理提供便利。</li>
+<li>heapq 提供了 heappush 和 heappop 方法，让用户可以把可变序列当作堆队列或优先队列来使用。</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/08/19/%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E4%B9%98%E5%AD%90%E6%B3%95%E4%B8%8E%E5%AF%B9%E5%81%B6%E9%97%AE%E9%A2%98/" rel="prev" title="拉格朗日乘子法与对偶问题">
+      <i class="fa fa-chevron-left"></i> 拉格朗日乘子法与对偶问题
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+        </div>
+        
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lyp</span>
+</div>
+<span id="busuanzi_container_site_uv">
+  访客数<span id="busuanzi_value_site_uv"></span>人次
+</span>
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
+<!--动态线条背景-->
+<script type="text/javascript"
+color="150,150,150" opacity='1' zIndex="-2" count="180" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+</script>
