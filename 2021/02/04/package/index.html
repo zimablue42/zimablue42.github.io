@@ -22,21 +22,19 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Muse","version":"8.0.0-rc.4","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false};
   </script>
 
-  <meta name="description" content="均方根误差，平均绝对误差，标准差的意义与原理">
+  <meta name="description" content="Java的包机制">
 <meta property="og:type" content="article">
-<meta property="og:title" content="均方根误差，平均绝对误差，标准差">
-<meta property="og:url" content="http://yoursite.com/2020/07/28/%E5%9D%87%E6%96%B9%E6%A0%B9%E8%AF%AF%E5%B7%AE%EF%BC%88RMSE%EF%BC%89%EF%BC%8C%E5%B9%B3%E5%9D%87%E7%BB%9D%E5%AF%B9%E8%AF%AF%E5%B7%AE(MAE)%EF%BC%8C%E6%A0%87%E5%87%86%E5%B7%AE(Standard%20Deviation)%E7%9A%84%E5%AF%B9%E6%AF%94/index.html">
+<meta property="og:title" content="Java包机制">
+<meta property="og:url" content="http://yoursite.com/2021/02/04/package/index.html">
 <meta property="og:site_name" content="Zima Blue&#39;s blog">
-<meta property="og:description" content="均方根误差，平均绝对误差，标准差的意义与原理">
+<meta property="og:description" content="Java的包机制">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://yoursite.com/2020/07/28/%E5%9D%87%E6%96%B9%E6%A0%B9%E8%AF%AF%E5%B7%AE%EF%BC%88RMSE%EF%BC%89%EF%BC%8C%E5%B9%B3%E5%9D%87%E7%BB%9D%E5%AF%B9%E8%AF%AF%E5%B7%AE(MAE)%EF%BC%8C%E6%A0%87%E5%87%86%E5%B7%AE(Standard%20Deviation)%E7%9A%84%E5%AF%B9%E6%AF%94/25.jpg">
-<meta property="article:published_time" content="2020-07-27T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-07-30T04:40:32.221Z">
+<meta property="article:published_time" content="2021-02-04T07:34:50.603Z">
+<meta property="article:modified_time" content="2021-02-04T07:33:29.831Z">
 <meta property="article:author" content="lyp">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/2020/07/28/%E5%9D%87%E6%96%B9%E6%A0%B9%E8%AF%AF%E5%B7%AE%EF%BC%88RMSE%EF%BC%89%EF%BC%8C%E5%B9%B3%E5%9D%87%E7%BB%9D%E5%AF%B9%E8%AF%AF%E5%B7%AE(MAE)%EF%BC%8C%E6%A0%87%E5%87%86%E5%B7%AE(Standard%20Deviation)%E7%9A%84%E5%AF%B9%E6%AF%94/25.jpg">
 
-<link rel="canonical" href="http://yoursite.com/2020/07/28/%E5%9D%87%E6%96%B9%E6%A0%B9%E8%AF%AF%E5%B7%AE%EF%BC%88RMSE%EF%BC%89%EF%BC%8C%E5%B9%B3%E5%9D%87%E7%BB%9D%E5%AF%B9%E8%AF%AF%E5%B7%AE(MAE)%EF%BC%8C%E6%A0%87%E5%87%86%E5%B7%AE(Standard%20Deviation)%E7%9A%84%E5%AF%B9%E6%AF%94/">
+<link rel="canonical" href="http://yoursite.com/2021/02/04/package/">
 
 
 <script class="page-configurations">
@@ -49,7 +47,7 @@
   };
 </script>
 
-  <title>均方根误差，平均绝对误差，标准差 | Zima Blue's blog</title>
+  <title>Java包机制 | Zima Blue's blog</title>
   
 
 
@@ -150,7 +148,7 @@
 
       <!--noindex-->
       <section class="post-toc-wrap sidebar-panel">
-          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9D%87%E6%96%B9%E6%A0%B9%E8%AF%AF%E5%B7%AE%EF%BC%8C%E5%B9%B3%E5%9D%87%E7%BB%9D%E5%AF%B9%E8%AF%AF%E5%B7%AE%EF%BC%8C%E6%A0%87%E5%87%86%E5%B7%AE"><span class="nav-number">1.</span> <span class="nav-text">均方根误差，平均绝对误差，标准差</span></a></li></ol></div>
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Java%E5%8C%85%E6%9C%BA%E5%88%B6"><span class="nav-number">1.</span> <span class="nav-text">Java包机制</span></a></li></ol></div>
       </section>
       <!--/noindex-->
 
@@ -201,7 +199,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/28/%E5%9D%87%E6%96%B9%E6%A0%B9%E8%AF%AF%E5%B7%AE%EF%BC%88RMSE%EF%BC%89%EF%BC%8C%E5%B9%B3%E5%9D%87%E7%BB%9D%E5%AF%B9%E8%AF%AF%E5%B7%AE(MAE)%EF%BC%8C%E6%A0%87%E5%87%86%E5%B7%AE(Standard%20Deviation)%E7%9A%84%E5%AF%B9%E6%AF%94/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/02/04/package/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -214,7 +212,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          均方根误差，平均绝对误差，标准差
+          Java包机制
         </h1>
 
         <div class="post-meta">
@@ -223,19 +221,13 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
+              
 
-              <time title="Created: 2020-07-28 00:00:00" itemprop="dateCreated datePublished" datetime="2020-07-28T00:00:00+08:00">2020-07-28</time>
+              <time title="Created: 2021-02-04 15:34:50 / Modified: 15:33:29" itemprop="dateCreated datePublished" datetime="2021-02-04T15:34:50+08:00">2021-02-04</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-30 12:40:32" itemprop="dateModified" datetime="2020-07-30T12:40:32+08:00">2020-07-30</time>
-              </span>
 
           
-            <div class="post-description">均方根误差，平均绝对误差，标准差的意义与原理</div>
+            <div class="post-description">Java的包机制</div>
 
         </div>
       </header>
@@ -246,33 +238,24 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="均方根误差，平均绝对误差，标准差"><a href="#均方根误差，平均绝对误差，标准差" class="headerlink" title="均方根误差，平均绝对误差，标准差"></a>均方根误差，平均绝对误差，标准差</h1><p><strong>RMSE</strong></p>
-<ul>
-<li><p>Root Mean Square Error,均方根误差</p>
-</li>
-<li><p>是观测值与真值偏差的平方和与观测次数m比值的平方根。</p>
-</li>
-<li><p>是用来衡量观测值同真值之间的偏差</p>
-</li>
-</ul>
-<p><strong>MAE</strong></p>
-<ul>
-<li>Mean Absolute Error ，平均绝对误差</li>
-<li>是绝对误差的平均值</li>
-<li>能更好地反映预测值误差的实际情况.</li>
-</ul>
-<p><strong>标准差</strong></p>
-<ul>
-<li><p>Standard Deviation ，标准差</p>
-</li>
-<li><p>是方差的算数平方根</p>
-</li>
-<li><p>是用来衡量一组数自身的离散程度</p>
-</li>
-</ul>
-<p><img src="/2020/07/28/%E5%9D%87%E6%96%B9%E6%A0%B9%E8%AF%AF%E5%B7%AE%EF%BC%88RMSE%EF%BC%89%EF%BC%8C%E5%B9%B3%E5%9D%87%E7%BB%9D%E5%AF%B9%E8%AF%AF%E5%B7%AE(MAE)%EF%BC%8C%E6%A0%87%E5%87%86%E5%B7%AE(Standard%20Deviation)%E7%9A%84%E5%AF%B9%E6%AF%94/25.jpg" alt="25" style="zoom:120%;"></p>
-<p><strong>RMSE与标准差对比</strong>：标准差是用来衡量一组数自身的离散程度，而均方根误差是用来衡量观测值同真值之间的偏差，它们的研究对象和研究目的不同，但是计算过程类似。</p>
-<p><strong>RMSE与MAE对比</strong>：RMSE相当于L2范数，MAE相当于L1范数。次数越高，计算结果就越与较大的值有关，而忽略较小的值，所以这就是为什么RMSE针对异常值更敏感的原因（即有一个预测值与真实值相差很大，那么RMSE就会很大）。</p>
+        <h2 id="Java包机制"><a href="#Java包机制" class="headerlink" title="Java包机制"></a>Java包机制</h2><ol>
+<li>包又称为package，java中引入package这种语法机制主要是为了<strong>方便程序的管理</strong>。<br>不同功能的类被分门别类放到不同的软件包当中，查找比较方便，管理比较方便，易维护。</li>
+<li>定义package<pre><code>在java源程序的第一行上编写package语句。package只能编写一个语句。
+语法结构：**package 包名**；
+</code></pre></li>
+<li>包名的命名规范：<pre><code>**公司域名倒序+项目名+模块名+功能名**；
+</code></pre></li>
+<li>包名要求<strong>全部小写</strong>，包名也是标识符，必须遵守标识符的命名规则。</li>
+<li><strong>一个包对应一个目录</strong>。</li>
+<li>package机制的编译及运行<pre><code>使用了package机制之后，类名不再是原来的类名，类名变为 **包名.类名**
+编译：**javac java源文件路径**（在硬盘上生成一个class文件）
+</code></pre></li>
+</ol>
+<p>​                方法1：手动方式创建目录，将Testol.class字节码文件放到指定的目录下<br>​<br>​                        方法2：javac -d 编译之后存放路径  java源文件的路径    </p>
+<p>​                              <strong>javac -d . *.java</strong>将当前路径中java编译之后存放到当前目录下。</p>
+<p>​        运行：</p>
+<p>​                <strong>java 包名.类名</strong></p>
+<p>​                JVM的类加载器ClassLoader默认从当前路径下加载类。</p>
 
     </div>
 
@@ -288,12 +271,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/07/28/%E5%BD%92%E4%B8%80%E5%8C%96%EF%BC%8C%E5%8E%BB%E4%B8%AD%E5%BF%83%E5%8C%96%EF%BC%8C%E6%A0%87%E5%87%86%E5%8C%96/" rel="prev" title="归一化，去中心化，标准化">
-      <i class="fa fa-chevron-left"></i> 归一化，去中心化，标准化
+    <a href="/2021/02/04/static%E5%85%B3%E9%94%AE%E5%AD%97/" rel="prev" title="static关键字">
+      <i class="fa fa-chevron-left"></i> static关键字
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/07/28/scikit-learn%E5%B9%BF%E4%B9%89%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B/" rel="next" title="scikit-learn广义线性模型">
-      scikit-learn广义线性模型 <i class="fa fa-chevron-right"></i>
+    <a href="/2021/02/04/final%E5%85%B3%E9%94%AE%E5%AD%97/" rel="next" title="final关键字">
+      final关键字 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
