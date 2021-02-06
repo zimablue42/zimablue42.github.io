@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  
+  <link rel="stylesheet" href="/lib/animate-css/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Muse","version":"8.0.0-rc.4","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false};
+  </script>
+
+  <meta name="description" content="lambda表达式的语法，作用。变量作用域，函数式接口，方法引用和构造器引用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="lambda表达式">
+<meta property="og:url" content="http://yoursite.com/2021/02/06/lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F/index.html">
+<meta property="og:site_name" content="Zima Blue&#39;s blog">
+<meta property="og:description" content="lambda表达式的语法，作用。变量作用域，函数式接口，方法引用和构造器引用">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2021/02/06/lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F/_Books/java/lambda表达式/1.png">
+<meta property="og:image" content="http://yoursite.com/2021/02/06/lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F/_Books/java/lambda表达式/2.png">
+<meta property="article:published_time" content="2021-02-06T12:42:35.930Z">
+<meta property="article:modified_time" content="2021-02-06T12:48:35.443Z">
+<meta property="article:author" content="lyp">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2021/02/06/lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F/_Books/java/lambda表达式/1.png">
+
+<link rel="canonical" href="http://yoursite.com/2021/02/06/lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>lambda表达式 | Zima Blue's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <main class="main">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Zima Blue's blog</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-number">1.</span> <span class="nav-text">lambda表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%AD%E6%B3%95"><span class="nav-number">1.1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%9C%E7%94%A8"><span class="nav-number">1.2.</span> <span class="nav-text">作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%98%E9%87%8F%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="nav-number">1.3.</span> <span class="nav-text">变量作用域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E5%BC%8F%E6%8E%A5%E5%8F%A3"><span class="nav-number">1.4.</span> <span class="nav-text">函数式接口</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%87%BD%E6%95%B0%E5%BC%8F%E6%8E%A5%E5%8F%A3"><span class="nav-number">1.4.1.</span> <span class="nav-text">创建函数式接口</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E5%BC%95%E7%94%A8"><span class="nav-number">1.5.</span> <span class="nav-text">方法引用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9E%84%E9%80%A0%E5%99%A8%E5%BC%95%E7%94%A8"><span class="nav-number">1.6.</span> <span class="nav-text">构造器引用</span></a></li></ol></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">lyp</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </section>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </header>
+
+      
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div id="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+      <div class="main-inner">
+        
+
+        <div class="content post posts-expand">
+          
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/02/06/lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="lyp">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zima Blue's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          lambda表达式
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2021-02-06 20:42:35 / Modified: 20:48:35" itemprop="dateCreated datePublished" datetime="2021-02-06T20:42:35+08:00">2021-02-06</time>
+            </span>
+
+          
+            <div class="post-description">lambda表达式的语法，作用。变量作用域，函数式接口，方法引用和构造器引用</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="lambda表达式"><a href="#lambda表达式" class="headerlink" title="lambda表达式"></a>lambda表达式</h2><h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><ol>
+<li>(参数) -&gt; 表达式</li>
+</ol>
+<p>​        例：(int a, int b) -&gt; a + b</p>
+<ol>
+<li><p>如果代码要完成的计算无法放在一个表达式中，就可以像写方法一样，把这些代码放在{}中，并包含显式的return语句。例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">（String first，String second）-&gt;&#123;</span><br><span class="line">    <span class="keyword">if</span> (first.length() &lt; second.length())</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>；</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>（first.length() &gt; second.length()）</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>；</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">return</span> <span class="number">0</span>；</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>即使lambda表达式<strong>没有参数</strong>，仍然要提供空括号，就像无参数方法一样</p>
+</li>
+<li><p>如果可以推导出一个lambda表达式的参数类型，则可以<strong>忽略其类型</strong>，若只有一个参数，则可以<strong>省略括号</strong></p>
+</li>
+<li><p>无需指定lambda表达式的<strong>返回类型</strong>。lambda表达式的返回类型总是会由上下文推导得出。</p>
+</li>
+</ol>
+<h3 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h3><p>使用lambda表达式的重点是<strong>延迟执行</strong>（deferred execution）。毕竟，如果想要立即执行代码，完全可以直接执行，而无需把它包装在一个lambda表达式中。之所以希望以后再执行代码，这有很多原因，如：</p>
+<ol>
+<li>在一个单独的线程中运行代码；</li>
+<li>多次运行代码；</li>
+<li>在算法的适当位置运行代码（例如，排序中的比较操作）；</li>
+<li>发生某种情况时执行代码（如，点击了一个按钮，数据到达，等等）；</li>
+<li>只在必要时才运行代码。</li>
+</ol>
+<h3 id="变量作用域"><a href="#变量作用域" class="headerlink" title="变量作用域"></a>变量作用域</h3><p>lambda表达式可以在lambda表达式中访问外围方法或类中的变量</p>
+<p>例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">repeatMessage</span><span class="params">(String text, <span class="keyword">int</span> delay)</span></span>&#123;</span><br><span class="line">    ActionListener listener = event -&gt; System.out.println(text);</span><br><span class="line">    <span class="keyword">new</span> Timer(delay, listener);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>text变量并不是lambda表达式中的。</p>
+<p>类似text变量的变量称为自由变量，自由变量被lambda表达式<strong>捕获</strong>（captured）。一个lambda表达式转换为包含一个方法的对象，这样自由变量的值就会复制到这个对象的实例变量中。</p>
+<p>lambda表达式中捕获的变量必须实际上是<strong>最终变量</strong> ( effectively final ) ，实际上的最终变量是指，这个<strong>变量初始化之后就不会再为它赋新值</strong>，例如String。</p>
+<p>lambda表达式中声明与一个<strong>局部变量同名的参数</strong>或局部变量是不合法的。</p>
+<p>在一个lambda 表达式中使用this 关键字时，是指创建这个lambda表达式的方法的this参数。</p>
+<h3 id="函数式接口"><a href="#函数式接口" class="headerlink" title="函数式接口"></a>函数式接口</h3><p>对于只有一个抽象方法的接口，需要这种接口的对象时，就可以提供一个lambda表达式。这种接口称为<strong>函数式接口</strong>，也可以理解为给一个方法传入一段代码进行运行。</p>
+<p>例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Predicate</span>&lt;<span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class">    <span class="title">boolean</span> <span class="title">test</span>(<span class="title">T</span> <span class="title">t</span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>ArrayList类有一个removelf方法，它的参数就是一个Predicate。</p>
+<p>下面的语句将从一个数组列表删除所有null值：</p>
+<p>接口：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">deletNull</span> <span class="keyword">implements</span> <span class="title">Predicate</span>&lt;<span class="title">T</span>&gt;</span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">test</span><span class="params">(T t)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (t == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>创建一个deletNull类的对象，然后将此对象传入removelf方法</p>
+<p>lambda表达式：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">list.removeIf(e-&gt;e==<span class="keyword">null</span>)；</span><br></pre></td></tr></table></figure>
+<p>或</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Predicate p = e-&gt;e==<span class="keyword">null</span>;</span><br><span class="line">list.removeIf(p);</span><br></pre></td></tr></table></figure>
+<p>可以<strong>将一个lambda表达式赋值</strong>给一个对应接口类型的变量。</p>
+<h4 id="创建函数式接口"><a href="#创建函数式接口" class="headerlink" title="创建函数式接口"></a>创建函数式接口</h4><p>创建函数式接口尽量使用<strong>已有的接口</strong></p>
+<p><img src="/2021/02/06/lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F/_Books\java\lambda表达式\1.png" alt="1" style="zoom: 67%;"></p>
+<p><img src="/2021/02/06/lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F/_Books\java\lambda表达式\2.png" alt="2" style="zoom: 67%;"></p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">repeat</span><span class="params">(<span class="keyword">int</span> n, Runnable action)</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(inti=<span class="number">0</span>;i&lt;n;i++) </span><br><span class="line">        action.run(); <span class="comment">// 因为接口只是一个类，所以要用接口中要实现的方法</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>用以下代码使用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">repeat(<span class="number">10</span>, <span class="number">0</span> -&gt; System.out.println(<span class="string">&quot;Hello,World!&quot;</span>))；</span><br></pre></td></tr></table></figure>
+<p>也可以利用<strong>创建的接口</strong></p>
+<p>例如：</p>
+<p>接口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IntConsumer</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">accept</span><span class="params">(intvalue)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">repeat</span><span class="params">(<span class="keyword">int</span> n, IntConsumer action)</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(inti=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">        action.accept(i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>调用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">repeat(<span class="number">10</span>, i -&gt; System.out.println(<span class="string">&quot;Countdown:&quot;</span> + (<span class="number">9</span> - i)));</span><br></pre></td></tr></table></figure>
+<h3 id="方法引用"><a href="#方法引用" class="headerlink" title="方法引用"></a>方法引用</h3><p>若有现成的方法可以达到你想要传递到某个方法的作用，则可以使用<strong>方法引用</strong>。</p>
+<p>::操作符分隔方法名与对象或类名，主要有3种情况：</p>
+<ol>
+<li><strong>object::instanceMethod</strong></li>
+<li><strong>Class::staticMethod</strong></li>
+<li><strong>Class::instanceMethod</strong></li>
+</ol>
+<p>在<strong>前2种情况</strong>中，方法引用等价于提供方法参数的 lambda 表达式。</p>
+<p>例：System.out::println 等价于 x -&gt; System.out.println（x）。</p>
+<p>对于<strong>第3种情况</strong>，第1个参数会成为方法的目标。</p>
+<p>例：String::compareTolgnoreCase 等价于 (x，y) -&gt; x.compareTolgnoreCase(y)。</p>
+<p>可以在方法引用中使用 <strong>this</strong>，<strong>super</strong> 参数。</p>
+<p>例如，this::equals 等同于 x -&gt; this.equals(x)。</p>
+<h3 id="构造器引用"><a href="#构造器引用" class="headerlink" title="构造器引用"></a>构造器引用</h3><p>构造器引用与方法引用很类似，只不过方法名为new。</p>
+<p>例如，Person::new是Person构造器的一个引用。</p>
+<p>可以用<strong>数组类型</strong>建立构造器引用。</p>
+<p>例如，int[]::new 等价于 x -&gt; new int[x]。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/02/06/java%E5%9F%BA%E7%A1%80/" rel="prev" title="java基础">
+      <i class="fa fa-chevron-left"></i> java基础
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+        </div>
+        
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lyp</span>
+</div>
+<span id="busuanzi_container_site_uv">
+  访客数<span id="busuanzi_value_site_uv"></span>人次
+</span>
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
+<!--动态线条背景-->
+<script type="text/javascript"
+color="150,150,150" opacity='1' zIndex="-2" count="180" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+</script>
