@@ -29,13 +29,13 @@
 <meta property="og:site_name" content="Zima Blue&#39;s blog">
 <meta property="og:description" content="lambda表达式的语法，作用。变量作用域，函数式接口，方法引用和构造器引用">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://yoursite.com/2021/02/06/lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F/_Books/java/lambda表达式/1.png">
-<meta property="og:image" content="http://yoursite.com/2021/02/06/lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F/_Books/java/lambda表达式/2.png">
+<meta property="og:image" content="http://yoursite.com/2021/02/06/lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F/1.png">
+<meta property="og:image" content="http://yoursite.com/2021/02/06/lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F/2.png">
 <meta property="article:published_time" content="2021-02-06T12:42:35.930Z">
-<meta property="article:modified_time" content="2021-02-06T12:48:35.443Z">
+<meta property="article:modified_time" content="2021-02-11T06:42:25.857Z">
 <meta property="article:author" content="lyp">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/2021/02/06/lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F/_Books/java/lambda表达式/1.png">
+<meta name="twitter:image" content="http://yoursite.com/2021/02/06/lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F/1.png">
 
 <link rel="canonical" href="http://yoursite.com/2021/02/06/lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F/">
 
@@ -224,10 +224,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2021-02-06 20:42:35 / Modified: 20:48:35" itemprop="dateCreated datePublished" datetime="2021-02-06T20:42:35+08:00">2021-02-06</time>
+              <time title="Created: 2021-02-06 20:42:35" itemprop="dateCreated datePublished" datetime="2021-02-06T20:42:35+08:00">2021-02-06</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-02-11 14:42:25" itemprop="dateModified" datetime="2021-02-11T14:42:25+08:00">2021-02-11</time>
+              </span>
 
           
             <div class="post-description">lambda表达式的语法，作用。变量作用域，函数式接口，方法引用和构造器引用</div>
@@ -256,7 +262,7 @@
 <li><p>无需指定lambda表达式的<strong>返回类型</strong>。lambda表达式的返回类型总是会由上下文推导得出。</p>
 </li>
 </ol>
-<h3 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h3><p>使用lambda表达式的重点是<strong>延迟执行</strong>（deferred execution）。毕竟，如果想要立即执行代码，完全可以直接执行，而无需把它包装在一个lambda表达式中。之所以希望以后再执行代码，这有很多原因，如：</p>
+<h3 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h3><p>&emsp;&emsp;使用lambda表达式的重点是<strong>延迟执行</strong>（deferred execution）。毕竟，如果想要立即执行代码，完全可以直接执行，而无需把它包装在一个lambda表达式中。之所以希望以后再执行代码，这有很多原因，如：</p>
 <ol>
 <li>在一个单独的线程中运行代码；</li>
 <li>多次运行代码；</li>
@@ -264,59 +270,59 @@
 <li>发生某种情况时执行代码（如，点击了一个按钮，数据到达，等等）；</li>
 <li>只在必要时才运行代码。</li>
 </ol>
-<h3 id="变量作用域"><a href="#变量作用域" class="headerlink" title="变量作用域"></a>变量作用域</h3><p>lambda表达式可以在lambda表达式中访问外围方法或类中的变量</p>
-<p>例：</p>
+<h3 id="变量作用域"><a href="#变量作用域" class="headerlink" title="变量作用域"></a>变量作用域</h3><p>&emsp;&emsp;lambda表达式可以在lambda表达式中访问外围方法或类中的变量</p>
+<p>&emsp;&emsp;例：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">repeatMessage</span><span class="params">(String text, <span class="keyword">int</span> delay)</span></span>&#123;</span><br><span class="line">    ActionListener listener = event -&gt; System.out.println(text);</span><br><span class="line">    <span class="keyword">new</span> Timer(delay, listener);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>text变量并不是lambda表达式中的。</p>
-<p>类似text变量的变量称为自由变量，自由变量被lambda表达式<strong>捕获</strong>（captured）。一个lambda表达式转换为包含一个方法的对象，这样自由变量的值就会复制到这个对象的实例变量中。</p>
-<p>lambda表达式中捕获的变量必须实际上是<strong>最终变量</strong> ( effectively final ) ，实际上的最终变量是指，这个<strong>变量初始化之后就不会再为它赋新值</strong>，例如String。</p>
-<p>lambda表达式中声明与一个<strong>局部变量同名的参数</strong>或局部变量是不合法的。</p>
-<p>在一个lambda 表达式中使用this 关键字时，是指创建这个lambda表达式的方法的this参数。</p>
-<h3 id="函数式接口"><a href="#函数式接口" class="headerlink" title="函数式接口"></a>函数式接口</h3><p>对于只有一个抽象方法的接口，需要这种接口的对象时，就可以提供一个lambda表达式。这种接口称为<strong>函数式接口</strong>，也可以理解为给一个方法传入一段代码进行运行。</p>
-<p>例：</p>
+<p>&emsp;&emsp;text变量并不是lambda表达式中的。</p>
+<p>&emsp;&emsp;类似text变量的变量称为自由变量，自由变量被lambda表达式<strong>捕获</strong>（captured）。一个lambda表达式转换为包含一个方法的对象，这样自由变量的值就会复制到这个对象的实例变量中。</p>
+<p>&emsp;&emsp;lambda表达式中捕获的变量必须实际上是<strong>最终变量</strong> ( effectively final ) ，实际上的最终变量是指，这个<strong>变量初始化之后就不会再为它赋新值</strong>，例如String。</p>
+<p>&emsp;&emsp;lambda表达式中声明与一个<strong>局部变量同名的参数</strong>或局部变量是不合法的。</p>
+<p>&emsp;&emsp;在一个lambda 表达式中使用this 关键字时，是指创建这个lambda表达式的方法的this参数。</p>
+<h3 id="函数式接口"><a href="#函数式接口" class="headerlink" title="函数式接口"></a>函数式接口</h3><p>&emsp;&emsp;对于只有一个抽象方法的接口，需要这种接口的对象时，就可以提供一个lambda表达式。这种接口称为<strong>函数式接口</strong>，也可以理解为给一个方法传入一段代码进行运行。</p>
+<p>&emsp;&emsp;例：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Predicate</span>&lt;<span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class">    <span class="title">boolean</span> <span class="title">test</span>(<span class="title">T</span> <span class="title">t</span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>ArrayList类有一个removelf方法，它的参数就是一个Predicate。</p>
-<p>下面的语句将从一个数组列表删除所有null值：</p>
-<p>接口：</p>
+<p>&emsp;&emsp;ArrayList类有一个removelf方法，它的参数就是一个Predicate。</p>
+<p>&emsp;&emsp;下面的语句将从一个数组列表删除所有null值：</p>
+<p>&emsp;&emsp;接口：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">deletNull</span> <span class="keyword">implements</span> <span class="title">Predicate</span>&lt;<span class="title">T</span>&gt;</span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">test</span><span class="params">(T t)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (t == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>创建一个deletNull类的对象，然后将此对象传入removelf方法</p>
-<p>lambda表达式：</p>
+<p>&emsp;&emsp;创建一个deletNull类的对象，然后将此对象传入removelf方法</p>
+<p>&emsp;&emsp;lambda表达式：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">list.removeIf(e-&gt;e==<span class="keyword">null</span>)；</span><br></pre></td></tr></table></figure>
-<p>或</p>
+<p>&emsp;&emsp;或</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Predicate p = e-&gt;e==<span class="keyword">null</span>;</span><br><span class="line">list.removeIf(p);</span><br></pre></td></tr></table></figure>
-<p>可以<strong>将一个lambda表达式赋值</strong>给一个对应接口类型的变量。</p>
-<h4 id="创建函数式接口"><a href="#创建函数式接口" class="headerlink" title="创建函数式接口"></a>创建函数式接口</h4><p>创建函数式接口尽量使用<strong>已有的接口</strong></p>
-<p><img src="/2021/02/06/lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F/_Books\java\lambda表达式\1.png" alt="1" style="zoom: 67%;"></p>
-<p><img src="/2021/02/06/lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F/_Books\java\lambda表达式\2.png" alt="2" style="zoom: 67%;"></p>
-<p>例如：</p>
+<p>&emsp;&emsp;可以<strong>将一个lambda表达式赋值</strong>给一个对应接口类型的变量。</p>
+<h4 id="创建函数式接口"><a href="#创建函数式接口" class="headerlink" title="创建函数式接口"></a>创建函数式接口</h4><p>&emsp;&emsp;创建函数式接口尽量使用<strong>已有的接口</strong></p>
+<p><img src="/2021/02/06/lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F/1.png" alt="1" style="zoom: 67%;"></p>
+<p><img src="/2021/02/06/lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F/2.png" alt="2" style="zoom: 67%;"></p>
+<p>&emsp;&emsp;例如：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">repeat</span><span class="params">(<span class="keyword">int</span> n, Runnable action)</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(inti=<span class="number">0</span>;i&lt;n;i++) </span><br><span class="line">        action.run(); <span class="comment">// 因为接口只是一个类，所以要用接口中要实现的方法</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>用以下代码使用</p>
+<p>&emsp;&emsp;用以下代码使用</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">repeat(<span class="number">10</span>, <span class="number">0</span> -&gt; System.out.println(<span class="string">&quot;Hello,World!&quot;</span>))；</span><br></pre></td></tr></table></figure>
-<p>也可以利用<strong>创建的接口</strong></p>
-<p>例如：</p>
-<p>接口</p>
+<p>&emsp;&emsp;也可以利用<strong>创建的接口</strong></p>
+<p>&emsp;&emsp;例如：</p>
+<p>&emsp;&emsp;接口</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IntConsumer</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">accept</span><span class="params">(intvalue)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>方法</p>
+<p>&emsp;&emsp;方法</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">repeat</span><span class="params">(<span class="keyword">int</span> n, IntConsumer action)</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(inti=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">        action.accept(i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>调用</p>
+<p>&emsp;&emsp;调用</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">repeat(<span class="number">10</span>, i -&gt; System.out.println(<span class="string">&quot;Countdown:&quot;</span> + (<span class="number">9</span> - i)));</span><br></pre></td></tr></table></figure>
-<h3 id="方法引用"><a href="#方法引用" class="headerlink" title="方法引用"></a>方法引用</h3><p>若有现成的方法可以达到你想要传递到某个方法的作用，则可以使用<strong>方法引用</strong>。</p>
-<p>::操作符分隔方法名与对象或类名，主要有3种情况：</p>
+<h3 id="方法引用"><a href="#方法引用" class="headerlink" title="方法引用"></a>方法引用</h3><p>&emsp;&emsp;若有现成的方法可以达到你想要传递到某个方法的作用，则可以使用<strong>方法引用</strong>。</p>
+<p>&emsp;&emsp;::操作符分隔方法名与对象或类名，主要有3种情况：</p>
 <ol>
 <li><strong>object::instanceMethod</strong></li>
 <li><strong>Class::staticMethod</strong></li>
 <li><strong>Class::instanceMethod</strong></li>
 </ol>
-<p>在<strong>前2种情况</strong>中，方法引用等价于提供方法参数的 lambda 表达式。</p>
-<p>例：System.out::println 等价于 x -&gt; System.out.println（x）。</p>
-<p>对于<strong>第3种情况</strong>，第1个参数会成为方法的目标。</p>
-<p>例：String::compareTolgnoreCase 等价于 (x，y) -&gt; x.compareTolgnoreCase(y)。</p>
-<p>可以在方法引用中使用 <strong>this</strong>，<strong>super</strong> 参数。</p>
-<p>例如，this::equals 等同于 x -&gt; this.equals(x)。</p>
-<h3 id="构造器引用"><a href="#构造器引用" class="headerlink" title="构造器引用"></a>构造器引用</h3><p>构造器引用与方法引用很类似，只不过方法名为new。</p>
-<p>例如，Person::new是Person构造器的一个引用。</p>
-<p>可以用<strong>数组类型</strong>建立构造器引用。</p>
-<p>例如，int[]::new 等价于 x -&gt; new int[x]。</p>
+<p>&emsp;&emsp;在<strong>前2种情况</strong>中，方法引用等价于提供方法参数的 lambda 表达式。</p>
+<p>&emsp;&emsp;例：System.out::println 等价于 x -&gt; System.out.println（x）。</p>
+<p>&emsp;&emsp;对于<strong>第3种情况</strong>，第1个参数会成为方法的目标。</p>
+<p>&emsp;&emsp;例：String::compareTolgnoreCase 等价于 (x，y) -&gt; x.compareTolgnoreCase(y)。</p>
+<p>&emsp;&emsp;可以在方法引用中使用 <strong>this</strong>，<strong>super</strong> 参数。</p>
+<p>&emsp;&emsp;例如，this::equals 等同于 x -&gt; this.equals(x)。</p>
+<h3 id="构造器引用"><a href="#构造器引用" class="headerlink" title="构造器引用"></a>构造器引用</h3><p>&emsp;&emsp;构造器引用与方法引用很类似，只不过方法名为new。</p>
+<p>&emsp;&emsp;例如，Person::new是Person构造器的一个引用。</p>
+<p>&emsp;&emsp;可以用<strong>数组类型</strong>建立构造器引用。</p>
+<p>&emsp;&emsp;例如，int[]::new 等价于 x -&gt; new int[x]。</p>
 
     </div>
 
