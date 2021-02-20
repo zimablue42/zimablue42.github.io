@@ -30,7 +30,7 @@
 <meta property="og:description" content="Java内部类的作用，语法，局部内部类，匿名内部类，静态内部类">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-02-20T04:22:23.586Z">
-<meta property="article:modified_time" content="2021-02-20T14:49:31.829Z">
+<meta property="article:modified_time" content="2021-02-20T15:09:29.215Z">
 <meta property="article:author" content="lyp">
 <meta name="twitter:card" content="summary">
 
@@ -223,7 +223,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2021-02-20 12:22:23 / Modified: 22:49:31" itemprop="dateCreated datePublished" datetime="2021-02-20T12:22:23+08:00">2021-02-20</time>
+              <time title="Created: 2021-02-20 12:22:23 / Modified: 23:09:29" itemprop="dateCreated datePublished" datetime="2021-02-20T12:22:23+08:00">2021-02-20</time>
             </span>
 
           
@@ -243,6 +243,7 @@
 <li>内部类可以<strong>对同一个包中的其他类隐藏</strong>起来。</li>
 <li>当想要定义一个回调函数且不想编写大量代码时，使用<strong>匿名（anonymous）内部类</strong>比较便捷。</li>
 </ol>
+<p>&emsp;&emsp;</p>
 <h3 id="语法："><a href="#语法：" class="headerlink" title="语法："></a>语法：</h3><ol>
 <li><p>内部类既可以访问自身的数据域，也可以<strong>访问</strong>创建它的<strong>外围类对象的数据域</strong></p>
 <p>&emsp;&emsp;这是因为<strong>内部类</strong>的对象总<strong>有一个隐式引用</strong>，它指向了创建它的外部类对象。<strong>外围类的引用在内部类的构造器中设置</strong>。编译器修改了所有的内部类的构造器，添加一个外围类引用的参数，内部类通过这个外围类的引用，访问外围类对象的数据。</p>
@@ -263,6 +264,7 @@
 <li>内部类中声明的所有<strong>静态域都必须是final</strong></li>
 <li>内部类<strong>不能有static方法</strong></li>
 </ol>
+<p>&emsp;&emsp;</p>
 <h3 id="局部内部类"><a href="#局部内部类" class="headerlink" title="局部内部类"></a>局部内部类</h3><ol>
 <li><p>在<strong>外围类的方法中定义的类</strong>叫做局部内部类</p>
 </li>
@@ -271,6 +273,7 @@
 <li><p>局部内部类可以<strong>使用局部变量</strong>（参数变量等），在程序执行时，使用的局部变量会被储存为一个常量，所在方法运行结束后此变量还能用，并不会因为局部变量的消失（因为为局部变量，当参数所在的方法运行结束后，局部变量就消失了）而导致所创建出来的局部内部类的对象无法使用。这些<strong>局部变量必须为final</strong>，若想让此局部变量改变，可以利用数组，因为即使是<strong>被final修饰的数组</strong>，数组中储存的值也是可以改变的。因为final限制的是引用所指向的内存（数组）不变，而数组的数可以变。</p>
 </li>
 </ol>
+<p>&emsp;&emsp;</p>
 <h3 id="匿名内部类"><a href="#匿名内部类" class="headerlink" title="匿名内部类"></a>匿名内部类</h3><ol>
 <li><p>匿名内部类与局部内部类一样都是在外围类的方法中定义的类，但匿名内部类比局部内部类更深一步，并不需要一个类名</p>
 </li>
@@ -283,6 +286,7 @@
 <p>当匿名内部类继承一个类时，可以传入参数。</p>
 </li>
 </ol>
+<p>&emsp;&emsp;</p>
 <h3 id="静态内部类"><a href="#静态内部类" class="headerlink" title="静态内部类"></a>静态内部类</h3><ol>
 <li><p>语法：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">static</span> 类名</span>&#123;</span><br><span class="line">    methods and data</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>

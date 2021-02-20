@@ -31,7 +31,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://yoursite.com/2020/08/07/%E8%81%9A%E7%B1%BB%E7%AE%97%E6%B3%95/1.png">
 <meta property="article:published_time" content="2020-08-06T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-08-07T07:55:37.833Z">
+<meta property="article:modified_time" content="2021-02-20T15:09:07.758Z">
 <meta property="article:author" content="lyp">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/2020/08/07/%E8%81%9A%E7%B1%BB%E7%AE%97%E6%B3%95/1.png">
@@ -223,10 +223,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-08-07 00:00:00 / Modified: 15:55:37" itemprop="dateCreated datePublished" datetime="2020-08-07T00:00:00+08:00">2020-08-07</time>
+              <time title="Created: 2020-08-07 00:00:00" itemprop="dateCreated datePublished" datetime="2020-08-07T00:00:00+08:00">2020-08-07</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-02-20 23:09:07" itemprop="dateModified" datetime="2021-02-20T23:09:07+08:00">2021-02-20</time>
+              </span>
 
           
             <div class="post-description">K-Means，均值漂移算法</div>
@@ -243,7 +249,9 @@
         <h1 id="聚类算法"><a href="#聚类算法" class="headerlink" title="聚类算法"></a>聚类算法</h1><h2 id="K-Means"><a href="#K-Means" class="headerlink" title="K-Means"></a>K-Means</h2><p>&emsp;&emsp;<strong>K值</strong>：要得到的簇的个数</p>
 <p>&emsp;&emsp;<strong>质心</strong>：每个簇的<strong>均值向量</strong>，即向量各维取平均即可</p>
 <p>&emsp;&emsp;<strong>距离量度</strong>：常用欧几里得距离和余弦相似度（先标准化）</p>
+<p>&emsp;&emsp;</p>
 <p>&emsp;&emsp;<strong>均值向量</strong>：随机向量的数学期望，随机向量是指多个随机变量的有序数组，每一个分量的数学期望所构成的向量就是均值向量.</p>
+<p>&emsp;&emsp;</p>
 <p>&emsp;&emsp;<strong>算法流程：</strong></p>
 <p>1、首先确定一个k值，即我们希望将数据集经过聚类得到k个集合。</p>
 <p>2、从数据集中随机选择k个数据点作为质心。</p>
@@ -251,8 +259,10 @@
 <p>4、把所有数据归好集合后，一共有k个集合。然后重新计算每个集合的质心。</p>
 <p>5、如果新计算出来的质心和原来的质心之间的距离小于某一个设置的阈值（表示重新计算的质心的位置变化不大，趋于稳定，或者说收敛），我们可以认为聚类已经达到期望的结果，算法终止。</p>
 <p>6、如果新质心和原质心距离变化很大，需要迭代3~5步骤。</p>
+<p>&emsp;&emsp;</p>
 <p><strong>优点：</strong><br>&emsp;&emsp;速度快，计算简便</p>
 <p><strong>缺点：</strong><br>&emsp;&emsp;我们必须提前知道数据有多少类/组。K-Medians是K-Means的一种变体，是用数据集的中位数而不是均值来计算数据的中心点。K-Medians的优势是使用中位数来计算中心点不受异常值的影响；缺点是计算中位数时需要对数据集中的数据进行排序，速度相对于K-Means较慢。</p>
+<p>&emsp;&emsp;</p>
 <h2 id="均值漂移算法"><a href="#均值漂移算法" class="headerlink" title="均值漂移算法"></a>均值漂移算法</h2><p>&emsp;&emsp;均值漂移算法的应用非常广泛，比如在聚类，图像分割，目标跟踪等领域，其运算步骤往往包含有如下几个步骤：</p>
 <p>1，在数据点中随机选择一个点作为初始中心点。</p>
 <p>2，找出离该中心点距离在带宽之内的所有点，记做集合M，认为这些点属于簇C.</p>
@@ -261,6 +271,7 @@
 <p>5，重复上述步骤2,3,4，直到偏移向量的大小满足设定的阈值要求，记住此时的中心点。</p>
 <p>6，重复上述1,2,3，4，5直到所有的点都被归类。</p>
 <p>7，分类：根据每个类，对每个点的访问频率，取访问频率最大的那个类，作为当前点集的所属类。</p>
+<p>&emsp;&emsp;</p>
 <p><strong>偏移方向及距离</strong></p>
 <p><img src="/2020/08/07/%E8%81%9A%E7%B1%BB%E7%AE%97%E6%B3%95/1.png" alt="1"></p>
 <p>M(x)就是偏移向量，模即距离。</p>

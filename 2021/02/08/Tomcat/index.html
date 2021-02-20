@@ -48,7 +48,7 @@
 <meta property="og:image" content="http://yoursite.com/2021/02/08/Tomcat/17.png">
 <meta property="og:image" content="http://yoursite.com/2021/02/08/Tomcat/18.png">
 <meta property="article:published_time" content="2021-02-08T12:25:56.466Z">
-<meta property="article:modified_time" content="2021-02-20T15:03:27.115Z">
+<meta property="article:modified_time" content="2021-02-20T15:14:45.320Z">
 <meta property="article:author" content="lyp">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/2021/02/08/Tomcat/1.png">
@@ -248,7 +248,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-02-20 23:03:27" itemprop="dateModified" datetime="2021-02-20T23:03:27+08:00">2021-02-20</time>
+                <time title="Modified: 2021-02-20 23:14:45" itemprop="dateModified" datetime="2021-02-20T23:14:45+08:00">2021-02-20</time>
               </span>
 
           
@@ -269,22 +269,27 @@
 <li><p>在tomcat的目录下使用命令</p>
 </li>
 </ol>
+<p>&emsp;&emsp;</p>
 <h3 id="测试打开成功"><a href="#测试打开成功" class="headerlink" title="测试打开成功"></a>测试打开成功</h3><p>访问：</p>
 <ol>
 <li><a target="_blank" rel="noopener" href="http://localhost:8080">http://localhost:8080</a></li>
 <li><a target="_blank" rel="noopener" href="http://127.0.0.1:8080">http://127.0.0.1:8080</a></li>
 <li><a href="http://真实ip：8080">http://真实ip：8080</a></li>
 </ol>
+<p>&emsp;&emsp;</p>
 <h3 id="停止方式"><a href="#停止方式" class="headerlink" title="停止方式"></a>停止方式</h3><ol>
 <li>点击tomcat服务器窗口的x关闭按钮</li>
 <li>把Tomcat 服务器窗口置为当前高口，然后按快捷键 Ctrl+C</li>
 <li>找到Tomcat的bin目录下的shutdown.bat 双击，就可以停止Tomcat服务器</li>
 </ol>
+<p>&emsp;&emsp;</p>
 <h3 id="修改Tomcat的端口号"><a href="#修改Tomcat的端口号" class="headerlink" title="修改Tomcat的端口号"></a>修改Tomcat的端口号</h3><p>&emsp;&emsp;Tomcat的默认的端口号是8080</p>
 <p>&emsp;&emsp;找到Tomcat目录下的conf目录，找到server.xml配置文件。</p>
 <p>&emsp;&emsp;找到Connector标签，修改port属性为你需要的端口号。端口号范园：1-65535</p>
 <p>&emsp;&emsp;修改完端口号，一定要重启Tomcat服务器才能生效</p>
+<p>&emsp;&emsp;</p>
 <p>&emsp;&emsp;http协议<strong>默认端口号</strong>是80，当端口号为80时，在访问时可以<strong>省略网址后面的端口号</strong></p>
+<p>&emsp;&emsp;</p>
 <h3 id="将web工程部署到tomcat"><a href="#将web工程部署到tomcat" class="headerlink" title="将web工程部署到tomcat"></a>将web工程部署到tomcat</h3><ol>
 <li><p>只需要把web工程的目录拷贝到Tomcat的webapps目录下即可。<br>在webapps目录下创建一个文件夹，一个文件夹就是一个工程，将工程文件放入文件夹中</p>
 <p><strong>访问方式</strong>：</p>
@@ -296,16 +301,21 @@
 <p>&emsp;&emsp;docBase表示你的工程目录在哪里 —&gt;</p>
 <p>例：</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Context</span> <span class="attr">path</span>=<span class="string">&quot;/abc&quot;</span> <span class="attr">docBase</span>=<span class="string">&quot;E:\book&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;</p>
 </li>
 </ol>
 <p>&emsp;&emsp;可以在任意位置部署web工程</p>
+<p>&emsp;&emsp;</p>
 <h3 id="默认访问ROOT的工程"><a href="#默认访问ROOT的工程" class="headerlink" title="默认访问ROOT的工程"></a>默认访问ROOT的工程</h3><p>&emsp;&emsp;在浏览器地址栏中输入访问地址如下：<br>    &emsp;&emsp;<a href="http://ip:port/">http://ip:port/</a> 没有工程名的时，默认访问的是ROOT工程。</p>
+<p>&emsp;&emsp;</p>
 <h3 id="默认index-html页面的访问"><a href="#默认index-html页面的访问" class="headerlink" title="默认index.html页面的访问"></a>默认index.html页面的访问</h3><p>&emsp;&emsp;在浏览器地址栏中输入的访问地址如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;ip:port&#x2F;工程名&#x2F; 资源名</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;没有资源名时，默认访问index.html页面。</p>
+<p>&emsp;&emsp;</p>
 <h3 id="IDEA使用tomcat"><a href="#IDEA使用tomcat" class="headerlink" title="IDEA使用tomcat"></a>IDEA使用tomcat</h3><h4 id="添加tomcat服务器"><a href="#添加tomcat服务器" class="headerlink" title="添加tomcat服务器"></a>添加tomcat服务器</h4><p><img src="/2021/02/08/Tomcat/1.png" alt="1" style="zoom:67%;"></p>
 <p>&emsp;&emsp;配置tomcat文件目录的路径</p>
 <p><img src="/2021/02/08/Tomcat/2.png" alt="1" style="zoom: 50%;"></p>
+<p>&emsp;&emsp;</p>
 <h4 id="IDEA中创建动态web工程"><a href="#IDEA中创建动态web工程" class="headerlink" title="IDEA中创建动态web工程"></a>IDEA中创建动态web工程</h4><ol>
 <li>创建模块</li>
 </ol>
@@ -318,7 +328,9 @@
 <li><p><img src="/2021/02/08/Tomcat/6.png" alt="1" style="zoom: 50%;"></p>
 </li>
 </ol>
+<p>&emsp;&emsp;</p>
 <h4 id="动态web工程目录介绍"><a href="#动态web工程目录介绍" class="headerlink" title="动态web工程目录介绍"></a>动态web工程目录介绍</h4><p><img src="/2021/02/08/Tomcat/5.png" alt="1" style="zoom: 67%;"></p>
+<p>&emsp;&emsp;</p>
 <h4 id="Tomcat添加第三方jar包"><a href="#Tomcat添加第三方jar包" class="headerlink" title="Tomcat添加第三方jar包"></a>Tomcat添加第三方jar包</h4><ol>
 <li><p>将jar包放入模块的lib文件中</p>
 </li>
@@ -339,6 +351,7 @@
 <p><img src="/2021/02/08/Tomcat/10.png" alt="1" style="zoom: 50%;"></p>
 </li>
 </ol>
+<p>&emsp;&emsp;</p>
 <h4 id="在IDEA中部署工程到Tomcat上运行"><a href="#在IDEA中部署工程到Tomcat上运行" class="headerlink" title="在IDEA中部署工程到Tomcat上运行"></a>在IDEA中部署工程到Tomcat上运行</h4><p>&emsp;&emsp;建议修改 web工程对应的Tomcat运行实例名称</p>
 <ol>
 <li><p><img src="/2021/02/08/Tomcat/11.png" alt="1" style="zoom:67%;"></p>
@@ -350,14 +363,19 @@
 <p><img src="/2021/02/08/Tomcat/13.png" alt="1" style="zoom: 50%;"></p>
 </li>
 </ol>
+<p>&emsp;&emsp;</p>
 <ol>
 <li><p>可以修改你的Tomcat实例启动后默认的访问地址：</p>
 <p><img src="/2021/02/08/Tomcat/14.png" alt="1" style="zoom: 50%;"></p>
 </li>
 </ol>
+<p>&emsp;&emsp;</p>
 <h4 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h4><p><img src="/2021/02/08/Tomcat/15.png" alt="1" style="zoom:67%;"></p>
+<p>&emsp;&emsp;</p>
 <h4 id="修改模块工程路径"><a href="#修改模块工程路径" class="headerlink" title="修改模块工程路径"></a>修改模块工程路径</h4><p><img src="/2021/02/08/Tomcat/16.png" alt="1" style="zoom: 50%;"></p>
+<p>&emsp;&emsp;</p>
 <h4 id="修改端口号"><a href="#修改端口号" class="headerlink" title="修改端口号"></a>修改端口号</h4><p><img src="/2021/02/08/Tomcat/17.png" alt="1" style="zoom: 50%;"></p>
+<p>&emsp;&emsp;</p>
 <h4 id="热部署"><a href="#热部署" class="headerlink" title="热部署"></a>热部署</h4><p><img src="/2021/02/08/Tomcat/18.png" alt="1" style="zoom: 50%;"></p>
 
     </div>

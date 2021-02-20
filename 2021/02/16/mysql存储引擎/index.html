@@ -30,7 +30,7 @@
 <meta property="og:description" content="mysql的常用存储引擎MyISAM，innoDB，MEMORY的优缺点">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-02-15T16:00:00.000Z">
-<meta property="article:modified_time" content="2021-02-20T14:52:41.052Z">
+<meta property="article:modified_time" content="2021-02-20T15:11:48.325Z">
 <meta property="article:author" content="lyp">
 <meta name="twitter:card" content="summary">
 
@@ -229,7 +229,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-02-20 22:52:41" itemprop="dateModified" datetime="2021-02-20T22:52:41+08:00">2021-02-20</time>
+                <time title="Modified: 2021-02-20 23:11:48" itemprop="dateModified" datetime="2021-02-20T23:11:48+08:00">2021-02-20</time>
               </span>
 
           
@@ -248,11 +248,15 @@
 <p>&emsp;&emsp;默认采用的存储引擎是 innoDB </p>
 <p>&emsp;&emsp;默认字符集是 utf8</p>
 <p>&emsp;&emsp;不同的存储引擎有不同的优缺点</p>
+<p>&emsp;&emsp;</p>
 <p>&emsp;&emsp;show engies; 可以显示支持的存储引擎</p>
+<p>&emsp;&emsp;</p>
 <h3 id="常用存储引擎"><a href="#常用存储引擎" class="headerlink" title="常用存储引擎"></a>常用存储引擎</h3><h4 id="MyISAM："><a href="#MyISAM：" class="headerlink" title="MyISAM："></a>MyISAM：</h4><p>&emsp;&emsp;优点：可被压缩，节省存储空间。可以转换为只读表，提高检索效率</p>
 <p>&emsp;&emsp;缺点：不支持事务</p>
+<p>&emsp;&emsp;</p>
 <h4 id="innoDB"><a href="#innoDB" class="headerlink" title="innoDB:"></a>innoDB:</h4><p>&emsp;&emsp;优点：支持事务，外键，行级锁等，数据较为安全</p>
 <p>&emsp;&emsp;缺点：无法被压缩，无法转换成只读</p>
+<p>&emsp;&emsp;</p>
 <h4 id="MEMORY："><a href="#MEMORY：" class="headerlink" title="MEMORY："></a>MEMORY：</h4><p>&emsp;&emsp;缺点：不支持事务。数据容易丢失，因为所有数据存储在内存中</p>
 <p>&emsp;&emsp;优点：查找速度最快</p>
 

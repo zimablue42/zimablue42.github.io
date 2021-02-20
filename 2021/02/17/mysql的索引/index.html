@@ -30,7 +30,7 @@
 <meta property="og:description" content="mysql索引的语法，适用情况，分类，注意事项">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-02-16T16:00:00.000Z">
-<meta property="article:modified_time" content="2021-02-20T06:45:36.335Z">
+<meta property="article:modified_time" content="2021-02-20T15:12:24.246Z">
 <meta property="article:author" content="lyp">
 <meta name="twitter:card" content="summary">
 
@@ -229,7 +229,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-02-20 14:45:36" itemprop="dateModified" datetime="2021-02-20T14:45:36+08:00">2021-02-20</time>
+                <time title="Modified: 2021-02-20 23:12:24" itemprop="dateModified" datetime="2021-02-20T23:12:24+08:00">2021-02-20</time>
               </span>
 
           
@@ -244,12 +244,16 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><p>&emsp;&emsp;给某一个字段添加索引可以减少数据查询的时间，查询速度快，但需要额外的维护，因为数据在修改时可能需要对索引进行修改。</p>
+        <p>&emsp;&emsp;</p>
+<h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><p>&emsp;&emsp;给某一个字段添加索引可以减少数据查询的时间，查询速度快，但需要额外的维护，因为数据在修改时可能需要对索引进行修改。</p>
+<p>&emsp;&emsp;</p>
 <h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><p>&emsp;&emsp;创建索引</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create index 索引名 on 表名(字段名);</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;删除索引</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">drop index 索引名 on 表名;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;</p>
 <h3 id="与主键的关系"><a href="#与主键的关系" class="headerlink" title="与主键的关系"></a>与主键的关系</h3><p>&emsp;&emsp;有<strong>主键约束</strong>和<strong>唯一性约束</strong>的字段会<strong>自动添加索引</strong></p>
+<p>&emsp;&emsp;</p>
 <h3 id="索引的适用情况"><a href="#索引的适用情况" class="headerlink" title="索引的适用情况"></a>索引的适用情况</h3><ul>
 <li><p>数据量庞大</p>
 </li>
@@ -257,7 +261,9 @@
 </li>
 <li>该字段经常被查询</li>
 </ul>
+<p>&emsp;&emsp;</p>
 <h3 id="索引的分类"><a href="#索引的分类" class="headerlink" title="索引的分类"></a>索引的分类</h3><p>&emsp;&emsp;单一索引，复合索引，主键索引， 唯一索引</p>
+<p>&emsp;&emsp;</p>
 <h3 id="索引失效"><a href="#索引失效" class="headerlink" title="索引失效"></a>索引失效</h3><p>&emsp;&emsp;<strong>模糊查询</strong>是若第一个通配符为 <strong>%</strong> 则索引会失效。</p>
 
     </div>

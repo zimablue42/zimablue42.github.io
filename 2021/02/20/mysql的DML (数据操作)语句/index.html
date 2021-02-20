@@ -30,7 +30,7 @@
 <meta property="og:description" content="mysql的数据插入，数据修改及数据删除">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-02-20T04:29:50.161Z">
-<meta property="article:modified_time" content="2021-02-20T06:37:19.071Z">
+<meta property="article:modified_time" content="2021-02-20T15:12:45.487Z">
 <meta property="article:author" content="lyp">
 <meta name="twitter:card" content="summary">
 
@@ -223,7 +223,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2021-02-20 12:29:50 / Modified: 14:37:19" itemprop="dateCreated datePublished" datetime="2021-02-20T12:29:50+08:00">2021-02-20</time>
+              <time title="Created: 2021-02-20 12:29:50 / Modified: 23:12:45" itemprop="dateCreated datePublished" datetime="2021-02-20T12:29:50+08:00">2021-02-20</time>
             </span>
 
           
@@ -242,10 +242,13 @@
 <p>&emsp;&emsp;字段名的顺序和数量不必与表的字段相同，缺少的字段会被视为默认值，默认值默认为null，默认值可以在创建表时修改</p>
 <p>&emsp;&emsp;可以不写字段名，但一定要把每一个字段要插入的数值按照<strong>表中字段的顺序和数量</strong>写上去</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">insert into tableName value (插入数据1, 插入数据2 ... );</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;</p>
 <h3 id="插入多行数据"><a href="#插入多行数据" class="headerlink" title="插入多行数据"></a>插入多行数据</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">insert into tableName(字段名1, 字段名2 ... ) value (插入数据1, 插入数据2 ... ), (插入数据1, 插入数据2 ... ), (...) ...;</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;value后可以有多个小括号，一个括号表示一行数据</p>
+<p>&emsp;&emsp;</p>
 <h2 id="修改数据"><a href="#修改数据" class="headerlink" title="修改数据"></a>修改数据</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">update 表名 set 字段名1 &#x3D; 值1, 字段名2 &#x3D; 值2, ... where 条件; </span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;若不加 where 就会将表中的<strong>所有数据修改</strong></p>
+<p>&emsp;&emsp;</p>
 <h2 id="删除数据"><a href="#删除数据" class="headerlink" title="删除数据"></a>删除数据</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">delete from 表名 where 条件;</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;若不加 where 就会将表中的<strong>所有数据删除</strong></p>
 <p><strong>&emsp;&emsp;delete的删除速度较慢</strong>，因为delete并不是真正的删除，删除后还<strong>可以将数据恢复（回滚）</strong>。</p>

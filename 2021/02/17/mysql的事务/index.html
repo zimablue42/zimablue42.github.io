@@ -30,7 +30,7 @@
 <meta property="og:description" content="mysql事务的语法，简单原理，特性">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-02-16T16:00:00.000Z">
-<meta property="article:modified_time" content="2021-02-20T06:43:15.769Z">
+<meta property="article:modified_time" content="2021-02-20T15:12:11.672Z">
 <meta property="article:author" content="lyp">
 <meta name="twitter:card" content="summary">
 
@@ -229,7 +229,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-02-20 14:43:15" itemprop="dateModified" datetime="2021-02-20T14:43:15+08:00">2021-02-20</time>
+                <time title="Modified: 2021-02-20 23:12:11" itemprop="dateModified" datetime="2021-02-20T23:12:11+08:00">2021-02-20</time>
               </span>
 
           
@@ -254,8 +254,11 @@
 <li><p>事务的存在 是为了保证数据的完整性和安全性</p>
 </li>
 </ol>
+<p>&emsp;&emsp;</p>
 <h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><h4 id="开始事务"><a href="#开始事务" class="headerlink" title="开始事务"></a>开始事务</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">start transaction;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;</p>
 <h4 id="提交事务"><a href="#提交事务" class="headerlink" title="提交事务"></a>提交事务</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">commit;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;</p>
 <h4 id="回滚"><a href="#回滚" class="headerlink" title="回滚"></a>回滚</h4><p>&emsp;&emsp;<strong>设置保存点</strong></p>
 <p>&emsp;&emsp;&emsp;&emsp;savepoint 保存点名; </p>
 <p>&emsp;&emsp;<strong>回到某一个保存点</strong></p>
@@ -263,13 +266,17 @@
 <p>&emsp;&emsp;<strong>结束事务</strong></p>
 <p>​        rollback;</p>
 <p>&emsp;&emsp;&emsp;&emsp;结束事务后并不会修改数据</p>
+<p>&emsp;&emsp;</p>
 <p>&emsp;&emsp;回滚与游戏中的保存进度相似</p>
+<p>&emsp;&emsp;</p>
 <h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>&emsp;&emsp;事务机制开始后，会将想要运行的数据操作的<strong>sql语句储存到操作历史记录</strong>中，并不会在真实的数据中运行这些sql语句，这时相当于会生成一张<strong>虚拟的表</strong>，在这张虚拟的表中运每一个sql语句，在查询时会返回这张虚拟的表中的数据，之后若<strong>提交事务</strong>，提交之后才会在真实的数据中运行这些sql语句，然后会<strong>清空</strong>历史中储存的<strong>sql语句</strong>，<strong>结束事务</strong>。</p>
+<p>&emsp;&emsp;</p>
 <h3 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h3><p>四大特性 ACID：</p>
 <p>A：<strong>原子性</strong>：事务是最小的工作单元，不可再分</p>
 <p>C：<strong>一致性</strong>：事务必须保证多条DML语句同时成功或者同时失败</p>
 <p>I：<strong>隔离性</strong>：事务A与事务B之间具有隔离</p>
 <p>D：<strong>持久性</strong>：最终数据必须持久化到硬盘文件中，事务才算成功的结束</p>
+<p>&emsp;&emsp;</p>
 <h4 id="隔离性"><a href="#隔离性" class="headerlink" title="隔离性"></a>隔离性</h4><ol>
 <li><p><strong>隔离级别</strong>：</p>
 <p>第一级：<strong>读未提交</strong>（read uncommitted）</p>
@@ -283,7 +290,7 @@
 <p>&emsp;&emsp;解决了以上所有问题，但存在<strong>效率较低</strong>的问题</p>
 </li>
 </ol>
-<p>​                                        </p>
+<p>​                    &emsp;&emsp;                    </p>
 <ol>
 <li><p>mysql<strong>默认的隔离级别</strong>是第三级<strong>可重复读</strong>（repeatable read）</p>
 </li>

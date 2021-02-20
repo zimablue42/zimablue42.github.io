@@ -30,7 +30,7 @@
 <meta property="og:description" content="mysql中对数据库的操作，Sql语句的分类，基本语法，表设计的三范式">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-02-10T16:00:00.000Z">
-<meta property="article:modified_time" content="2021-02-20T14:48:43.271Z">
+<meta property="article:modified_time" content="2021-02-20T15:13:01.593Z">
 <meta property="article:author" content="lyp">
 <meta name="twitter:card" content="summary">
 
@@ -229,7 +229,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-02-20 22:48:43" itemprop="dateModified" datetime="2021-02-20T22:48:43+08:00">2021-02-20</time>
+                <time title="Modified: 2021-02-20 23:13:01" itemprop="dateModified" datetime="2021-02-20T23:13:01+08:00">2021-02-20</time>
               </span>
 
           
@@ -244,8 +244,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="常用mysql命令"><a href="#常用mysql命令" class="headerlink" title="常用mysql命令"></a>常用mysql命令</h2><h3 id="登录"><a href="#登录" class="headerlink" title="登录"></a>登录</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root -p123456</span><br></pre></td></tr></table></figure>
+        <p>&emsp;&emsp;</p>
+<h2 id="常用mysql命令"><a href="#常用mysql命令" class="headerlink" title="常用mysql命令"></a>常用mysql命令</h2><h3 id="登录"><a href="#登录" class="headerlink" title="登录"></a>登录</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root -p123456</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;-p后不能有空格</p>
+<p>&emsp;&emsp;</p>
 <h3 id="数据库操作"><a href="#数据库操作" class="headerlink" title="数据库操作"></a>数据库操作</h3><h4 id="显示已有数据库"><a href="#显示已有数据库" class="headerlink" title="显示已有数据库"></a>显示已有数据库</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show databases;</span><br></pre></td></tr></table></figure>
 <h4 id="查询当前使用的数据库"><a href="#查询当前使用的数据库" class="headerlink" title="查询当前使用的数据库"></a>查询当前使用的数据库</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select database();</span><br></pre></td></tr></table></figure>
 <h4 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create database databaseName;</span><br></pre></td></tr></table></figure>
@@ -255,11 +257,13 @@
 <h4 id="运行sql脚本"><a href="#运行sql脚本" class="headerlink" title="运行sql脚本"></a>运行sql脚本</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source &#x2F;home&#x2F;zimablue&#x2F;databaseName.sql;</span><br></pre></td></tr></table></figure>
 <h4 id="导出数据库"><a href="#导出数据库" class="headerlink" title="导出数据库"></a>导出数据库</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqldump 数据库名&gt;导出地址+文件名.sql -uroot -p123456</span><br></pre></td></tr></table></figure>
 <h4 id="导出表"><a href="#导出表" class="headerlink" title="导出表"></a>导出表</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqldump 数据库名 表名&gt;导出地址+文件名.sql -uroot -p123456</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;</p>
 <h2 id="SqL语句分类"><a href="#SqL语句分类" class="headerlink" title="SqL语句分类"></a>SqL语句分类</h2><p>&emsp;&emsp;<strong>DQL</strong>(数据查询语言)：查询语句，凡是select语句都是DQL。</p>
 <p>&emsp;&emsp;<strong>DML</strong>(数据操作语言)：insert delete update，对表当中的数据进行增删改。</p>
 <p><strong>&emsp;&emsp;DDL</strong>(数据定义语言)：create drop alter，对表结构的增删改</p>
 <p>&emsp;&emsp;<strong>TCL</strong>(事务控制语言)：commit提交事务，rollback回滚事务。(TCL中的T是Transaction)</p>
 <p>&emsp;&emsp;<strong>DCL</strong>(数据控制语言)：grant授权、revoke撤销权限等</p>
+<p>&emsp;&emsp;</p>
 <h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><ol>
 <li><p>sql语句以“ ; ”结尾</p>
 </li>
@@ -270,6 +274,8 @@
 <li><p>mysql对一个字段名起别名：字段名 别名</p>
 </li>
 </ol>
+<p>&emsp;&emsp;</p>
+<p>&emsp;&emsp;</p>
 <h2 id="表设计的三范式"><a href="#表设计的三范式" class="headerlink" title="表设计的三范式"></a>表设计的三范式</h2><p>&emsp;&emsp;第一范式（1NF）：要求数据达到原子性，使数据不可再分，每一张表都有主键；</p>
 <p>&emsp;&emsp;第二范式（2NF）：使每一行<strong>数据具有唯一性</strong>，并<strong>消除</strong>数据之间的“<strong>部分依赖</strong>”，使一个表中的非主键字段，完全依                                  赖于主键字段；</p>
 <p>&emsp;&emsp;第三范式（3NF）：使每个字段都独立地依赖于主键字段（独立性），而要消除其中部分非主键字段的内部依赖                                    ——这种内部依赖会构成“传递依赖”</p>
@@ -292,8 +298,8 @@
       <i class="fa fa-chevron-left"></i> Tomcat的使用
     </a></div>
       <div class="post-nav-item">
-    <a href="/2021/02/15/mysql%E7%9A%84%E7%BA%A6%E6%9D%9F/" rel="next" title="mysql的约束">
-      mysql的约束 <i class="fa fa-chevron-right"></i>
+    <a href="/2021/02/15/mysql%E7%9A%84%E8%A1%A8%E6%93%8D%E4%BD%9C/" rel="next" title="mysql表的操作">
+      mysql表的操作 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>

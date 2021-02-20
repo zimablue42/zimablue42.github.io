@@ -30,7 +30,7 @@
 <meta property="og:description" content="mysql约束的非空约束，唯一约束，主键约束和外键约束">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-02-14T16:00:00.000Z">
-<meta property="article:modified_time" content="2021-02-20T06:46:55.478Z">
+<meta property="article:modified_time" content="2021-02-20T15:12:41.068Z">
 <meta property="article:author" content="lyp">
 <meta name="twitter:card" content="summary">
 
@@ -229,7 +229,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-02-20 14:46:55" itemprop="dateModified" datetime="2021-02-20T14:46:55+08:00">2021-02-20</time>
+                <time title="Modified: 2021-02-20 23:12:41" itemprop="dateModified" datetime="2021-02-20T23:12:41+08:00">2021-02-20</time>
               </span>
 
           
@@ -250,48 +250,61 @@
 <p>&emsp;&emsp;外建约束（foreign key）：</p>
 <p>&emsp;&emsp;检查约束（check）：oracle数据库中有check约束，但mysql中没有</p>
 <p>&emsp;&emsp;若插入的数据不符合约束，则会报错。</p>
+<p>&emsp;&emsp;</p>
 <h2 id="非空约束"><a href="#非空约束" class="headerlink" title="非空约束"></a>非空约束</h2><p>&emsp;&emsp;not null指定的字段的数据不能为NULL</p>
 <p>&emsp;&emsp;在创建表时加not null</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create table 表名(字段名 数据类型 not null ...);</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;</p>
 <h2 id="唯一约束"><a href="#唯一约束" class="headerlink" title="唯一约束"></a>唯一约束</h2><p>&emsp;&emsp;unique指定的字段的<strong>数据不能</strong>为出现<strong>重复</strong>，但<strong>null可以重复</strong>，因为null不是一个值</p>
 <p>&emsp;&emsp;一个字段的约束是<strong>列级约束</strong>，多个字段的约束是<strong>表级约束</strong></p>
+<p>&emsp;&emsp;</p>
 <h3 id="一个字段"><a href="#一个字段" class="headerlink" title="一个字段"></a>一个字段</h3><p>&emsp;&emsp;在创建表时给想要进行唯一约束的字段加unique</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create table 表名(字段名 数据类型 unique ...);</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;</p>
 <h3 id="多个字段"><a href="#多个字段" class="headerlink" title="多个字段"></a>多个字段</h3><p><strong>&emsp;&emsp;多个字段联合起来不重复</strong>，可以在单个字段中重复</p>
 <p>&emsp;&emsp;例：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create table 表名(字段名1 int(42), 字段名2 int(42), ... unique(字段名1, 字段名2));</span><br></pre></td></tr></table></figure>
 <p><strong>&emsp;&emsp;unique(</strong>字段名1, 字段名2<strong>)</strong> 可以<strong>位于括号中的任意位置</strong></p>
+<p>&emsp;&emsp;</p>
 <h2 id="主键约束"><a href="#主键约束" class="headerlink" title="主键约束"></a>主键约束</h2><p>&emsp;&emsp;主键字段：被主键约束约束的字段</p>
 <p>&emsp;&emsp;主键值：主键字段的每一个值</p>
+<p>&emsp;&emsp;</p>
 <h3 id="主键的作用"><a href="#主键的作用" class="headerlink" title="主键的作用"></a>主键的作用</h3><ol>
 <li><p>表的设计三范式的要求，第一范式要求任何一张表都应该有主键</p>
 </li>
 <li><p>有主键约束的字段的每一个数据都是相应记录是<strong>唯一标识</strong>，主键中的数据<strong>不能为null</strong>，<strong>不能重复</strong>。</p>
 </li>
 </ol>
+<p>&emsp;&emsp;</p>
 <h3 id="主键的分类"><a href="#主键的分类" class="headerlink" title="主键的分类"></a>主键的分类</h3><p>&emsp;&emsp;根据主键的<strong>字段数量</strong>划分</p>
 <p>&emsp;&emsp;&emsp;&emsp;<strong>单一主键</strong>：<strong>最常用</strong></p>
 <p>&emsp;&emsp;&emsp;&emsp;<strong>复合主键</strong>：（多个字段联合起来添加一个主键约束，<strong>不建议使用</strong>，因为违反了三范式）</p>
 <p>根据主键的<strong>性质</strong>来划分</p>
 <p>&emsp;&emsp;&emsp;&emsp;<strong>自然主键</strong>：一个和业务没有任何关系的自然数，<strong>最常用</strong></p>
 <p>&emsp;&emsp;&emsp;&emsp;<strong>业务主键</strong>：主键值和系统的业务挂钩，如政府的数据库将每一个人的身份证号作为主键，<strong>不建&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;议使用</strong>。</p>
+<p>&emsp;&emsp;</p>
 <h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><h4 id="单一主键语法"><a href="#单一主键语法" class="headerlink" title="单一主键语法"></a>单一主键语法</h4><p>&emsp;&emsp;在创建表时给想要进行主键约束的字段加primary key</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create table 表名(字段名 数据类型 primary key ...);</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;<strong>一张表的主键约束只能有一个</strong></p>
+<p>&emsp;&emsp;</p>
 <h4 id="复合主键语法"><a href="#复合主键语法" class="headerlink" title="复合主键语法"></a>复合主键语法</h4><p>&emsp;&emsp;与唯一约束的多字段相同</p>
 <p>&emsp;&emsp;例：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create table 表名(字段名1 int(42), 字段名2 int(42), ... primary key(字段名1, 字段名2));</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;<strong>primary key(</strong>字段名1, 字段名2<strong>)</strong> 可以<strong>位于括号中的任意位置</strong></p>
+<p>&emsp;&emsp;</p>
 <h3 id="主键值自增加"><a href="#主键值自增加" class="headerlink" title="主键值自增加"></a>主键值自增加</h3><p>&emsp;&emsp;mysql可以对一个主键的值按照顺序进行自增操作，不需要手动插入数据</p>
 <p>&emsp;&emsp;在 primary key 后添加 auto_increment 就可以</p>
 <p>&emsp;&emsp;例如：</p>
 <p>&emsp;&emsp;<strong>单一主键：</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create table 表名(字段名 数据类型 primary key auto_increment ...);</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;</p>
 <h2 id="外键约束"><a href="#外键约束" class="headerlink" title="外键约束"></a>外键约束</h2><p>&emsp;&emsp;外键约束可以将两张表联系起来</p>
+<p>&emsp;&emsp;</p>
 <h3 id="语法-1"><a href="#语法-1" class="headerlink" title="语法"></a>语法</h3><p>&emsp;&emsp;例如：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">create table A(</span><br><span class="line">    &#39;A字段1&#39; int(42) primary key, </span><br><span class="line">    &#39;A字段2&#39; char(42)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">create table B(</span><br><span class="line">    &#39;B字段1&#39; char(42), </span><br><span class="line">    &#39;B字段2&#39; int(42),</span><br><span class="line">    foreign key(&#39;B字段2&#39;) references A(&#39;A字段1&#39;)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;references 关键字表明B表中有外键约束的字段 <strong>‘B字段2</strong>‘ <strong>引用</strong> 表A的字段 ‘<strong>A字段1</strong>‘，字段 <strong>‘B字段2</strong>‘ 的值只能是 ‘<strong>A字段1</strong>‘ 中的值。<strong>B</strong>表称为<strong>父表</strong>，<strong>A</strong>表称为<strong>子表</strong>。</p>
+<p>&emsp;&emsp;</p>
 <ol>
 <li><p>一张表中有外键约束的字段 （’B字段2’ ）的值只能是其所引用的字段（ ‘A字段1’）下的值，所以在创建表时要<strong>先创建父表</strong>，<strong>再创建子表</strong>。</p>
 </li>
@@ -315,12 +328,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/02/11/mysql%E5%9F%BA%E7%A1%80/" rel="prev" title="mysql基础">
-      <i class="fa fa-chevron-left"></i> mysql基础
+    <a href="/2021/02/15/mysql%E7%9A%84%E8%A1%A8%E6%93%8D%E4%BD%9C/" rel="prev" title="mysql表的操作">
+      <i class="fa fa-chevron-left"></i> mysql表的操作
     </a></div>
       <div class="post-nav-item">
-    <a href="/2021/02/15/mysql%E7%9A%84%E8%A1%A8%E6%93%8D%E4%BD%9C/" rel="next" title="mysql表的操作">
-      mysql表的操作 <i class="fa fa-chevron-right"></i>
+    <a href="/2021/02/15/mysql%E7%9A%84DQL%20(%E6%95%B0%E6%8D%AE%E6%9F%A5%E8%AF%A2)%E8%AF%AD%E5%8F%A5/" rel="next" title="mysql的DQL (数据查询)语句">
+      mysql的DQL (数据查询)语句 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>

@@ -30,7 +30,7 @@
 <meta property="og:description" content="普通最小二乘法,岭回归,Lasso,多任务 Lasso,弹性网络,多任务弹性网络,LARS Lasso,正交匹配追踪法,贝叶斯回归,贝叶斯岭回归,logistic 回归,Huber 回归,多项式回归：用基函数展开线性模型">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-07-27T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-08-09T00:53:14.056Z">
+<meta property="article:modified_time" content="2021-02-20T15:13:43.289Z">
 <meta property="article:author" content="lyp">
 <meta name="twitter:card" content="summary">
 
@@ -229,7 +229,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-08-09 08:53:14" itemprop="dateModified" datetime="2020-08-09T08:53:14+08:00">2020-08-09</time>
+                <time title="Modified: 2021-02-20 23:13:43" itemprop="dateModified" datetime="2021-02-20T23:13:43+08:00">2021-02-20</time>
               </span>
 
           
@@ -244,7 +244,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="广义线性模型"><a href="#广义线性模型" class="headerlink" title="广义线性模型"></a>广义线性模型</h1><p>&emsp;&emsp;</p>
+        <h1 id="广义线性模型"><a href="#广义线性模型" class="headerlink" title="广义线性模型"></a>广义线性模型</h1><p>&emsp;&emsp;&emsp;&emsp;</p>
 <h2 id="普通最小二乘法"><a href="#普通最小二乘法" class="headerlink" title="普通最小二乘法"></a>普通最小二乘法</h2><p>&emsp;&emsp;最小二乘法公式：为a=y(平均)-b*x(平均)</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> linear_model</span><br><span class="line"></span><br><span class="line">reg = linear_model.LinearRegression()</span><br><span class="line">reg.fit([[<span class="number">0</span>, <span class="number">0</span>], [<span class="number">1</span>, <span class="number">1</span>]], [<span class="number">0</span>, <span class="number">1</span>], [<span class="number">1</span>, <span class="number">1</span>])</span><br><span class="line"><span class="comment"># y=x+1</span></span><br><span class="line">print(reg.coef_)  <span class="comment"># 参数值</span></span><br><span class="line">print(reg.intercept_)  <span class="comment"># 截距</span></span><br><span class="line">print(reg.predict([[<span class="number">1</span>, <span class="number">2</span>], [<span class="number">2</span>, <span class="number">3</span>]]))  <span class="comment"># 想要预测的数据，放到一个列表中</span></span><br><span class="line"></span><br><span class="line">输出：</span><br><span class="line">[<span class="number">0.5</span> <span class="number">0.5</span>]</span><br><span class="line"><span class="number">5.551115123125783e-17</span></span><br><span class="line">[<span class="number">1.5</span> <span class="number">2.5</span>]</span><br></pre></td></tr></table></figure>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LinearRegression(copy_X=<span class="literal">True</span>, fit_intercept=<span class="literal">True</span>, n_jobs=<span class="number">1</span>, normalize=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
