@@ -22,21 +22,21 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Muse","version":"8.0.0-rc.4","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false};
   </script>
 
-  <meta name="description" content="均方根误差，平均绝对误差，标准差的意义与原理">
+  <meta name="description" content="mysql8首次安装密码设置，更改mysql密码跳过权限验证的功能">
 <meta property="og:type" content="article">
-<meta property="og:title" content="均方根误差，平均绝对误差，标准差">
-<meta property="og:url" content="http://yoursite.com/2020/07/28/%E5%9D%87%E6%96%B9%E6%A0%B9%E8%AF%AF%E5%B7%AE%EF%BC%88RMSE%EF%BC%89%EF%BC%8C%E5%B9%B3%E5%9D%87%E7%BB%9D%E5%AF%B9%E8%AF%AF%E5%B7%AE(MAE)%EF%BC%8C%E6%A0%87%E5%87%86%E5%B7%AE(Standard%20Deviation)%E7%9A%84%E5%AF%B9%E6%AF%94/index.html">
+<meta property="og:title" content="mysql8首次安装密码设置">
+<meta property="og:url" content="http://yoursite.com/2021/03/25/mysql8%E9%A6%96%E6%AC%A1%E5%AE%89%E8%A3%85%E5%AF%86%E7%A0%81%E8%AE%BE%E7%BD%AE/index.html">
 <meta property="og:site_name" content="LYP&#39;s blog">
-<meta property="og:description" content="均方根误差，平均绝对误差，标准差的意义与原理">
+<meta property="og:description" content="mysql8首次安装密码设置，更改mysql密码跳过权限验证的功能">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://yoursite.com/2020/07/28/%E5%9D%87%E6%96%B9%E6%A0%B9%E8%AF%AF%E5%B7%AE%EF%BC%88RMSE%EF%BC%89%EF%BC%8C%E5%B9%B3%E5%9D%87%E7%BB%9D%E5%AF%B9%E8%AF%AF%E5%B7%AE(MAE)%EF%BC%8C%E6%A0%87%E5%87%86%E5%B7%AE(Standard%20Deviation)%E7%9A%84%E5%AF%B9%E6%AF%94/25.jpg">
-<meta property="article:published_time" content="2020-07-27T16:00:00.000Z">
-<meta property="article:modified_time" content="2021-02-20T15:09:13.856Z">
+<meta property="og:image" content="http://yoursite.com/2021/03/25/mysql8%E9%A6%96%E6%AC%A1%E5%AE%89%E8%A3%85%E5%AF%86%E7%A0%81%E8%AE%BE%E7%BD%AE/1.png">
+<meta property="article:published_time" content="2021-03-25T12:40:35.000Z">
+<meta property="article:modified_time" content="2021-03-25T13:05:22.235Z">
 <meta property="article:author" content="lyp">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/2020/07/28/%E5%9D%87%E6%96%B9%E6%A0%B9%E8%AF%AF%E5%B7%AE%EF%BC%88RMSE%EF%BC%89%EF%BC%8C%E5%B9%B3%E5%9D%87%E7%BB%9D%E5%AF%B9%E8%AF%AF%E5%B7%AE(MAE)%EF%BC%8C%E6%A0%87%E5%87%86%E5%B7%AE(Standard%20Deviation)%E7%9A%84%E5%AF%B9%E6%AF%94/25.jpg">
+<meta name="twitter:image" content="http://yoursite.com/2021/03/25/mysql8%E9%A6%96%E6%AC%A1%E5%AE%89%E8%A3%85%E5%AF%86%E7%A0%81%E8%AE%BE%E7%BD%AE/1.png">
 
-<link rel="canonical" href="http://yoursite.com/2020/07/28/%E5%9D%87%E6%96%B9%E6%A0%B9%E8%AF%AF%E5%B7%AE%EF%BC%88RMSE%EF%BC%89%EF%BC%8C%E5%B9%B3%E5%9D%87%E7%BB%9D%E5%AF%B9%E8%AF%AF%E5%B7%AE(MAE)%EF%BC%8C%E6%A0%87%E5%87%86%E5%B7%AE(Standard%20Deviation)%E7%9A%84%E5%AF%B9%E6%AF%94/">
+<link rel="canonical" href="http://yoursite.com/2021/03/25/mysql8%E9%A6%96%E6%AC%A1%E5%AE%89%E8%A3%85%E5%AF%86%E7%A0%81%E8%AE%BE%E7%BD%AE/">
 
 
 <script class="page-configurations">
@@ -49,7 +49,7 @@
   };
 </script>
 
-  <title>均方根误差，平均绝对误差，标准差 | LYP's blog</title>
+  <title>mysql8首次安装密码设置 | LYP's blog</title>
   
 
 
@@ -150,7 +150,7 @@
 
       <!--noindex-->
       <section class="post-toc-wrap sidebar-panel">
-          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9D%87%E6%96%B9%E6%A0%B9%E8%AF%AF%E5%B7%AE%EF%BC%8C%E5%B9%B3%E5%9D%87%E7%BB%9D%E5%AF%B9%E8%AF%AF%E5%B7%AE%EF%BC%8C%E6%A0%87%E5%87%86%E5%B7%AE"><span class="nav-number">1.</span> <span class="nav-text">均方根误差，平均绝对误差，标准差</span></a></li></ol></div>
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#mysql8%E9%A6%96%E6%AC%A1%E5%AE%89%E8%A3%85%E5%AF%86%E7%A0%81%E8%AE%BE%E7%BD%AE"><span class="nav-number">1.</span> <span class="nav-text">mysql8首次安装密码设置</span></a></li></ol></div>
       </section>
       <!--/noindex-->
 
@@ -163,7 +163,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-count">27</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -201,7 +201,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/28/%E5%9D%87%E6%96%B9%E6%A0%B9%E8%AF%AF%E5%B7%AE%EF%BC%88RMSE%EF%BC%89%EF%BC%8C%E5%B9%B3%E5%9D%87%E7%BB%9D%E5%AF%B9%E8%AF%AF%E5%B7%AE(MAE)%EF%BC%8C%E6%A0%87%E5%87%86%E5%B7%AE(Standard%20Deviation)%E7%9A%84%E5%AF%B9%E6%AF%94/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/25/mysql8%E9%A6%96%E6%AC%A1%E5%AE%89%E8%A3%85%E5%AF%86%E7%A0%81%E8%AE%BE%E7%BD%AE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -214,7 +214,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          均方根误差，平均绝对误差，标准差
+          mysql8首次安装密码设置
         </h1>
 
         <div class="post-meta">
@@ -223,19 +223,13 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
+              
 
-              <time title="Created: 2020-07-28 00:00:00" itemprop="dateCreated datePublished" datetime="2020-07-28T00:00:00+08:00">2020-07-28</time>
+              <time title="Created: 2021-03-25 20:40:35 / Modified: 21:05:22" itemprop="dateCreated datePublished" datetime="2021-03-25T20:40:35+08:00">2021-03-25</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-02-20 23:09:13" itemprop="dateModified" datetime="2021-02-20T23:09:13+08:00">2021-02-20</time>
-              </span>
 
           
-            <div class="post-description">均方根误差，平均绝对误差，标准差的意义与原理</div>
+            <div class="post-description">mysql8首次安装密码设置，更改mysql密码跳过权限验证的功能</div>
 
         </div>
       </header>
@@ -246,36 +240,39 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="均方根误差，平均绝对误差，标准差"><a href="#均方根误差，平均绝对误差，标准差" class="headerlink" title="均方根误差，平均绝对误差，标准差"></a>均方根误差，平均绝对误差，标准差</h1><p><strong>RMSE</strong></p>
-<ul>
-<li><p>Root Mean Square Error,均方根误差</p>
-</li>
-<li><p>是观测值与真值偏差的平方和与观测次数m比值的平方根。</p>
-</li>
-<li><p>是用来衡量观测值同真值之间的偏差</p>
+        <h1 id="mysql8首次安装密码设置"><a href="#mysql8首次安装密码设置" class="headerlink" title="mysql8首次安装密码设置"></a>mysql8首次安装密码设置</h1><p>&emsp;&emsp;首次安装MySQL后，其实并不需要密码或随便输入一个密码就可以登录，如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;或</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -uroot -prandomPassword</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;用户默认为root</p>
+<p>&emsp;&emsp;原因在于 mysql 数据库中的 user 表中 root 用户的 plugin 字段的值被设置为 auth_socket。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select user, plugin from mysql.user;</span><br><span class="line">+------------------+-----------------------+</span><br><span class="line">| user             | plugin                |</span><br><span class="line">+------------------+-----------------------+</span><br><span class="line">| debian-sys-maint | caching_sha2_password |</span><br><span class="line">| mysql.infoschema | caching_sha2_password |</span><br><span class="line">| mysql.session    | caching_sha2_password |</span><br><span class="line">| mysql.sys        | caching_sha2_password |</span><br><span class="line">| root             | auth_socket           |</span><br><span class="line">+------------------+-----------------------+</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;当此值为 mysql_native_password 时才会用到密码。</p>
+<p>&emsp;&emsp;所以要想使用密码登录 mysql 需将此值进行修改</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">update mysql.user set plugin&#x3D;&#39;mysql_native_password&#39; where user&#x3D;&#39;root&#39;;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;然后使用如下命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;</p>
-</li>
-</ul>
-<p><strong>MAE</strong></p>
-<ul>
-<li>Mean Absolute Error ，平均绝对误差</li>
-<li>是绝对误差的平均值</li>
-<li>能更好地反映预测值误差的实际情况.</li>
-</ul>
-<p><strong>标准差</strong></p>
-<ul>
-<li><p>Standard Deviation ，标准差</p>
-</li>
-<li><p>是方差的算数平方根</p>
-</li>
-<li><p>是用来衡量一组数自身的离散程度</p>
+<p>&emsp;&emsp;mysql的此时user表的代表密码的 authentication_string字段 为空字符串。</p>
+<p>&emsp;&emsp;所以在登陆时，可以使用以下命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -uroot -p</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;按下回车后，会提示要输入密码，此时直接再次按下回车即可登陆成功。</p>
+<p>&emsp;&emsp;若想设置密码，不可以使用如下方法，此种方法在其他的博客中很常见，容易误导其他人。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UPDATE mysql.user SET Password &#x3D; password(&#39;password&#39;) WHERE User&#x3D;&quot;root&quot;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;不能用的原因是，在mysql的user表的 authentication_string字段中的数据是加密后的密码，需要经过password()加密函数来加密，以上命令只在 mysql5 中适用。而在 mysql8 中并没有加密函数password()，取而代之的是 md5() 和 sha()，经过本人尝试，使用这两种加密函数都没用。所以不能用此种方法设置密码。</p>
+<p>&emsp;&emsp;正确的方法是使用如下命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter user&#39;root&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;password&#39;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;</p>
-</li>
-</ul>
-<p><img src="/2020/07/28/%E5%9D%87%E6%96%B9%E6%A0%B9%E8%AF%AF%E5%B7%AE%EF%BC%88RMSE%EF%BC%89%EF%BC%8C%E5%B9%B3%E5%9D%87%E7%BB%9D%E5%AF%B9%E8%AF%AF%E5%B7%AE(MAE)%EF%BC%8C%E6%A0%87%E5%87%86%E5%B7%AE(Standard%20Deviation)%E7%9A%84%E5%AF%B9%E6%AF%94/25.jpg" alt="25" style="zoom:120%;"></p>
-<p>&emsp;&emsp;</p>
-<p><strong>RMSE与标准差对比</strong>：标准差是用来衡量一组数自身的离散程度，而均方根误差是用来衡量观测值同真值之间的偏差，它们的研究对象和研究目的不同，但是计算过程类似。</p>
-<p><strong>RMSE与MAE对比</strong>：RMSE相当于L2范数，MAE相当于L1范数。次数越高，计算结果就越与较大的值有关，而忽略较小的值，所以这就是为什么RMSE针对异常值更敏感的原因（即有一个预测值与真实值相差很大，那么RMSE就会很大）。</p>
+<p>&emsp;&emsp;若忘记mysql密码，还可以使用<strong>跳过权限验证</strong>的功能</p>
+<p>&emsp;&emsp;需要修改 mysqld.cnf 文件，我的电脑上的文件路径如下</p>
+<p>&emsp;&emsp;/etc/mysql/mysql.conf.d/mysqld.cnf</p>
+<p>&emsp;&emsp;在 [mysqld] 下加上 skip-grant-tables 即可</p>
+<p><img src="/2021/03/25/mysql8%E9%A6%96%E6%AC%A1%E5%AE%89%E8%A3%85%E5%AF%86%E7%A0%81%E8%AE%BE%E7%BD%AE/1.png" alt="1"></p>
+<p>&emsp;&emsp;保存完文件后，再重启 mysql 服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service mysqld restart;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;再次打开时，直接使用mysql命令即可，如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -291,12 +288,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/07/28/%E5%BD%92%E4%B8%80%E5%8C%96%EF%BC%8C%E5%8E%BB%E4%B8%AD%E5%BF%83%E5%8C%96%EF%BC%8C%E6%A0%87%E5%87%86%E5%8C%96/" rel="prev" title="归一化，去中心化，标准化">
-      <i class="fa fa-chevron-left"></i> 归一化，去中心化，标准化
+    <a href="/2021/02/22/css/" rel="prev" title="css基础">
+      <i class="fa fa-chevron-left"></i> css基础
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/07/28/scikit-learn%E5%B9%BF%E4%B9%89%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B/" rel="next" title="scikit-learn广义线性模型">
-      scikit-learn广义线性模型 <i class="fa fa-chevron-right"></i>
+    <a href="/2021/03/25/JDBC/" rel="next" title="">
+       <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>

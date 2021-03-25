@@ -24,13 +24,13 @@
 
   <meta name="description" content="mysql中对数据库的操作，Sql语句的分类，基本语法，表设计的三范式">
 <meta property="og:type" content="article">
-<meta property="og:title" content="mysql基础">
+<meta property="og:title" content="mysql的DML(数据操作)语句">
 <meta property="og:url" content="http://yoursite.com/2021/02/11/mysql%E5%9F%BA%E7%A1%80/index.html">
 <meta property="og:site_name" content="LYP&#39;s blog">
 <meta property="og:description" content="mysql中对数据库的操作，Sql语句的分类，基本语法，表设计的三范式">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2021-02-10T16:00:00.000Z">
-<meta property="article:modified_time" content="2021-02-20T15:25:51.486Z">
+<meta property="article:published_time" content="2021-02-11T15:11:32.000Z">
+<meta property="article:modified_time" content="2021-03-25T13:27:23.302Z">
 <meta property="article:author" content="lyp">
 <meta name="twitter:card" content="summary">
 
@@ -47,7 +47,7 @@
   };
 </script>
 
-  <title>mysql基础 | LYP's blog</title>
+  <title>mysql的DML(数据操作)语句 | LYP's blog</title>
   
 
 
@@ -161,7 +161,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-count">27</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -212,7 +212,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          mysql基础
+          mysql的DML(数据操作)语句
         </h1>
 
         <div class="post-meta">
@@ -222,14 +222,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2021-02-11 00:00:00" itemprop="dateCreated datePublished" datetime="2021-02-11T00:00:00+08:00">2021-02-11</time>
+              <time title="Created: 2021-02-11 23:11:32" itemprop="dateCreated datePublished" datetime="2021-02-11T23:11:32+08:00">2021-02-11</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-02-20 23:25:51" itemprop="dateModified" datetime="2021-02-20T23:25:51+08:00">2021-02-20</time>
+                <time title="Modified: 2021-03-25 21:27:23" itemprop="dateModified" datetime="2021-03-25T21:27:23+08:00">2021-03-25</time>
               </span>
 
           
@@ -257,7 +257,6 @@
 <h4 id="运行sql脚本"><a href="#运行sql脚本" class="headerlink" title="运行sql脚本"></a>运行sql脚本</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source &#x2F;home&#x2F;zimablue&#x2F;databaseName.sql;</span><br></pre></td></tr></table></figure>
 <h4 id="导出数据库"><a href="#导出数据库" class="headerlink" title="导出数据库"></a>导出数据库</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqldump 数据库名&gt;导出地址+文件名.sql -uroot -p123456</span><br></pre></td></tr></table></figure>
 <h4 id="导出表"><a href="#导出表" class="headerlink" title="导出表"></a>导出表</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqldump 数据库名 表名&gt;导出地址+文件名.sql -uroot -p123456</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;</p>
 <h2 id="SqL语句分类"><a href="#SqL语句分类" class="headerlink" title="SqL语句分类"></a>SqL语句分类</h2><p>&emsp;&emsp;<strong>DQL</strong>(数据查询语言)：查询语句，凡是select语句都是DQL。</p>
 <p>&emsp;&emsp;<strong>DML</strong>(数据操作语言)：insert delete update，对表当中的数据进行增删改。</p>
 <p><strong>&emsp;&emsp;DDL</strong>(数据定义语言)：create drop alter，对表结构的增删改</p>
@@ -274,7 +273,6 @@
 <li><p>mysql对一个字段名起别名：字段名 别名</p>
 </li>
 </ol>
-<p>&emsp;&emsp;</p>
 <p>&emsp;&emsp;</p>
 <h2 id="表设计的三范式"><a href="#表设计的三范式" class="headerlink" title="表设计的三范式"></a>表设计的三范式</h2><p>&emsp;&emsp;第一范式（1NF）：要求数据达到原子性，使数据不可再分，每一张表都有主键；</p>
 <p>&emsp;&emsp;第二范式（2NF）：使每一行<strong>数据具有唯一性</strong>，并<strong>消除</strong>数据之间的“<strong>部分依赖</strong>”，使一个表中的非主键字段，完全依                                  赖于主键字段；</p>

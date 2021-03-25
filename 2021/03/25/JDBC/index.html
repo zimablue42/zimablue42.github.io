@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  
+  <link rel="stylesheet" href="/lib/animate-css/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Muse","version":"8.0.0-rc.4","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false};
+  </script>
+
+  <meta name="description" content="JDBC编程步骤 注册驱动 让java知道用的是那一个数据库  获取连接 表示JVM的进程和数据库之间的通道打开了  获取数据库操作对象  执行SQL语句  处理查询结果集 若上一步执行的是select语句才有这一步  释放资源 java和数据库的连接属于进程间的通信，使用完成后必须关闭   12345678910111213141516171819202122232425262728293031">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LYP&#39;s blog">
+<meta property="og:url" content="http://yoursite.com/2021/03/25/JDBC/index.html">
+<meta property="og:site_name" content="LYP&#39;s blog">
+<meta property="og:description" content="JDBC编程步骤 注册驱动 让java知道用的是那一个数据库  获取连接 表示JVM的进程和数据库之间的通道打开了  获取数据库操作对象  执行SQL语句  处理查询结果集 若上一步执行的是select语句才有这一步  释放资源 java和数据库的连接属于进程间的通信，使用完成后必须关闭   12345678910111213141516171819202122232425262728293031">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-03-25T12:57:40.237Z">
+<meta property="article:modified_time" content="2021-03-07T13:04:21.560Z">
+<meta property="article:author" content="lyp">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2021/03/25/JDBC/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title> | LYP's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <main class="main">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">LYP's blog</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#JDBC%E7%BC%96%E7%A8%8B%E6%AD%A5%E9%AA%A4"><span class="nav-number">1.</span> <span class="nav-text">JDBC编程步骤</span></a></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">lyp</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </section>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </header>
+
+      
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div id="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+      <div class="main-inner">
+        
+
+        <div class="content post posts-expand">
+          
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/25/JDBC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="lyp">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LYP's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-03-25 20:57:40" itemprop="dateCreated datePublished" datetime="2021-03-25T20:57:40+08:00">2021-03-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-03-07 21:04:21" itemprop="dateModified" datetime="2021-03-07T21:04:21+08:00">2021-03-07</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="JDBC编程步骤"><a href="#JDBC编程步骤" class="headerlink" title="JDBC编程步骤"></a>JDBC编程步骤</h3><ol>
+<li><p><strong>注册驱动</strong></p>
+<p>让java知道用的是那一个数据库</p>
+</li>
+<li><p><strong>获取连接</strong></p>
+<p>表示JVM的进程和数据库之间的通道打开了</p>
+</li>
+<li><p><strong>获取数据库操作对象</strong></p>
+</li>
+<li><p><strong>执行SQL语句</strong></p>
+</li>
+<li><p><strong>处理查询结果集</strong></p>
+<p>若上一步执行的是select语句才有这一步</p>
+</li>
+<li><p><strong>释放资源</strong></p>
+<p>java和数据库的连接属于进程间的通信，使用完成后必须关闭</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line">import java.sql.*;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">public class Exp &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Connection conn &#x3D; null;</span><br><span class="line">        Statement stmt &#x3D; null;</span><br><span class="line">        ResultSet result &#x3D; null;</span><br><span class="line">        try &#123;</span><br><span class="line">            &#x2F;&#x2F; 1.注册驱动</span><br><span class="line">            &#x2F;&#x2F; Driver driver &#x3D; new com.mysql.cj.jdbc.Driver();</span><br><span class="line">            &#x2F;&#x2F; DriverManager.registerDriver(driver);</span><br><span class="line">            &#x2F;&#x2F; 以下方法最常用，因为参数是字符串，字符串可以从***.properties文件中读取</span><br><span class="line">            &#x2F;&#x2F; 若使用此种方法要多捕获一个ClassNotFoundException异常</span><br><span class="line">            Class.forName(&quot;com.mysql.cj.jdbc.Driver&quot;);</span><br><span class="line"></span><br><span class="line">            &#x2F;&#x2F; 2.获取连接</span><br><span class="line">            &#x2F;&#x2F; url格式：协议:&#x2F;&#x2F;ip:端口&#x2F;资源名称</span><br><span class="line">            &#x2F;&#x2F;         jdbc:mysql:&#x2F;&#x2F;数据库ip:数据库端口&#x2F;数据库名称</span><br><span class="line">            String url &#x3D; &quot;jdbc:mysql:&#x2F;&#x2F;127.0.0.1:3306&#x2F;test&quot;;</span><br><span class="line">            String user &#x3D; &quot;root&quot;;</span><br><span class="line">            String password &#x3D; &quot;123456&quot;;</span><br><span class="line">            conn &#x3D; DriverManager.getConnection(url, user, password);</span><br><span class="line"></span><br><span class="line">            &#x2F;&#x2F; 3.获取数据库操作对象</span><br><span class="line">            stmt &#x3D; conn.createStatement();</span><br><span class="line"></span><br><span class="line">            &#x2F;&#x2F; 4.执行sql</span><br><span class="line">            &#x2F;&#x2F; executeUpdate 用于执行DML语句（insert update delete）, </span><br><span class="line">            &#x2F;&#x2F; 返回值是执行的sql语句影响的记录的数量</span><br><span class="line">            &#x2F;&#x2F; executeQuery 用于执行DQL语句（select）, 返回值是ResultSet</span><br><span class="line">            &#x2F;&#x2F; ResultSet 是结果集，查询的结果储存在结果集中</span><br><span class="line"></span><br><span class="line">            int count;</span><br><span class="line">            &#x2F;&#x2F; 插入</span><br><span class="line">            String sql &#x3D; &quot;insert into EMP(empno, ename) values (42, &#39;zima_blue&#39;);&quot;;</span><br><span class="line">            count &#x3D; stmt.executeUpdate(sql);</span><br><span class="line">            System.out.println(count);</span><br><span class="line">            &#x2F;&#x2F;删除</span><br><span class="line">            sql &#x3D; &quot;delete from EMP where empno &#x3D; 42;&quot;;</span><br><span class="line">            count &#x3D; stmt.executeUpdate(sql);</span><br><span class="line">            System.out.println(count);</span><br><span class="line">            &#x2F;&#x2F;查询</span><br><span class="line">            sql &#x3D; &quot;select * from EMP;&quot;;</span><br><span class="line">            result &#x3D; stmt.executeQuery(sql);</span><br><span class="line"></span><br><span class="line">            &#x2F;&#x2F; 5.处理查询结果集</span><br><span class="line">            String num;</span><br><span class="line">            String name;</span><br><span class="line">            String job;</span><br><span class="line">            &#x2F;&#x2F; ResultSet结果集对象的next()可以将游标向下移动一行记录，</span><br><span class="line">            &#x2F;&#x2F; 方法返回一个布尔值，若有下一行数据就返回true，若没有就返回false</span><br><span class="line">            while (result.next())&#123;</span><br><span class="line">                &#x2F;&#x2F; result 的 getString 方法可以将游标所在记录的指定字段的数据转换成字符串</span><br><span class="line">                &#x2F;&#x2F; 参数可以是字段名，也可以是字段索引，字段索引的下标从 1 开始</span><br><span class="line">                &#x2F;&#x2F; 若在sql语句中对字段名起了别名，对应字段名要换成别名</span><br><span class="line">                &#x2F;&#x2F; 根据不同的数据类型还有 getInt 和 getDouble 方法</span><br><span class="line">                num &#x3D; result.getString(1);</span><br><span class="line">                name &#x3D; result.getString(2);</span><br><span class="line">                job &#x3D; result.getString(3);</span><br><span class="line">                System.out.println(num + &quot; &quot; +name + &quot; &quot; + job);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125; catch (SQLException | ClassNotFoundException throwables) &#123;</span><br><span class="line">            &#x2F;&#x2F; SQlException是sql语句不符合语法数据库抛出的异常</span><br><span class="line">            throwables.printStackTrace();</span><br><span class="line">        &#125; finally &#123;</span><br><span class="line">            &#x2F;&#x2F; 6.释放资源</span><br><span class="line">            &#x2F;&#x2F; finally 可以保证资源一定得到释放</span><br><span class="line">            &#x2F;&#x2F; 释放的顺序按照获取顺序的反序</span><br><span class="line">            try &#123;</span><br><span class="line">                if (result !&#x3D; null) &#123;</span><br><span class="line">                    result.close();</span><br><span class="line">                &#125;</span><br><span class="line">                if (stmt !&#x3D; null) &#123;</span><br><span class="line">                    stmt.close();</span><br><span class="line">                &#125;</span><br><span class="line">                if (conn !&#x3D; null) &#123;</span><br><span class="line">                    conn.close();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; catch (SQLException throwables) &#123;</span><br><span class="line">                throwables.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/03/25/mysql8%E9%A6%96%E6%AC%A1%E5%AE%89%E8%A3%85%E5%AF%86%E7%A0%81%E8%AE%BE%E7%BD%AE/" rel="prev" title="mysql8首次安装密码设置">
+      <i class="fa fa-chevron-left"></i> mysql8首次安装密码设置
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+        </div>
+        
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lyp</span>
+</div>
+<span id="busuanzi_container_site_uv">
+  访客数<span id="busuanzi_value_site_uv"></span>人次
+</span>
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
+<!--动态线条背景-->
+<script type="text/javascript"
+color="150,150,150" opacity='1' zIndex="-2" count="180" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+</script>

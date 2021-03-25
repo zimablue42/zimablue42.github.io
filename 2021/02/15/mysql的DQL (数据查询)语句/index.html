@@ -24,13 +24,13 @@
 
   <meta name="description" content="mysql的数据查询基础语法，查询中的排序，连接查询，完整的DQL语句">
 <meta property="og:type" content="article">
-<meta property="og:title" content="mysql的DQL (数据查询)语句">
+<meta property="og:title" content="mysql的DML(数据操作)语句">
 <meta property="og:url" content="http://yoursite.com/2021/02/15/mysql%E7%9A%84DQL%20(%E6%95%B0%E6%8D%AE%E6%9F%A5%E8%AF%A2)%E8%AF%AD%E5%8F%A5/index.html">
 <meta property="og:site_name" content="LYP&#39;s blog">
 <meta property="og:description" content="mysql的数据查询基础语法，查询中的排序，连接查询，完整的DQL语句">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2021-02-14T16:00:00.000Z">
-<meta property="article:modified_time" content="2021-02-20T15:05:18.333Z">
+<meta property="article:published_time" content="2021-02-15T14:56:37.000Z">
+<meta property="article:modified_time" content="2021-03-25T13:26:19.852Z">
 <meta property="article:author" content="lyp">
 <meta name="twitter:card" content="summary">
 
@@ -47,7 +47,7 @@
   };
 </script>
 
-  <title>mysql的DQL (数据查询)语句 | LYP's blog</title>
+  <title>mysql的DML(数据操作)语句 | LYP's blog</title>
   
 
 
@@ -148,7 +148,7 @@
 
       <!--noindex-->
       <section class="post-toc-wrap sidebar-panel">
-          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#DQL%E8%AF%AD%E5%8F%A5"><span class="nav-number">1.</span> <span class="nav-text">DQL语句</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E8%AF%A2"><span class="nav-number">1.1.</span> <span class="nav-text">查询</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E8%AF%A2%E5%AD%97%E6%AE%B5"><span class="nav-number">1.1.1.</span> <span class="nav-text">查询字段</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9C%A8%E5%AF%B9%E6%9F%A5%E8%AF%A2%E5%87%BA%E7%9A%84%E6%95%B0%E6%8D%AE%E8%BF%9B%E8%A1%8C%E5%91%BD%E5%90%8D"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">在对查询出的数据进行命名</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E8%A1%A8%E4%B8%AD%E6%89%80%E6%9C%89%E6%95%B0%E6%8D%AE"><span class="nav-number">1.1.2.</span> <span class="nav-text">查看表中所有数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9D%A1%E4%BB%B6%E6%9F%A5%E8%AF%A2"><span class="nav-number">1.1.3.</span> <span class="nav-text">条件查询</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%AF%AD%E6%B3%95"><span class="nav-number">1.1.3.1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">1.1.3.2.</span> <span class="nav-text">运算符</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A8%A1%E7%B3%8A%E6%9F%A5%E6%89%BE"><span class="nav-number">1.1.4.</span> <span class="nav-text">模糊查找</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E8%AF%A2%E5%8E%BB%E9%87%8D"><span class="nav-number">1.1.5.</span> <span class="nav-text">查询去重</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E8%AF%A2%E4%B8%AD%E7%9A%84%E6%8E%92%E5%BA%8F"><span class="nav-number">1.2.</span> <span class="nav-text">查询中的排序</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%AD%E6%B3%95-1"><span class="nav-number">1.2.1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%87%E5%BA%8F%E5%92%8C%E9%99%8D%E5%BA%8F"><span class="nav-number">1.2.2.</span> <span class="nav-text">升序和降序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%9A%E5%AD%97%E6%AE%B5%E6%8E%92%E5%BA%8F"><span class="nav-number">1.2.3.</span> <span class="nav-text">多字段排序</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E8%AF%A2%E4%B8%8E%E6%8E%92%E5%BA%8F%E7%BB%93%E5%90%88"><span class="nav-number">1.3.</span> <span class="nav-text">查询与排序结合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E7%BB%84%E5%87%BD%E6%95%B0-Group-Function"><span class="nav-number">1.4.</span> <span class="nav-text">分组函数 (Group Function)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%9A%E8%A1%8C%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0"><span class="nav-number">1.4.1.</span> <span class="nav-text">多行处理函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%95%E8%A1%8C%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0"><span class="nav-number">1.4.2.</span> <span class="nav-text">单行处理函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E7%BB%84%E6%9F%A5%E8%AF%A2%E4%B8%8E%E5%88%86%E7%BB%84%E5%87%BD%E6%95%B0"><span class="nav-number">1.4.3.</span> <span class="nav-text">分组查询与分组函数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5%E6%9F%A5%E8%AF%A2"><span class="nav-number">1.5.</span> <span class="nav-text">连接查询</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%85%E8%BF%9E%E6%8E%A5"><span class="nav-number">1.5.1.</span> <span class="nav-text">内连接</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%AD%89%E5%80%BC%E8%BF%9E%E6%8E%A5"><span class="nav-number">1.5.1.1.</span> <span class="nav-text">等值连接</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%9D%9E%E7%AD%89%E5%80%BC%E8%BF%9E%E6%8E%A5"><span class="nav-number">1.5.1.2.</span> <span class="nav-text">非等值连接</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%87%AA%E8%BF%9E%E6%8E%A5"><span class="nav-number">1.5.1.3.</span> <span class="nav-text">自连接</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%96%E9%93%BE%E6%8E%A5"><span class="nav-number">1.5.2.</span> <span class="nav-text">外链接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%A8%E8%BF%9E%E6%8E%A5"><span class="nav-number">1.5.3.</span> <span class="nav-text">全连接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%89%E5%BC%A0%E8%A1%A8%E4%BB%A5%E4%B8%8A%E7%9A%84%E8%BF%9E%E6%8E%A5%E6%9F%A5%E8%AF%A2"><span class="nav-number">1.5.4.</span> <span class="nav-text">三张表以上的连接查询</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%90%E6%9F%A5%E8%AF%A2"><span class="nav-number">1.6.</span> <span class="nav-text">子查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#union"><span class="nav-number">1.7.</span> <span class="nav-text">union</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#limit"><span class="nav-number">1.8.</span> <span class="nav-text">limit</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%AD%E6%B3%95%EF%BC%9A"><span class="nav-number">1.8.1.</span> <span class="nav-text">语法：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%8C%E6%95%B4DQL%E8%AF%AD%E5%8F%A5"><span class="nav-number">1.9.</span> <span class="nav-text">完整DQL语句</span></a></li></ol></li></ol></div>
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#DQL%E8%AF%AD%E5%8F%A5"><span class="nav-number">1.</span> <span class="nav-text">DQL语句</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E8%AF%A2"><span class="nav-number">1.1.</span> <span class="nav-text">查询</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E8%AF%A2%E5%AD%97%E6%AE%B5"><span class="nav-number">1.1.1.</span> <span class="nav-text">查询字段</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9C%A8%E5%AF%B9%E6%9F%A5%E8%AF%A2%E5%87%BA%E7%9A%84%E6%95%B0%E6%8D%AE%E8%BF%9B%E8%A1%8C%E5%91%BD%E5%90%8D"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">在对查询出的数据进行命名</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E8%A1%A8%E4%B8%AD%E6%89%80%E6%9C%89%E6%95%B0%E6%8D%AE"><span class="nav-number">1.1.2.</span> <span class="nav-text">查看表中所有数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9D%A1%E4%BB%B6%E6%9F%A5%E8%AF%A2"><span class="nav-number">1.1.3.</span> <span class="nav-text">条件查询</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%AF%AD%E6%B3%95"><span class="nav-number">1.1.3.1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">1.1.3.2.</span> <span class="nav-text">运算符</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E8%AF%A2%E5%8E%BB%E9%87%8D"><span class="nav-number">1.1.4.</span> <span class="nav-text">查询去重</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E8%AF%A2%E4%B8%AD%E7%9A%84%E6%8E%92%E5%BA%8F"><span class="nav-number">1.2.</span> <span class="nav-text">查询中的排序</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%AD%E6%B3%95-1"><span class="nav-number">1.2.1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%87%E5%BA%8F%E5%92%8C%E9%99%8D%E5%BA%8F"><span class="nav-number">1.2.2.</span> <span class="nav-text">升序和降序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%9A%E5%AD%97%E6%AE%B5%E6%8E%92%E5%BA%8F"><span class="nav-number">1.2.3.</span> <span class="nav-text">多字段排序</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E8%AF%A2%E4%B8%8E%E6%8E%92%E5%BA%8F%E7%BB%93%E5%90%88"><span class="nav-number">1.3.</span> <span class="nav-text">查询与排序结合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E7%BB%84%E5%87%BD%E6%95%B0-Group-Function"><span class="nav-number">1.4.</span> <span class="nav-text">分组函数 (Group Function)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%9A%E8%A1%8C%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0"><span class="nav-number">1.4.1.</span> <span class="nav-text">多行处理函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%95%E8%A1%8C%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0"><span class="nav-number">1.4.2.</span> <span class="nav-text">单行处理函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E7%BB%84%E6%9F%A5%E8%AF%A2%E4%B8%8E%E5%88%86%E7%BB%84%E5%87%BD%E6%95%B0"><span class="nav-number">1.4.3.</span> <span class="nav-text">分组查询与分组函数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5%E6%9F%A5%E8%AF%A2"><span class="nav-number">1.5.</span> <span class="nav-text">连接查询</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%85%E8%BF%9E%E6%8E%A5"><span class="nav-number">1.5.1.</span> <span class="nav-text">内连接</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%AD%89%E5%80%BC%E8%BF%9E%E6%8E%A5"><span class="nav-number">1.5.1.1.</span> <span class="nav-text">等值连接</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%9D%9E%E7%AD%89%E5%80%BC%E8%BF%9E%E6%8E%A5"><span class="nav-number">1.5.1.2.</span> <span class="nav-text">非等值连接</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%87%AA%E8%BF%9E%E6%8E%A5"><span class="nav-number">1.5.1.3.</span> <span class="nav-text">自连接</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%96%E9%93%BE%E6%8E%A5"><span class="nav-number">1.5.2.</span> <span class="nav-text">外链接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%A8%E8%BF%9E%E6%8E%A5"><span class="nav-number">1.5.3.</span> <span class="nav-text">全连接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%89%E5%BC%A0%E8%A1%A8%E4%BB%A5%E4%B8%8A%E7%9A%84%E8%BF%9E%E6%8E%A5%E6%9F%A5%E8%AF%A2"><span class="nav-number">1.5.4.</span> <span class="nav-text">三张表以上的连接查询</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%90%E6%9F%A5%E8%AF%A2"><span class="nav-number">1.6.</span> <span class="nav-text">子查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#union"><span class="nav-number">1.7.</span> <span class="nav-text">union</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#limit"><span class="nav-number">1.8.</span> <span class="nav-text">limit</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%AD%E6%B3%95%EF%BC%9A"><span class="nav-number">1.8.1.</span> <span class="nav-text">语法：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%8C%E6%95%B4DQL%E8%AF%AD%E5%8F%A5"><span class="nav-number">1.9.</span> <span class="nav-text">完整DQL语句</span></a></li></ol></li></ol></div>
       </section>
       <!--/noindex-->
 
@@ -161,7 +161,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-count">27</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -212,7 +212,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          mysql的DQL (数据查询)语句
+          mysql的DML(数据操作)语句
         </h1>
 
         <div class="post-meta">
@@ -222,14 +222,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2021-02-15 00:00:00" itemprop="dateCreated datePublished" datetime="2021-02-15T00:00:00+08:00">2021-02-15</time>
+              <time title="Created: 2021-02-15 22:56:37" itemprop="dateCreated datePublished" datetime="2021-02-15T22:56:37+08:00">2021-02-15</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-02-20 23:05:18" itemprop="dateModified" datetime="2021-02-20T23:05:18+08:00">2021-02-20</time>
+                <time title="Modified: 2021-03-25 21:26:19" itemprop="dateModified" datetime="2021-03-25T21:26:19+08:00">2021-03-25</time>
               </span>
 
           
@@ -244,7 +244,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="DQL语句"><a href="#DQL语句" class="headerlink" title="DQL语句"></a>DQL语句</h2><h3 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h3><h4 id="查询字段"><a href="#查询字段" class="headerlink" title="查询字段"></a>查询字段</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select &#39;字段名&#39;,&#39;字段名&#39;,... from tableName;</span><br></pre></td></tr></table></figure>
+        <p>&emsp;&emsp;</p>
+<h2 id="DQL语句"><a href="#DQL语句" class="headerlink" title="DQL语句"></a>DQL语句</h2><h3 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h3><h4 id="查询字段"><a href="#查询字段" class="headerlink" title="查询字段"></a>查询字段</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select &#39;字段名&#39;,&#39;字段名&#39;,... from tableName;</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;</p>
 <h5 id="在对查询出的数据进行命名"><a href="#在对查询出的数据进行命名" class="headerlink" title="在对查询出的数据进行命名"></a>在对查询出的数据进行命名</h5><p>&emsp;&emsp;例如将num显示为Number</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select num as Number from tableName;</span><br></pre></td></tr></table></figure>
@@ -322,8 +323,8 @@
 </tbody>
 </table>
 </div>
-<p>&emsp;&emsp;</p>
-<h4 id="模糊查找"><a href="#模糊查找" class="headerlink" title="模糊查找"></a>模糊查找</h4><p>&emsp;&emsp;例如：</p>
+<p><strong>模糊查找</strong></p>
+<p>&emsp;&emsp;例如：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select name from tableName where name like &#39;%\_%&#39;;</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;查找name中有 ‘_’ 的数据，<strong>‘\‘ 为转义字符</strong>。</p>
 <p>&emsp;&emsp;</p>
@@ -358,12 +359,11 @@
 </li>
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select sum(num) from tableName;</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;对查询出的数进行求和</p>
+<p>&emsp;&emsp;&emsp;&emsp;对查询出的数进行求和</p>
 <ol>
 <li>分组函数<strong>不可以使用在 where 语句中</strong>。分组函数是在group by语句执行并分完组之后才会执行，而group by是在where执行之后才会执行。此时若有group by语句，where执行时分组函数还不能运行，因为group by语句没有执行。若没有group by语句，where执行后整张表会被作为一组，但where执行时，依旧没有完成分组，where执行时分组函数也不能运行，所以会出错。</li>
 <li><strong>count(*)</strong>统计的是<strong>总记录的数量</strong>，而不是某个字段中数据的个数。<strong>count(字段)</strong>统计的是某一字段中<strong>不为null的数据总数</strong></li>
 </ol>
-<p>&emsp;&emsp;</p>
 <h4 id="单行处理函数"><a href="#单行处理函数" class="headerlink" title="单行处理函数"></a>单行处理函数</h4><p>&emsp;&emsp;直接在字段上运算</p>
 <p>&emsp;&emsp;例如：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select (num1 + num2)*42 from tableName;</span><br></pre></td></tr></table></figure>
@@ -391,16 +391,14 @@
 <ol>
 <li><strong>having</strong>：having是对分组后的数据进行再次过滤，与where相似，但可以使用分组函数，因为group by已经执行。<strong>可以用where完成的目标要尽量用where</strong>，因为having处理的是分组之后的数据，过滤之后舍弃了很多处理后（分组）的数据，效率低。若用where可以在分组前过滤掉不符合条件的数据，这些数据不会被分组，效率高。</li>
 </ol>
-<p>&emsp;&emsp;</p>
 <h3 id="连接查询"><a href="#连接查询" class="headerlink" title="连接查询"></a>连接查询</h3><p>&emsp;&emsp;连接查询<strong>分类</strong>：</p>
 <p>&emsp;&emsp;<strong>内连接</strong>：等值连接，非等值连接，自连接</p>
-<p><strong>&emsp;&emsp;外连接</strong>：左连接，右连接</p>
-<p><strong>&emsp;&emsp;全连接</strong></p>
+<p>&emsp;&emsp;<strong>外连接</strong>：左连接，右连接</p>
+<p>&emsp;&emsp;<strong>全连接</strong></p>
 <p>&emsp;&emsp;</p>
-<p><strong>&emsp;&emsp;inner join</strong>：表明将连个表连接起来，可简写为 <strong>join</strong></p>
-<p><strong>&emsp;&emsp;on</strong>：后面写上连接的条件，on后可以<strong>加上where</strong>做进一步的过滤</p>
-<p>&emsp;&emsp;</p>
-<h4 id="内连接"><a href="#内连接" class="headerlink" title="内连接"></a>内连接</h4><p><strong>&emsp;&emsp;内连接</strong>：假设A和B表进行连接，使用内连接的话，凡是A表和B表能够匹配上的记录查询出来。</p>
+<h4 id="内连接"><a href="#内连接" class="headerlink" title="内连接"></a>内连接</h4><p><strong>内连接</strong>：假设A和B表进行连接，使用内连接的话，凡是A表和B表能够匹配上的记录查询出来。</p>
+<p><strong>inner join</strong>：表明将连个表连接起来，可简写为 <strong>join</strong></p>
+<p><strong>on</strong>：后面写上连接的条件，on后可以<strong>加上where</strong>做进一步的过滤</p>
 <p>&emsp;&emsp;</p>
 <h5 id="等值连接"><a href="#等值连接" class="headerlink" title="等值连接"></a>等值连接</h5><p>&emsp;&emsp;条件是<strong>等量关系</strong>，即若几张表中的几个字段的值相等，则将数据连接起来组成一条记录</p>
 <p><strong>例：</strong></p>
@@ -418,7 +416,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select e.ename, d.dname from EMP e join DEPT d on e.deptno &#x3D; d.deptno;</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;</p>
 <h5 id="非等值连接"><a href="#非等值连接" class="headerlink" title="非等值连接"></a>非等值连接</h5><p>&emsp;&emsp;连接条件中的关系是<strong>非等量关系</strong></p>
-<p><strong>例：</strong></p>
+<p>&emsp;&emsp;<strong>例：</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">SALGRADE表</span><br><span class="line">+-------+-------+-------+  losal是最小值</span><br><span class="line">| grade | losal | hisal |  hisal是最小值</span><br><span class="line">+-------+-------+-------+</span><br><span class="line">|     1 |   700 |  1200 |</span><br><span class="line">|     2 |  1201 |  1400 |</span><br><span class="line">|     3 |  1401 |  2000 |</span><br><span class="line">|     4 |  2001 |  3000 |</span><br><span class="line">|     5 |  3001 |  9999 |</span><br><span class="line">+-------+-------+-------+</span><br><span class="line">EMP表：</span><br><span class="line">+--------+---------+</span><br><span class="line">| ename  | sal     |</span><br><span class="line">+--------+---------+</span><br><span class="line">| SMITH  |  800.00 |</span><br><span class="line">| ALLEN  | 1600.00 |</span><br><span class="line">| WARD   | 1250.00 |</span><br><span class="line">| JONES  | 2975.00 |</span><br><span class="line">| MARTIN | 1250.00 |</span><br><span class="line">| BLAKE  | 2850.00 |</span><br><span class="line">| CLARK  | 2450.00 |</span><br><span class="line">+--------+---------+</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;在EMP表中，对于每条记录的sal字段的数据，按照SALGRADE表的标准进行分类，即找到对应的grade。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select e.ename, e.sal from EMP e join SALGRADE s where e.sal between s.losal and s.hisal;</span><br></pre></td></tr></table></figure>
@@ -432,16 +430,17 @@
 <p>&emsp;&emsp;这里的as关键词也是起别名的意思，只不过改的是最终查询结果中显示的字段名，也可以省略。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select e.ename as &#39;员工名&#39;, m.ename as &#39;领导名&#39; from EMP e join EMP m on e.mgr &#x3D; m.empno;</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;</p>
-<h4 id="外链接"><a href="#外链接" class="headerlink" title="外链接"></a>外链接</h4><p>&emsp;&emsp;<strong>外连接</strong>：假设A和B表进行连接，使用外连接的话，AB两张表中有一张表是主表，一张表是副表，主要查询主表中的数据，捎带着查询副表，当副表中的数据没有和主表中的数据匹配上，副表自动模拟出NULL与之匹配。分为左外连接与右外连接。</p>
+<h4 id="外链接"><a href="#外链接" class="headerlink" title="外链接"></a>外链接</h4><p><strong>&emsp;&emsp;外连接</strong>：假设A和B表进行连接，使用外连接的话，AB两张表中有一张表是主表，一张表是副表，主要查询主表中的数据，捎带着查询副表，当副表中的数据没有和主表中的数据匹配上，副表自动模拟出NULL与之匹配。分为左外连接与右外连接。</p>
+<p>&emsp;&emsp;</p>
 <p>&emsp;&emsp;<strong>left outer join</strong>：将两个表以<strong>左外连接</strong>的方式连接起来<strong>左边</strong>的表为<strong>主表</strong>，与内连接的inner可以省略一样，outer可省略</p>
-<p>&emsp;&emsp;<strong>right outer join</strong>：将两个表以<strong>右外连接</strong>的方式连接起来<strong>右边</strong>的表为<strong>主表</strong>，与内连接的inner可以省略一样，outer可省略</p>
-<p>&emsp;&emsp;左外连接有右外连接的写法，右外连接也会有对应的左外连接的写法。</p>
+<p><strong>right outer join</strong>：将两个表以<strong>右外连接</strong>的方式连接起来<strong>右边</strong>的表为<strong>主表</strong>，与内连接的inner可以省略一样，outer可省略</p>
+<p>左外连接有右外连接的写法，右外连接也会有对应的左外连接的写法。</p>
 <p>&emsp;&emsp;</p>
 <p>&emsp;&emsp;以自连接的例子为例。</p>
-<p><strong>例：</strong></p>
+<p>&emsp;&emsp;<strong>例：</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">+-------+--------+------+    empno：员工编号</span><br><span class="line">| empno | ename  | mgr  |    ename：员工姓名</span><br><span class="line">+-------+--------+------+    mgr：每一个员工领导的编号</span><br><span class="line">|  7369 | SMITH  | 7902 |         </span><br><span class="line">|  7499 | ALLEN  | 7698 |</span><br><span class="line">|  7521 | WARD   | 7698 |</span><br><span class="line">|  7566 | JONES  | 7839 |</span><br><span class="line">|  7654 | MARTIN | 7698 |</span><br><span class="line">|  7698 | BLAKE  | 7839 |</span><br><span class="line">|  7782 | CLARK  | 7839 |</span><br><span class="line">|  7788 | SCOTT  | 7566 |</span><br><span class="line">|  7839 | KING   | NULL |</span><br><span class="line">|  7844 | TURNER | 7698 |</span><br><span class="line">|  7876 | ADAMS  | 7788 |</span><br><span class="line">|  7900 | JAMES  | 7698 |</span><br><span class="line">|  7902 | FORD   | 7566 |</span><br><span class="line">|  7934 | MILLER | 7782 |</span><br><span class="line">+-------+--------+------+</span><br></pre></td></tr></table></figure>
-<p>将每一个员工与其领导的名字对应</p>
-<p>若利用<strong>自连接查询</strong>，即</p>
+<p>&emsp;&emsp;将每一个员工与其领导的名字对应</p>
+<p>&emsp;&emsp;若利用<strong>自连接查询</strong>，即</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select e.ename as &#39;员工名&#39;, m.ename as &#39;领导名&#39; from EMP e join EMP m on e.mgr &#x3D; m.empno;</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;ename为KING的记录的在查询结果中并没有。因为这个员工没有领导。</p>
 <p>&emsp;&emsp;</p>
@@ -455,13 +454,13 @@
 <p>&emsp;&emsp;</p>
 <h4 id="全连接"><a href="#全连接" class="headerlink" title="全连接"></a>全连接</h4><p>&emsp;&emsp;使用较少</p>
 <p>&emsp;&emsp;</p>
-<h4 id="三张表以上的连接查询"><a href="#三张表以上的连接查询" class="headerlink" title="三张表以上的连接查询"></a>三张表以上的连接查询</h4><p>例如：</p>
+<h4 id="三张表以上的连接查询"><a href="#三张表以上的连接查询" class="headerlink" title="三张表以上的连接查询"></a>三张表以上的连接查询</h4><p>&emsp;&emsp;例如：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select ... from A a jion B b on ... join C c on ...; </span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;表明先进行表A与表B的内连接查询，查询得到的结果再与C进行内连接查询</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select ... from A a jion B b on ... left join C c on ...;</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;表明先进行表A与表B的内连接查询，查询得到的结果再与C进行外连接查询，并且表A与表B的查询结果作为主表。</p>
 <p>&emsp;&emsp;</p>
-<h3 id="子查询"><a href="#子查询" class="headerlink" title="子查询"></a>子查询</h3><p><strong>&emsp;&emsp;子查询：</strong>一个mysql语句嵌套在另一个mysql语句中</p>
+<h3 id="子查询"><a href="#子查询" class="headerlink" title="子查询"></a>子查询</h3><p>&emsp;&emsp;<strong>子查询：</strong>一个mysql语句嵌套在另一个mysql语句中</p>
 <p>&emsp;&emsp;子查询<strong>可以出现的位置</strong>：</p>
 <ol>
 <li>select后 </li>
@@ -477,7 +476,7 @@
 <p>&emsp;&emsp;startIndex表示起始位置</p>
 <p>&emsp;&emsp;length表示取几条数据</p>
 <p>&emsp;&emsp;limit位于<strong>sql语句的最后</strong></p>
-<p><strong>例：</strong></p>
+<p><strong>&emsp;&emsp;例：</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select ... from ... limit startIndex, length;</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;可以不写startIndex，这时startIndex视为 0</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select ... from ... limit length;</span><br></pre></td></tr></table></figure>
@@ -486,7 +485,6 @@
 <h3 id="完整DQL语句"><a href="#完整DQL语句" class="headerlink" title="完整DQL语句"></a>完整DQL语句</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">       select ... from ... where ... group by ... having ... order by ... limit ...</span><br><span class="line">执行顺序   5         1        2           3           4           6              7</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;或</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">       select ... from ... join ... on ... group by ... having ... order by ... limit ...</span><br><span class="line">执行顺序   6         1        2       3         4           5            7            8</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;</p>
 
     </div>
 
@@ -502,8 +500,8 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/02/15/mysql%E7%9A%84%E7%BA%A6%E6%9D%9F/" rel="prev" title="mysql的约束">
-      <i class="fa fa-chevron-left"></i> mysql的约束
+    <a href="/2021/02/15/mysql%E7%9A%84%E7%BA%A6%E6%9D%9F/" rel="prev" title="mysql中的约束">
+      <i class="fa fa-chevron-left"></i> mysql中的约束
     </a></div>
       <div class="post-nav-item">
     <a href="/2021/02/16/mysql%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/" rel="next" title="mysql的存储引擎">
