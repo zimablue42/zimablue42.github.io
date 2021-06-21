@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  
+  <link rel="stylesheet" href="/lib/animate-css/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Muse","version":"8.0.0-rc.4","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false};
+  </script>
+
+  <meta name="description" content="python利用asyncio，aiohttp和aiomysql实现异步爬虫">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python异步爬虫入门">
+<meta property="og:url" content="http://yoursite.com/2021/06/21/Python%E5%BC%82%E6%AD%A5%E7%88%AC%E8%99%AB%E5%85%A5%E9%97%A8/index.html">
+<meta property="og:site_name" content="LYP&#39;s blog">
+<meta property="og:description" content="python利用asyncio，aiohttp和aiomysql实现异步爬虫">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2021/06/21/Python%E5%BC%82%E6%AD%A5%E7%88%AC%E8%99%AB%E5%85%A5%E9%97%A8/1.jpg">
+<meta property="article:published_time" content="2021-06-21T11:40:35.000Z">
+<meta property="article:modified_time" content="2021-06-21T11:41:45.567Z">
+<meta property="article:author" content="lyp">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2021/06/21/Python%E5%BC%82%E6%AD%A5%E7%88%AC%E8%99%AB%E5%85%A5%E9%97%A8/1.jpg">
+
+<link rel="canonical" href="http://yoursite.com/2021/06/21/Python%E5%BC%82%E6%AD%A5%E7%88%AC%E8%99%AB%E5%85%A5%E9%97%A8/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Python异步爬虫入门 | LYP's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <main class="main">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">LYP's blog</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Python%E5%BC%82%E6%AD%A5%E7%88%AC%E8%99%AB%E5%85%A5%E9%97%A8"><span class="nav-number">1.</span> <span class="nav-text">Python异步爬虫入门</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8C%E6%AD%A5%E4%B8%8E%E5%BC%82%E6%AD%A5"><span class="nav-number">1.1.</span> <span class="nav-text">同步与异步</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%8F%E7%A8%8B"><span class="nav-number">1.2.</span> <span class="nav-text">协程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#asyncio"><span class="nav-number">1.3.</span> <span class="nav-text">asyncio</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="nav-number">1.3.1.</span> <span class="nav-text">核心概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Eventloop"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">Eventloop</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Coroutine"><span class="nav-number">1.3.1.2.</span> <span class="nav-text">Coroutine</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Future"><span class="nav-number">1.3.1.3.</span> <span class="nav-text">Future</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Task"><span class="nav-number">1.3.1.4.</span> <span class="nav-text">Task</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#async-await%E5%85%B3%E9%94%AE%E5%AD%97"><span class="nav-number">1.3.2.</span> <span class="nav-text">async&#x2F;await关键字</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#async%E5%85%B3%E9%94%AE%E5%AD%97"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">async关键字</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#await%E5%85%B3%E9%94%AE%E5%AD%97"><span class="nav-number">1.3.2.2.</span> <span class="nav-text">await关键字</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#asyncio%E5%9F%BA%E6%9C%AC%E4%BB%A3%E7%A0%81%E6%A0%BC%E5%BC%8F"><span class="nav-number">1.3.3.</span> <span class="nav-text">asyncio基本代码格式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#asyncio-create-task-coro-name-None"><span class="nav-number">1.3.3.1.</span> <span class="nav-text">asyncio.create_task(coro, *, name&#x3D;None)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#asyncio-run-coro-debug-False"><span class="nav-number">1.3.3.2.</span> <span class="nav-text">asyncio.run(coro, *, debug&#x3D;False)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#asyncio-gather-aws-loop-None-return-exceptions-False"><span class="nav-number">1.3.3.3.</span> <span class="nav-text">asyncio.gather(*aws, loop&#x3D;None, return_exceptions&#x3D;False)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#asyncio-wait-aws-loop-None-timeout-None-return-when-ALL-COMPLETED"><span class="nav-number">1.3.3.4.</span> <span class="nav-text">asyncio.wait(aws, *, loop&#x3D;None, timeout&#x3D;None, return_when&#x3D;ALL_COMPLETED)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%94%99%E8%AF%AF%E7%9A%84%E4%BB%A3%E7%A0%81"><span class="nav-number">1.3.3.5.</span> <span class="nav-text">错误的代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RuntimeError-Event-loop-is-closed%E5%BC%82%E5%B8%B8"><span class="nav-number">1.3.4.</span> <span class="nav-text">RuntimeError: Event loop is closed异常</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#aiohttp"><span class="nav-number">1.4.</span> <span class="nav-text">aiohttp</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%88%AC%E5%8F%96%E8%B1%86%E7%93%A3Top250%E7%94%B5%E5%BD%B1%E5%90%8D%E7%A7%B0"><span class="nav-number">1.4.1.</span> <span class="nav-text">爬取豆瓣Top250电影名称</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD%E5%9B%BE%E7%89%87"><span class="nav-number">1.4.2.</span> <span class="nav-text">下载图片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#async-with%C2%B7%C2%B7%C2%B7as"><span class="nav-number">1.4.3.</span> <span class="nav-text">async with···as</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#aiomysql"><span class="nav-number">1.5.</span> <span class="nav-text">aiomysql</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="nav-number">1.5.1.</span> <span class="nav-text">基本使用方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E8%AF%A2%E6%95%B0%E6%8D%AE"><span class="nav-number">1.5.1.1.</span> <span class="nav-text">查询数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8F%92%E5%85%A5-%E6%9B%B4%E6%96%B0%E6%95%B0%E6%8D%AE"><span class="nav-number">1.5.1.2.</span> <span class="nav-text">插入&#x2F;更新数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%B9%B6%E4%BD%BF%E7%94%A8%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E6%B1%A0"><span class="nav-number">1.5.1.3.</span> <span class="nav-text">创建并使用数据库连接池</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%88%AC%E5%8F%96%E8%B1%86%E7%93%A3Top250%E7%94%B5%E5%BD%B1%E5%90%8D%E7%A7%B0%E5%B9%B6%E5%AD%98%E5%85%A5%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">1.5.2.</span> <span class="nav-text">爬取豆瓣Top250电影名称并存入数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RuntimeError-readexactly-called-while-another-coroutine-is-already-waiting-for-incoming-data-%E5%BC%82%E5%B8%B8"><span class="nav-number">1.5.3.</span> <span class="nav-text">RuntimeError: readexactly() called while another coroutine is already waiting for incoming data 异常</span></a></li></ol></li></ol></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">lyp</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </section>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </header>
+
+      
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div id="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+      <div class="main-inner">
+        
+
+        <div class="content post posts-expand">
+          
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/06/21/Python%E5%BC%82%E6%AD%A5%E7%88%AC%E8%99%AB%E5%85%A5%E9%97%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="lyp">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LYP's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Python异步爬虫入门
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2021-06-21 19:40:35 / Modified: 19:41:45" itemprop="dateCreated datePublished" datetime="2021-06-21T19:40:35+08:00">2021-06-21</time>
+            </span>
+
+          
+            <div class="post-description">python利用asyncio，aiohttp和aiomysql实现异步爬虫</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Python异步爬虫入门"><a href="#Python异步爬虫入门" class="headerlink" title="Python异步爬虫入门"></a>Python异步爬虫入门</h1><p>&emsp;&emsp;</p>
+<p>&emsp;&emsp;asyncio是python的<strong>异步框架</strong></p>
+<p>&emsp;&emsp;</p>
+<h2 id="同步与异步"><a href="#同步与异步" class="headerlink" title="同步与异步"></a>同步与异步</h2><p>&emsp;&emsp;<strong>同步</strong>：执行一个操作之后，等待结果，然后才继续执行后续的操作。</p>
+<p>&emsp;&emsp;<strong>异步</strong>：执行一个操作后，可以去执行其他的操作，然后等待通知再回来执行刚才没执行完的操作。</p>
+<p>&emsp;&emsp;<strong>阻塞</strong>：进程给CPU传达一个任务之后，一直等待CPU处理完成，然后才执行后面的操作。</p>
+<p>&emsp;&emsp;<strong>非阻塞</strong>：进程给CPU传达任我后，继续处理后续的操作，隔断时间再来询问之前的操作是否完成。这样的过程其实也叫轮询。</p>
+<p>&emsp;&emsp;</p>
+<h2 id="协程"><a href="#协程" class="headerlink" title="协程"></a>协程</h2><p>&emsp;&emsp;协程，英文<strong>Coroutine</strong>，是一种基于线程之上，但又比线程更加轻量级的存在，可以由程序员自己写程序来管理，而进程的调度是由操作系统来完成的。</p>
+<p>&emsp;&emsp;<strong>协程与线程的关系</strong></p>
+<p><img src="/2021/06/21/Python%E5%BC%82%E6%AD%A5%E7%88%AC%E8%99%AB%E5%85%A5%E9%97%A8/1.jpg" alt="1"></p>
+<p>&emsp;&emsp;</p>
+<p>&emsp;&emsp;协程常用于<strong>I/O密集型</strong>的程序，不适合CPU密集型的程序</p>
+<p>&emsp;&emsp;</p>
+<p>&emsp;&emsp;</p>
+<h2 id="asyncio"><a href="#asyncio" class="headerlink" title="asyncio"></a>asyncio</h2><h3 id="核心概念"><a href="#核心概念" class="headerlink" title="核心概念"></a>核心概念</h3><h4 id="Eventloop"><a href="#Eventloop" class="headerlink" title="Eventloop"></a>Eventloop</h4><p>&emsp;&emsp;事件循环是每个 asyncio 应用的核心。 事件循环会运行异步任务和回调，执行网络 IO 操作，以及运行子进程。</p>
+<p>&emsp;&emsp;把一些异步函数注册到这个事件循环上，循环会依次调用这些异步函数，但并不会等待一个异步函数执行完，调用之后会调用其他异步函数。</p>
+<p>&emsp;&emsp;</p>
+<h4 id="Coroutine"><a href="#Coroutine" class="headerlink" title="Coroutine"></a>Coroutine</h4><p>&emsp;&emsp;协程(Coroutine)本质上是一个函数，特点是在代码块中可以将执行权交给其他协程。</p>
+<p>&emsp;&emsp;</p>
+<h4 id="Future"><a href="#Future" class="headerlink" title="Future"></a>Future</h4><p>&emsp;&emsp;它代表了一个「未来」对象，异步操作结束后会把最终结果设置到这个Future对象上。Future是对协程的封装，日常开发基本不需要直接用这个底层Future类的。</p>
+<p>&emsp;&emsp;</p>
+<h4 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h4><p>&emsp;&emsp;Future是协程的封装，Future对象提供了很多任务方法(如完成后的回调、取消、设置任务结果等等)，但是开发者并不需要直接操作Future这种底层对象，而是用Future的子类Task协同的调度协程以实现并发。</p>
+<p>&emsp;&emsp;</p>
+<h3 id="async-await关键字"><a href="#async-await关键字" class="headerlink" title="async/await关键字"></a>async/await关键字</h3><h4 id="async关键字"><a href="#async关键字" class="headerlink" title="async关键字"></a><strong>async关键字</strong></h4><p>&emsp;&emsp;async用来定义一个函数为协程，协程的特点是能在函数执行过程中挂起，去执行其他协程。</p>
+<p>&emsp;&emsp;<strong>协程的定义</strong>方法如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">coroutineName</span>():</span></span><br><span class="line">    print(<span class="string">&#x27;this is a coroutine&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;</p>
+<h4 id="await关键字"><a href="#await关键字" class="headerlink" title="await关键字"></a>await关键字</h4><p>&emsp;&emsp;当<strong>轮询</strong>到某个协程时，若运行到此协程中的<strong>await</strong>，开始<strong>处理下一个协程</strong>，当await后面的任务完成时，该事件才<strong>再次被唤醒</strong>。所以，只要是和IO任务类似的、<strong>耗费时间的任务</strong>都需要使用await来进行中断，达到异步的目的。</p>
+<p>&emsp;&emsp;await 后面只能跟<strong>协程</strong>或有<strong>__await__属性</strong>的对象，即<strong>可等待对象</strong>。可等待对象有<strong>协程（Coroutine）</strong>，<strong>任务（Task）</strong>和<strong>Future</strong></p>
+<p>&emsp;&emsp;</p>
+<h3 id="asyncio基本代码格式"><a href="#asyncio基本代码格式" class="headerlink" title="asyncio基本代码格式"></a>asyncio基本代码格式</h3><p>&emsp;&emsp;</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> asyncio</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">delay</span>(<span class="params">n</span>):</span></span><br><span class="line">    <span class="keyword">await</span> asyncio.sleep(n)</span><br><span class="line">    print(n)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">    task1 = asyncio.create_task(delay(<span class="number">1</span>))</span><br><span class="line">    task2 = asyncio.create_task(delay(<span class="number">2</span>))</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">await</span> task1</span><br><span class="line">    <span class="keyword">await</span> task2</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">asyncio.run(main())</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> asyncio</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">delay</span>(<span class="params">n</span>):</span></span><br><span class="line">    <span class="keyword">await</span> asyncio.sleep(n)</span><br><span class="line">    print(n)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">    <span class="keyword">await</span> asyncio.gather(*[delay(<span class="number">1</span>), delay(<span class="number">2</span>)])</span><br><span class="line">    <span class="comment"># await asyncio.wait(*[delay(1), delay(2)])</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">asyncio.run(main())</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;</p>
+<h4 id="asyncio-create-task-coro-name-None"><a href="#asyncio-create-task-coro-name-None" class="headerlink" title="asyncio.create_task(coro, *, name=None)"></a>asyncio.create_task(<em>coro</em>, *, name=None)</h4><p>&emsp;&emsp;将 <em>coro</em> 协程 封装为一个 Task并调度其执行。返回 Task 对象。</p>
+<p>&emsp;&emsp;</p>
+<h4 id="asyncio-run-coro-debug-False"><a href="#asyncio-run-coro-debug-False" class="headerlink" title="asyncio.run(coro, *, debug=False)"></a>asyncio.run(<em>coro</em>, *, debug=False)</h4><p>&emsp;&emsp;此函数会运行传入的协程，负责管理 asyncio 事件循环，终结异步生成器，并关闭线程池。当有其他 asyncio 事件循环在同一线程中运行时，此函数不能被调用。</p>
+<p>&emsp;&emsp;此函数总是会创建一个新的事件循环并在结束时关闭之。它应当被用作 asyncio 程序的主入口点，理想情况下应当只被调用一次。</p>
+<p>&emsp;&emsp;<strong>asyncio.get_event_loop()</strong>与<strong>asyncio.get_running_loop()</strong>低层级函数，都可以获取一个事件循环对象，通过此对象来给事件循环中添加协程，与asyncio.run()的功能相同。但不应该使用低层级函数来手动创建和关闭事件循环，使用asyncio.run()函数更好。</p>
+<p>&emsp;&emsp;</p>
+<h4 id="asyncio-gather-aws-loop-None-return-exceptions-False"><a href="#asyncio-gather-aws-loop-None-return-exceptions-False" class="headerlink" title="asyncio.gather(*aws, loop=None, return_exceptions=False)"></a>asyncio.gather(*aws, loop=None, return_exceptions=False)</h4><p>&emsp;&emsp;<strong>并发</strong>运行 <em>aws</em> 序列中的 可等待对象。</p>
+<p>&emsp;&emsp;如果 <em>aws</em> 中的某个可等待对象为<strong>协程</strong>，它将自动被转换成一个<strong>任务</strong>调度。</p>
+<p>&emsp;&emsp;如果所有可等待对象都成功完成，<strong>返回一个由所有返回值聚合而成的列表</strong>。结果值的顺序与 <em>aws</em> 中可等待对象的顺序一致。</p>
+<p>&emsp;&emsp;</p>
+<h4 id="asyncio-wait-aws-loop-None-timeout-None-return-when-ALL-COMPLETED"><a href="#asyncio-wait-aws-loop-None-timeout-None-return-when-ALL-COMPLETED" class="headerlink" title="asyncio.wait(aws, *, loop=None, timeout=None, return_when=ALL_COMPLETED)"></a>asyncio.wait(aws, *, loop=None, timeout=None, return_when=ALL_COMPLETED)</h4><p>&emsp;&emsp;<strong>并发</strong>地运行 <em>aws</em> 可迭代对象中的可等待对象，<strong>并进入阻塞状态直到满足 <em>return_when</em></strong> 所指定的条件。</p>
+<p>&emsp;&emsp;如指定 <strong><em>timeout</em></strong> (float 或 int 类型) 则它将被用于控制返回之前<strong>等待的最长秒数</strong>。此函数不会引发 asyncio.TimeoutError异常。当超时发生时，未完成的 Future 或 Task 将在指定秒数后被返回。</p>
+<p>&emsp;&emsp;此函数会返回一个包含<strong>(done, pending)</strong>的元组，done表示已完成的任务列表，pending表示未完成的任务列表。<br>&emsp;&emsp;&emsp;&emsp;<strong>①</strong>只有当给wait()传入timeout参数时才有可能产生pending列表。<br>&emsp;&emsp;&emsp;&emsp;<strong>②</strong>通过wait()返回的结果集是按照事件循环中的任务完成顺序排列的，所以其往往和原始任务顺序不同。</p>
+<p>&emsp;&emsp;</p>
+<h4 id="错误的代码"><a href="#错误的代码" class="headerlink" title="错误的代码"></a>错误的代码</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> asyncio</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">delay</span>(<span class="params">n</span>):</span></span><br><span class="line">    <span class="keyword">await</span> asyncio.sleep(n)</span><br><span class="line">    print(n)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">await</span> delay(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">await</span> delay(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">asyncio.run(main())</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;此代码并没有并发执行两个协程，而是<strong>串行</strong>的执行了，最终耗时3秒</p>
+<p>&emsp;&emsp;</p>
+<h3 id="RuntimeError-Event-loop-is-closed异常"><a href="#RuntimeError-Event-loop-is-closed异常" class="headerlink" title="RuntimeError: Event loop is closed异常"></a>RuntimeError: Event loop is closed异常</h3><p>&emsp;&emsp;若出现RuntimeError: Event loop is closed异常则将</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">asyncio.run(main())</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;改为</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">loop = asyncio.get_event_loop() </span><br><span class="line">loop.run_until_complete(main())</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;但若在后面加上loop.close()，同样会发生此异常。在查看 asyncio.run() 的源码后发现此方法在最后也执行了loop.close()，所以应该是 loop.close()造成了异常。所以更改代码后，没有执行loop.close()，没有发生异常。</p>
+<p>&emsp;&emsp;大多数情况下并不需要手动关闭事件循环，但若想利用 loop.close()手动关闭事件循环，可以使用以下代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">loop = asyncio.get_event_loop()</span><br><span class="line">loop.run_until_complete(main())</span><br><span class="line">loop.run_until_complete(asyncio.sleep(<span class="number">1</span>))</span><br><span class="line">loop.close()</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;</p>
+<h2 id="aiohttp"><a href="#aiohttp" class="headerlink" title="aiohttp"></a>aiohttp</h2><p>&emsp;&emsp;用例子来说明</p>
+<h3 id="爬取豆瓣Top250电影名称"><a href="#爬取豆瓣Top250电影名称" class="headerlink" title="爬取豆瓣Top250电影名称"></a>爬取豆瓣Top250电影名称</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> aiohttp</span><br><span class="line"><span class="keyword">import</span> asyncio</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"></span><br><span class="line">movies = []</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">request</span>(<span class="params">session, url</span>):</span></span><br><span class="line">    <span class="keyword">async</span> <span class="keyword">with</span> session.get(url) <span class="keyword">as</span> response:  <span class="comment"># 发起请求get请求</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">await</span> response.text(encoding=<span class="string">&#x27;utf8&#x27;</span>)  <span class="comment"># 获取网页html</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">parser</span>(<span class="params">html</span>):</span></span><br><span class="line">    soup = BeautifulSoup(html, <span class="string">&quot;lxml&quot;</span>)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> soup.findAll(attrs=&#123;<span class="string">&#x27;class&#x27;</span>: <span class="string">&#x27;title&#x27;</span>&#125;):</span><br><span class="line">        <span class="keyword">if</span> <span class="string">&#x27;/&#x27;</span> <span class="keyword">not</span> <span class="keyword">in</span> i.text:</span><br><span class="line">            movies.append(i.text)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">download</span>(<span class="params">url</span>):</span></span><br><span class="line">    <span class="keyword">async</span> <span class="keyword">with</span> aiohttp.ClientSession() <span class="keyword">as</span> session:  <span class="comment"># 创建一个session用于发起请求</span></span><br><span class="line">        html = <span class="keyword">await</span> request(session, url)</span><br><span class="line">        <span class="keyword">await</span> parser(html)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">urls = [<span class="string">&#x27;https://movie.douban.com/top250?start=%d&#x27;</span> % i <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, <span class="number">226</span>, <span class="number">25</span>)]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">    tasks = [download(url) <span class="keyword">for</span> url <span class="keyword">in</span> urls]</span><br><span class="line">    <span class="keyword">await</span> asyncio.gather(*tasks)</span><br><span class="line"></span><br><span class="line"><span class="comment"># asyncio.run(main())</span></span><br><span class="line">loop = asyncio.get_event_loop()</span><br><span class="line">loop.run_until_complete(main())</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> movies:</span><br><span class="line">    print(i)</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;</p>
+<h3 id="下载图片"><a href="#下载图片" class="headerlink" title="下载图片"></a>下载图片</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> aiohttp</span><br><span class="line"><span class="keyword">import</span> asyncio</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">request</span>(<span class="params">session, url</span>):</span></span><br><span class="line">    <span class="keyword">async</span> <span class="keyword">with</span> session.get(url) <span class="keyword">as</span> response:</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">await</span> response.read()  <span class="comment"># 用于获取图片或视频</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">download</span>(<span class="params">url</span>):</span></span><br><span class="line">    <span class="keyword">async</span> <span class="keyword">with</span> aiohttp.ClientSession() <span class="keyword">as</span> session:</span><br><span class="line">        <span class="keyword">with</span> open(url.split(<span class="string">&quot;/&quot;</span>)[<span class="number">-1</span>], <span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">            f.write(<span class="keyword">await</span> request(session, url))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">    tasks = [download(baseUrl + img) <span class="keyword">for</span> img <span class="keyword">in</span> images]</span><br><span class="line">    <span class="keyword">await</span> asyncio.gather(*tasks)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">baseUrl = <span class="string">&#x27;https://cdn-2.tstatic.net/tribunnews/foto/bank/images/&#x27;</span></span><br><span class="line"></span><br><span class="line">images = [<span class="string">&#x27;bea-cukai-berikan-fasilitas-kawasan-berikat-0607.jpg&#x27;</span>,</span><br><span class="line">          <span class="string">&#x27;pemusnahan-barang-ilegal-oleh-bea-cukai-soekarno-hatta.jpg&#x27;</span>,</span><br><span class="line">          <span class="string">&#x27;pemerintah-berikan-penurunan-bea-masuk-0707.jpg&#x27;</span>,</span><br><span class="line">          <span class="string">&#x27;strategi-bea-cukai-tekan-peredaran-rokok-ilegal.jpg&#x27;</span>,</span><br><span class="line">          <span class="string">&#x27;pemerintah-sahkan-persetujuan-kemitraan-ekonomi-komprehensif-indonesia-australia.jpg&#x27;</span>,</span><br><span class="line">          <span class="string">&#x27;barang-bukti-upaya-penyelundupan-narkotika-0708.jpg&#x27;</span>,</span><br><span class="line">          <span class="string">&#x27;pelaku-rokok-ilegal-0708.jpg&#x27;</span>,</span><br><span class="line">          <span class="string">&#x27;bea-cukai-madura-komitmen-rintis-kiht-di-madura.jpg&#x27;</span>,</span><br><span class="line">          <span class="string">&#x27;patroli-laut-direktorat-jenderal-bea-dan-cukai.jpg&#x27;</span>,</span><br><span class="line">          <span class="string">&#x27;sinergi-bea-cukai-dan-tni-al-0709.jpg&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># asyncio.run(main())</span></span><br><span class="line">loop = asyncio.get_event_loop()</span><br><span class="line">loop.run_until_complete(main())</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;</p>
+<h3 id="async-with···as"><a href="#async-with···as" class="headerlink" title="async with···as"></a>async with···as</h3><p>&emsp;&emsp;首先来了解 <strong>with···as语法</strong>。</p>
+<p>&emsp;&emsp;with语句用于包装带有使用<strong>上下文管理器定义的方法</strong>的代码块的执行，<strong>上下文管理器定义的方法</strong>包括<strong>__enter__(self)</strong>和<strong>__exit__(self)</strong>。</p>
+<p>&emsp;&emsp;<strong>上下文</strong>，即context，和文章的上下文的意思相似，需要理解文章的某一部分，需要去理解这一部分的上面和下面的部分。程序同理，程序执行到了子程序，子程序要运行出结果，要用到程序之前的一些结果(包括但不限于外部变量值，外部对象等等)。</p>
+<p>&emsp;&emsp;<strong>上下文管理器</strong> 是一个对象，它定义了在执行 with语句时要建立的运行时上下文。 上下文管理器处理进入（__enter__(self)方法）和退出（__exit__(self)方法）所需运行时上下文以执行代码块。</p>
+<p>&emsp;&emsp;以下面的代码为例来理解：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> open(<span class="string">&#x27;test.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">    print(file.read())</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;此代码的作用是读取并输出 test.txt文件中的内容。要执行读取并输出文件内容的代码 print(file.read()) ，条件是要打开此文件，打开此文件就是代码 print(file.read()) 运行的上下文。所以，with语句就作为上下文管理器去打开文件，创建一个上下文，当读取并输出完成后，with作为上下文管理器就会将文件关闭。</p>
+<p>&emsp;&emsp;open()是一个函数，是没有__enter__(self)和__exit__(self)方法，但若想要为了让一个对象兼容with语句，必须在这个对象的类中声明这两个方法，__enter__(self)方法用于创建上下文，将返回值赋值给 as后面的变量，__exit__(self)方法用于关闭上下文。</p>
+<p>&emsp;&emsp;with···as语法只是为了方便写代码，可以利用其他的代码来代替，例如 <strong>try ··· except ··· finally ···</strong> （<a target="_blank" rel="noopener" href="https://docs.python.org/zh-cn/3/reference/compound_stmts.html#with）。">https://docs.python.org/zh-cn/3/reference/compound_stmts.html#with）。</a></p>
+<p>&emsp;&emsp;<strong>async with···as</strong> 语法与 <strong>with···as</strong> 语法的作用相似。async with···as是<strong>异步上下文管理器</strong>，async with···as也有进入和退出上下文的方法，分别是<strong>__aenter__ (self)</strong>和<strong>__aexit__(self)</strong> ，这两个方法都要返回一个 awaitable类型的对象。</p>
+<p>&emsp;&emsp;官方文档示例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AsyncContextManager</span>:</span></span><br><span class="line">    <span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">__aenter__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">await</span> log(<span class="string">&#x27;entering context&#x27;</span>)  <span class="comment"># 也可以不使用 await，直接返回一个awaitable类型的对象</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">__aexit__</span>(<span class="params">self, exc_type, exc, tb</span>):</span></span><br><span class="line">        <span class="keyword">await</span> log(<span class="string">&#x27;exiting context&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;</p>
+<h2 id="aiomysql"><a href="#aiomysql" class="headerlink" title="aiomysql"></a>aiomysql</h2><p>&emsp;&emsp;<strong>aiomysql</strong>基于PyMySQL的异步操作数据库的库，API与PyMySQL大致相同，不在详细介绍。</p>
+<p>&emsp;&emsp;</p>
+<h3 id="基本使用方法"><a href="#基本使用方法" class="headerlink" title="基本使用方法"></a>基本使用方法</h3><h4 id="查询数据"><a href="#查询数据" class="headerlink" title="查询数据"></a>查询数据</h4><p>&emsp;&emsp;官方文档示例</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> asyncio</span><br><span class="line"><span class="keyword">import</span> aiomysql</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">test_example</span>(<span class="params">loop</span>):</span></span><br><span class="line">    conn = <span class="keyword">await</span> aiomysql.connect(host=<span class="string">&#x27;127.0.0.1&#x27;</span>, port=<span class="number">3306</span>,</span><br><span class="line">                                  user=<span class="string">&#x27;root&#x27;</span>, password=<span class="string">&#x27;&#x27;</span>, db=<span class="string">&#x27;mysql&#x27;</span>,</span><br><span class="line">                                  loop=loop)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">async</span> <span class="keyword">with</span> conn.cursor() <span class="keyword">as</span> cur:</span><br><span class="line">        <span class="keyword">await</span> cur.execute(<span class="string">&quot;SELECT Host, User FROM user&quot;</span>)</span><br><span class="line">        print(cur.description)</span><br><span class="line">        r = <span class="keyword">await</span> cur.fetchall()</span><br><span class="line">        print(r)</span><br><span class="line">    conn.close()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">loop = asyncio.get_event_loop()</span><br><span class="line">loop.run_until_complete(test_example(loop))</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;</p>
+<h4 id="插入-更新数据"><a href="#插入-更新数据" class="headerlink" title="插入/更新数据"></a>插入/更新数据</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> asyncio</span><br><span class="line"><span class="keyword">import</span> aiomysql</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">test_example</span>(<span class="params">loop</span>):</span></span><br><span class="line">    conn = <span class="keyword">await</span> aiomysql.connect(host=<span class="string">&#x27;127.0.0.1&#x27;</span>, port=<span class="number">3306</span>,</span><br><span class="line">                                  user=<span class="string">&#x27;root&#x27;</span>, password=<span class="string">&#x27;&#x27;</span>, db=<span class="string">&#x27;mysql&#x27;</span>,</span><br><span class="line">                                  loop=loop)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">async</span> <span class="keyword">with</span> conn.cursor() <span class="keyword">as</span> cur:</span><br><span class="line">        <span class="keyword">await</span> cur.execute(<span class="string">&quot;update user set name=&#x27;hhh&#x27; where Host = &#x27;127.0.0.1&#x27;&quot;</span>)</span><br><span class="line">        <span class="keyword">await</span> cur.execute(<span class="string">&quot;insert into user (Host, User) values (%s, %s)&quot;</span>, (<span class="string">&#x27;127.0.0.1&#x27;</span>, <span class="string">&#x27;hhhh&#x27;</span>))</span><br><span class="line">        <span class="keyword">await</span> conn.commit()</span><br><span class="line">    conn.close()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">loop = asyncio.get_event_loop()</span><br><span class="line">loop.run_until_complete(test_example(loop))</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;与PyMySQL相同，在更改数据库中的内容时需要commit。</p>
+<p>&emsp;&emsp;</p>
+<h4 id="创建并使用数据库连接池"><a href="#创建并使用数据库连接池" class="headerlink" title="创建并使用数据库连接池"></a>创建并使用数据库连接池</h4><p>官方文档示例</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> asyncio</span><br><span class="line"><span class="keyword">import</span> aiomysql</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">test_example</span>(<span class="params">loop</span>):</span></span><br><span class="line">    pool = <span class="keyword">await</span> aiomysql.create_pool(host=<span class="string">&#x27;127.0.0.1&#x27;</span>, port=<span class="number">3306</span>,</span><br><span class="line">                                      user=<span class="string">&#x27;root&#x27;</span>, password=<span class="string">&#x27;&#x27;</span>,</span><br><span class="line">                                      db=<span class="string">&#x27;mysql&#x27;</span>, loop=loop)</span><br><span class="line">    <span class="comment"># 可以通过minsize与maxsize参数控制连接池的大小</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">async</span> <span class="keyword">with</span> pool.acquire() <span class="keyword">as</span> conn:</span><br><span class="line">        <span class="comment"># acquire() 从连接池中获取一个数据库连接</span></span><br><span class="line">        <span class="keyword">async</span> <span class="keyword">with</span> conn.cursor() <span class="keyword">as</span> cur:</span><br><span class="line">            <span class="keyword">await</span> cur.execute(<span class="string">&quot;SELECT 42;&quot;</span>)  <span class="comment"># the answer to life, universe and everything</span></span><br><span class="line">            print(cur.description)</span><br><span class="line">            (r,) = <span class="keyword">await</span> cur.fetchone()</span><br><span class="line">            <span class="keyword">assert</span> r == <span class="number">42</span></span><br><span class="line">    pool.close()</span><br><span class="line">    <span class="keyword">await</span> pool.wait_closed()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">loop = asyncio.get_event_loop()</span><br><span class="line">loop.run_until_complete(test_example(loop))</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;</p>
+<p>&emsp;&emsp;</p>
+<h3 id="爬取豆瓣Top250电影名称并存入数据库"><a href="#爬取豆瓣Top250电影名称并存入数据库" class="headerlink" title="爬取豆瓣Top250电影名称并存入数据库"></a>爬取豆瓣Top250电影名称并存入数据库</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> aiohttp</span><br><span class="line"><span class="keyword">import</span> asyncio</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> aiomysql</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">request</span>(<span class="params">session, url</span>):</span></span><br><span class="line">    <span class="keyword">async</span> <span class="keyword">with</span> session.get(url) <span class="keyword">as</span> response:  <span class="comment"># 发起请求get请求</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">await</span> response.text(encoding=<span class="string">&#x27;utf8&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">parser</span>(<span class="params">html, cur</span>):</span></span><br><span class="line">    soup = BeautifulSoup(html, <span class="string">&quot;lxml&quot;</span>)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> soup.findAll(attrs=&#123;<span class="string">&#x27;class&#x27;</span>: <span class="string">&#x27;title&#x27;</span>&#125;):</span><br><span class="line">        <span class="keyword">if</span> <span class="string">&#x27;/&#x27;</span> <span class="keyword">not</span> <span class="keyword">in</span> i.text:</span><br><span class="line">            <span class="keyword">await</span> cur.execute(<span class="string">&quot;insert into movies (name) values (%s)&quot;</span>, i.text)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">download</span>(<span class="params">url</span>):</span></span><br><span class="line">    <span class="keyword">async</span> <span class="keyword">with</span> pool.acquire() <span class="keyword">as</span> conn:</span><br><span class="line">        <span class="keyword">async</span> <span class="keyword">with</span> conn.cursor() <span class="keyword">as</span> cur:</span><br><span class="line">            <span class="keyword">async</span> <span class="keyword">with</span> aiohttp.ClientSession() <span class="keyword">as</span> session:  <span class="comment"># 创建一个session用于发起请求</span></span><br><span class="line">                html = <span class="keyword">await</span> request(session, url)</span><br><span class="line">                <span class="keyword">await</span> parser(html, cur)</span><br><span class="line">        <span class="keyword">await</span> conn.commit()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">urls = [<span class="string">&#x27;https://movie.douban.com/top250?start=%d&#x27;</span> % i <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, <span class="number">226</span>, <span class="number">25</span>)]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">    <span class="keyword">global</span> pool</span><br><span class="line">    pool = <span class="keyword">await</span> aiomysql.create_pool(host=<span class="string">&#x27;127.0.0.1&#x27;</span>, port=<span class="number">3306</span>,</span><br><span class="line">                                      user=<span class="string">&#x27;root&#x27;</span>, password=<span class="string">&#x27;&#x27;</span>,</span><br><span class="line">                                      db=<span class="string">&#x27;&#x27;</span>, loop=loop, minsize=<span class="number">10</span>)</span><br><span class="line">    tasks = [download(url) <span class="keyword">for</span> url <span class="keyword">in</span> urls]</span><br><span class="line">    <span class="keyword">await</span> asyncio.gather(*tasks)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">loop = asyncio.get_event_loop()</span><br><span class="line">loop.run_until_complete(main())</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;</p>
+<h3 id="RuntimeError-readexactly-called-while-another-coroutine-is-already-waiting-for-incoming-data-异常"><a href="#RuntimeError-readexactly-called-while-another-coroutine-is-already-waiting-for-incoming-data-异常" class="headerlink" title="RuntimeError: readexactly() called while another coroutine is already waiting for incoming data 异常"></a>RuntimeError: readexactly() called while another coroutine is already waiting for incoming data 异常</h3><p>&emsp;&emsp;在使用aiomysql时并不能在多个协程中使用同一个数据库连接，否则容易出现RuntimeError: readexactly() called while another coroutine is already waiting for incoming data异常。当一个协程正在利用一个数据库连接处理数据时，由于使用了 await，会去运行其他协程，若其他的协程也使用此数据库连接处理数据，此时当然会出错，所以出现了此异常，所以要为每一个协程创建一个数据库连接，但这样会占用较多的数据库的资源，使数据库性能下降，所以要使用数据库连接池（<a target="_blank" rel="noopener" href="https://www.cnblogs.com/cocoxu1992/p/11031908.html）。">https://www.cnblogs.com/cocoxu1992/p/11031908.html）。</a></p>
+<p>&emsp;&emsp;</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/03/25/mysql8%E9%A6%96%E6%AC%A1%E5%AE%89%E8%A3%85%E5%AF%86%E7%A0%81%E8%AE%BE%E7%BD%AE/" rel="prev" title="mysql8首次安装密码设置">
+      <i class="fa fa-chevron-left"></i> mysql8首次安装密码设置
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+        </div>
+        
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lyp</span>
+</div>
+<span id="busuanzi_container_site_uv">
+  访客数<span id="busuanzi_value_site_uv"></span>人次
+</span>
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
+<!--动态线条背景-->
+<script type="text/javascript"
+color="150,150,150" opacity='1' zIndex="-2" count="180" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+</script>
